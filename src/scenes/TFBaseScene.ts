@@ -1,9 +1,11 @@
-import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
-import { FullPlayerData } from "../game/entities/FullPlayerData";
-import SceneKeys from "../game/utils/SceneKeys";
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
+import { FullPlayerData } from '../game/entities/FullPlayerData';
+import SceneKeys from '../game/utils/SceneKeys';
 
 export default class TFBaseScene extends Phaser.Scene {
   rexUI!: RexUIPlugin;
+  rexGlow!: GlowFilterPipelinePlugin;
   playerData: FullPlayerData;
 
   baseEventsScene = (event: string, data?: any) =>

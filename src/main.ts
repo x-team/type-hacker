@@ -1,18 +1,19 @@
-import Phaser from "phaser";
-import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
+import Phaser from 'phaser';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
 
-import { GAME_BG_COLOR } from "./game/utils/consts";
-import SceneKeys from "./game/utils/SceneKeys";
-import BaseEventsScene from "./scenes/BaseEvents";
-import GameOverDialogScene from "./scenes/GameOverDialog";
-import GameStartDialogScene from "./scenes/GameStartDialog";
-import KeyboardsScene from "./scenes/KeyboardsScene";
-import NewLevelScene from "./scenes/NewLevel";
-import PanelsScene from "./scenes/PanelsScene";
-import PreloaderScene from "./scenes/Preloader";
-import ScoreScene from "./scenes/ScoreScene";
-import SmokeScene from "./scenes/SmokeScene";
-import UIElementsScene from "./scenes/UIElements";
+import { GAME_BG_COLOR } from './game/utils/consts';
+import SceneKeys from './game/utils/SceneKeys';
+import BaseEventsScene from './scenes/BaseEvents';
+import GameOverDialogScene from './scenes/GameOverDialog';
+import GameStartDialogScene from './scenes/GameStartDialog';
+import KeyboardsScene from './scenes/KeyboardsScene';
+import NewLevelScene from './scenes/NewLevel';
+import PanelsScene from './scenes/PanelsScene';
+import PreloaderScene from './scenes/Preloader';
+import ScoreScene from './scenes/ScoreScene';
+import SmokeScene from './scenes/SmokeScene';
+import UIElementsScene from './scenes/UIElements';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.CANVAS,
@@ -30,9 +31,15 @@ const config: Phaser.Types.Core.GameConfig = {
   plugins: {
     scene: [
       {
-        key: "rexUI",
+        key: 'rexUI',
         plugin: RexUIPlugin,
-        mapping: "rexUI",
+        mapping: 'rexUI',
+      },
+      {
+        key: 'rexGlowFilterPipeline',
+        plugin: GlowFilterPipelinePlugin,
+        mapping: 'rexGlow',
+        start: true,
       },
     ],
   },
