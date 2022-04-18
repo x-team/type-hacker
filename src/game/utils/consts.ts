@@ -1,4 +1,4 @@
-import { TMonitorConfiguration } from "./types";
+import { TMonitorConfiguration } from './types';
 
 // GENERAL GAME
 export const GAME_BG_COLOR = 0x848d9a;
@@ -10,12 +10,15 @@ export enum CLOCK_COLORS {
   FOURTH_COLOR = 0xff2b24, // RED
 }
 
+export const MONITORS_OVERLAY_COLOR = 0x3d5459; // OPAQUE BLUE SCREEN COLOR
+export const MONITORS_OVERLAY_ALPHA = 0.25; // OPAQUE BLUE SCREEN OPACITY
+
 // SETTINGS
 export const monitorConfiguration: TMonitorConfiguration = {
   isDamaged: false,
   timeout: 10,
-  userWord: "",
-  guessWord: "guessWord",
+  userWord: '',
+  guessWord: 'guessWord',
   timeoutLostPoints: 10,
   timeoutLostPointsForDamagedMonitor: 20,
   rightKeyStrokeWinPoints: 10, // This is the base score for some reason
