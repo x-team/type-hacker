@@ -1,5 +1,5 @@
-import SceneKeys from "../../game/utils/SceneKeys";
-import TFBaseScene from "../TFBaseScene";
+import SceneKeys from '../../game/utils/SceneKeys';
+import TFBaseScene from '../TFBaseScene';
 
 export default class GameStartDialogScene extends TFBaseScene {
   constructor() {
@@ -18,7 +18,11 @@ export default class GameStartDialogScene extends TFBaseScene {
         },
       })
       .then((result: Phaser.GameObjects.GameObject) => {
-        if (result.name === "yes") {
+        if (result.name === 'yes') {
+          this.sound.play('bgm', {
+            loop: true,
+            volume: 0.08,
+          });
           this.scene.start(SceneKeys.Score);
           this.scene.start(SceneKeys.NewLevel);
           this.scene.start(SceneKeys.Keyboards);
@@ -34,16 +38,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       .dialog({
         background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x2b11c1),
         title: this.rexUI.add.label({
-          background: this.rexUI.add.roundRectangle(
-            0,
-            0,
-            100,
-            40,
-            20,
-            0x020e31
-          ),
-          text: this.add.text(0, 0, "Type Fighters", {
-            fontSize: "50px",
+          background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x020e31),
+          text: this.add.text(0, 0, 'Type Fighters', {
+            fontSize: '50px',
           }),
           space: {
             left: 50,
@@ -53,10 +50,10 @@ export default class GameStartDialogScene extends TFBaseScene {
           },
         }),
 
-        content: this.add.text(0, 0, "Do you want to try?", {
-          fontSize: "34px",
+        content: this.add.text(0, 0, 'Do you want to try?', {
+          fontSize: '34px',
         }),
-        actions: [this.createLabel("Yes", "yes")],
+        actions: [this.createLabel('Yes', 'yes')],
         space: {
           title: 25,
           content: 25,
@@ -67,11 +64,11 @@ export default class GameStartDialogScene extends TFBaseScene {
           bottom: 20,
         },
         align: {
-          title: "center",
-          content: "center",
-          description: "center",
-          choices: "center",
-          actions: "center",
+          title: 'center',
+          content: 'center',
+          description: 'center',
+          choices: 'center',
+          actions: 'center',
         },
         expand: {
           content: false,
@@ -80,18 +77,15 @@ export default class GameStartDialogScene extends TFBaseScene {
       .layout();
 
     dialog
+      .on('button.click', function (button: { text: string; name: string }, index: number) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+      })
       .on(
-        "button.click",
-        function (button: { text: string; name: string }, index: number) {
-          dialog.emit("modal.requestClose", {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
-      )
-      .on(
-        "button.over",
+        'button.over',
         function (button: {
           getElement: (arg0: string) => {
             setStrokeStyle: {
@@ -100,17 +94,17 @@ export default class GameStartDialogScene extends TFBaseScene {
             };
           };
         }) {
-          button.getElement("background").setStrokeStyle(1, 0xffffff);
+          button.getElement('background').setStrokeStyle(1, 0xffffff);
         }
       )
       .on(
-        "button.out",
+        'button.out',
         function (button: {
           getElement: (element: string) => {
             setStrokeStyle: () => void;
           };
         }) {
-          button.getElement("background").setStrokeStyle();
+          button.getElement('background').setStrokeStyle();
         }
       );
     dialog.setDepth(2);
@@ -121,7 +115,7 @@ export default class GameStartDialogScene extends TFBaseScene {
     return this.rexUI.add.label({
       background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x020e31),
       text: this.add.text(0, 0, text, {
-        fontSize: "40px",
+        fontSize: '40px',
       }),
       name,
       space: {

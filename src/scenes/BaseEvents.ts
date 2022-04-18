@@ -65,4 +65,11 @@ export default class BaseEventsScene extends TFBaseScene {
       isGif: true,
     });
   };
+
+  startGameMusic() {
+    this.sound.play('bgm', {
+      loop: true,
+      volume: 0.08,
+    });
+  }
 }

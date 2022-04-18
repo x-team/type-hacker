@@ -103,6 +103,10 @@ export default class GameOverDialogScene extends TFBaseScene {
 
   create() {
     this.events.on('game-over', () => {
+      this.sound.play('mistype', {
+        volume: 0.2,
+      });
+      this.sound.stopByKey('bgm');
       this.cameras.main.shake(400, 0.007);
       this.scene.get(SceneKeys.BaseEvents).cameras.main.shake(400, 0.007);
       this.rexUI
@@ -115,6 +119,10 @@ export default class GameOverDialogScene extends TFBaseScene {
         })
         .then((result: Phaser.GameObjects.GameObject) => {
           if (result.name === 'yes') {
+            this.sound.play('bgm', {
+              loop: true,
+              volume: 0.08,
+            });
             this.baseEventsScene('reset-game');
           }
         });
