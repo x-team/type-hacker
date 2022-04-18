@@ -1,6 +1,6 @@
-import Phaser from "phaser";
-import SceneKeys from "../../game/utils/SceneKeys";
-import TFBaseScene from "../TFBaseScene";
+import Phaser from 'phaser';
+import SceneKeys from '../../game/utils/SceneKeys';
+import TFBaseScene from '../TFBaseScene';
 
 export default class GameOverDialogScene extends TFBaseScene {
   constructor() {
@@ -12,16 +12,9 @@ export default class GameOverDialogScene extends TFBaseScene {
       .dialog({
         background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x2b11c1),
         title: this.rexUI.add.label({
-          background: this.rexUI.add.roundRectangle(
-            0,
-            0,
-            100,
-            40,
-            20,
-            0x020e31
-          ),
-          text: this.add.text(0, 0, "Game Over", {
-            fontSize: "50px",
+          background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x020e31),
+          text: this.add.text(0, 0, 'Game Over', {
+            fontSize: '50px',
           }),
           space: {
             left: 50,
@@ -31,10 +24,10 @@ export default class GameOverDialogScene extends TFBaseScene {
           },
         }),
 
-        content: this.add.text(0, 0, "Do you want to retry?", {
-          fontSize: "34px",
+        content: this.add.text(0, 0, 'Do you want to retry?', {
+          fontSize: '34px',
         }),
-        actions: [this.createLabel("Yes", "yes")],
+        actions: [this.createLabel('Yes', 'yes')],
         space: {
           title: 25,
           content: 25,
@@ -45,11 +38,11 @@ export default class GameOverDialogScene extends TFBaseScene {
           bottom: 20,
         },
         align: {
-          title: "center",
-          content: "center",
-          description: "center",
-          choices: "center",
-          actions: "center",
+          title: 'center',
+          content: 'center',
+          description: 'center',
+          choices: 'center',
+          actions: 'center',
         },
         expand: {
           content: false,
@@ -58,18 +51,15 @@ export default class GameOverDialogScene extends TFBaseScene {
       .layout();
 
     dialog
+      .on('button.click', function (button: { text: string; name: string }, index: number) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+      })
       .on(
-        "button.click",
-        function (button: { text: string; name: string }, index: number) {
-          dialog.emit("modal.requestClose", {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
-      )
-      .on(
-        "button.over",
+        'button.over',
         function (button: {
           getElement: (arg0: string) => {
             setStrokeStyle: {
@@ -78,17 +68,17 @@ export default class GameOverDialogScene extends TFBaseScene {
             };
           };
         }) {
-          button.getElement("background").setStrokeStyle(1, 0xffffff);
+          button.getElement('background').setStrokeStyle(1, 0xffffff);
         }
       )
       .on(
-        "button.out",
+        'button.out',
         function (button: {
           getElement: (element: string) => {
             setStrokeStyle: () => void;
           };
         }) {
-          button.getElement("background").setStrokeStyle();
+          button.getElement('background').setStrokeStyle();
         }
       );
     dialog.setDepth(2);
@@ -99,7 +89,7 @@ export default class GameOverDialogScene extends TFBaseScene {
     return this.rexUI.add.label({
       background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x020e31),
       text: this.add.text(0, 0, text, {
-        fontSize: "40px",
+        fontSize: '40px',
       }),
       name,
       space: {
@@ -112,8 +102,9 @@ export default class GameOverDialogScene extends TFBaseScene {
   }
 
   create() {
-    this.events.on("game-over", () => {
+    this.events.on('game-over', () => {
       this.cameras.main.shake(400, 0.007);
+      this.scene.get(SceneKeys.BaseEvents).cameras.main.shake(400, 0.007);
       this.rexUI
         .modalPromise(this.createDialog().setPosition(950, 450), {
           manualClose: true,
@@ -123,8 +114,8 @@ export default class GameOverDialogScene extends TFBaseScene {
           },
         })
         .then((result: Phaser.GameObjects.GameObject) => {
-          if (result.name === "yes") {
-            this.baseEventsScene("reset-game");
+          if (result.name === 'yes') {
+            this.baseEventsScene('reset-game');
           }
         });
     });

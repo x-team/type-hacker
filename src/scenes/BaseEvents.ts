@@ -1,9 +1,9 @@
-import Background from "../game/entities/Background";
-import onDamageMonitor from "../game/events/onDamageMonitor";
-import onScoreWin from "../game/events/onScoreWin";
-import SceneKeys from "../game/utils/SceneKeys";
-import { TMonitorData, TMonitorsNames } from "../game/utils/types";
-import TFBaseScene from "./TFBaseScene";
+import Background from '../game/entities/Background';
+import onDamageMonitor from '../game/events/onDamageMonitor';
+import onScoreWin from '../game/events/onScoreWin';
+import SceneKeys from '../game/utils/SceneKeys';
+import { TMonitorData, TMonitorsNames } from '../game/utils/types';
+import TFBaseScene from './TFBaseScene';
 
 export default class BaseEventsScene extends TFBaseScene {
   constructor() {
@@ -18,14 +18,14 @@ export default class BaseEventsScene extends TFBaseScene {
   prepareEvents() {
     // GENERAL EVENTS
     this.events.on(
-      "damage-monitor",
+      'damage-monitor',
       ({ monitorToBeDamaged }: { monitorToBeDamaged: TMonitorsNames }) => {
         onDamageMonitor({ scene: this, monitorToBeDamaged });
       }
     );
 
     this.events.on(
-      "score-win",
+      'score-win',
       ({
         scoreIncrement,
         combo,
@@ -48,22 +48,20 @@ export default class BaseEventsScene extends TFBaseScene {
     //   onScoreLost({ scene: this, score });
     // });
 
-    this.events.on("game-over", () => {
-      console.log("game over dude");
+    this.events.on('game-over', () => {
       this.getPlayerData().data.isGameOver = true;
-      this.scene.get(SceneKeys.Smoke).events.emit("game-over");
+      this.scene.get(SceneKeys.Smoke).events.emit('game-over');
     });
 
-    this.events.on("reset-game", () => {
+    this.events.on('reset-game', () => {
       this.restartPlayerData();
-      this.scene
-        .get(SceneKeys.NewLevel)
-        .events.emit("level-end", { skipAnimations: true });
+      this.scene.get(SceneKeys.Smoke).events.emit('game-over');
+      this.scene.get(SceneKeys.NewLevel).events.emit('level-end', { skipAnimations: true });
     });
   }
 
   addBackground = () => {
-    new Background(this, 0, 0, "hacker-background", {
+    new Background(this, 0, 0, 'hacker-background', {
       isGif: true,
     });
   };
