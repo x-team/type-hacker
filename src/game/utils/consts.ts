@@ -11,7 +11,7 @@ export enum CLOCK_COLORS {
 }
 
 export const MONITORS_OVERLAY_COLOR = 0x3d5459; // OPAQUE BLUE SCREEN COLOR
-export const MONITORS_OVERLAY_ALPHA = 0.25; // OPAQUE BLUE SCREEN OPACITY
+export const MONITORS_OVERLAY_ALPHA = 0.5; // OPAQUE BLUE SCREEN OPACITY
 
 // SETTINGS
 export const monitorConfiguration: TMonitorConfiguration = {

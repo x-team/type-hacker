@@ -1,12 +1,12 @@
 // Singleton class to have the same player info;
 
-import { generatePlayerDataSeed } from "../utils/generators";
+import { generatePlayerDataSeed } from '../utils/generators';
 import {
   PlayerDataData,
   PlayerDataConfiguration,
   PlayerDataHelpers,
   PlayerDataSettings,
-} from "../utils/types";
+} from '../utils/types';
 
 export class FullPlayerData {
   private static instance: FullPlayerData;

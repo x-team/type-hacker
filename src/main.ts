@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
-import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
 
 import { GAME_BG_COLOR } from './game/utils/consts';
 import SceneKeys from './game/utils/SceneKeys';
@@ -16,7 +16,7 @@ import SmokeScene from './scenes/SmokeScene';
 import UIElementsScene from './scenes/UIElements';
 
 const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.CANVAS,
+  type: Phaser.WEBGL,
   pixelArt: true,
   fps: {
     target: 1,
@@ -35,8 +35,10 @@ const config: Phaser.Types.Core.GameConfig = {
         plugin: RexUIPlugin,
         mapping: 'rexUI',
       },
+    ],
+    global: [
       {
-        key: 'rexGlowFilterPipeline',
+        key: 'rexglowfilterPipelineplugin',
         plugin: GlowFilterPipelinePlugin,
         mapping: 'rexGlow',
         start: true,

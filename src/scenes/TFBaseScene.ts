@@ -1,5 +1,5 @@
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
-import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
 import { FullPlayerData } from '../game/entities/FullPlayerData';
 import SceneKeys from '../game/utils/SceneKeys';
 

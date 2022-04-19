@@ -83,11 +83,31 @@ export default class ScoreScene extends TFBaseScene {
 
     redComboBar.setDepth(2);
     whiteComboBar.setDepth(1);
+
+    // ADD GLOW FX to redBar
+    // 1. Create Pipeline
+    const glowDistance = 100;
+    const glowOuterStrength = 5.5;
+    const pipeline = this.rexGlow.add(redComboBar, {
+      // PARAMS FOR GLOW FLITER 2
+      distance: glowDistance,
+      glowColor: ScoreScene.RED_COMBO_BAR_COLOR, // -> Pretty Self explanatory
+      outerStrength: 0, // -> Pretty Self explanatory
+      innerStrength: 0, // -> Pretty Self explanatory
+      // knockout: false, // -> True = Show effect only
+      quality: 0.03, // -> The Higher, the less performant
+    });
+
+    // 2. Add glow effect as a tween
+    this.tweens.add({
+      targets: pipeline,
+      outerStrength: glowOuterStrength,
+      ease: 'Sine.easeInOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
     const circle = makeCircularScoreBar();
-
-    console.log({ rexGlow: this.rexGlow });
-    const pipeline = this.rexGlow.add(redComboBar, { intensity: 0.02 });
-
     const middleX = this.game.canvas.width / 2;
     const offsetX = 24;
     const levelNumber = new Word(this, middleX + offsetX, 155, '1', '#fdfdfd ', true, '50px');
