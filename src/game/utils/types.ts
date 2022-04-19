@@ -1,4 +1,4 @@
-export type TMonitorsNames = "left" | "center" | "right";
+export type TMonitorsNames = 'left' | 'center' | 'right';
 
 export interface LevelProgressionFunction {
   speedOfGrowth: number;
@@ -60,6 +60,7 @@ export type LevelSettings = {
     minLength: number;
     randomLengthAddMin: number;
     randomLengthAddMax: number;
+    // TODO: These 2 params below are (apparently) not being used
     randomLengthSubMin: number;
     randomLengthSubMax: number;
   };

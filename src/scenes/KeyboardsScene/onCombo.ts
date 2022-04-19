@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export const getMaxComboPerLevel = (_level: number) => {
   return 30;
@@ -7,15 +7,15 @@ export const getMaxComboPerLevel = (_level: number) => {
 // TODO: Apparently not nbeing used. Please double-check
 const onCombo = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  currentTime,
+  currentTime: _currentTime,
   userWord,
 }: {
   currentTime: number;
   userWord: Phaser.GameObjects.Text;
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  currentTime = 10;
-  userWord.setText("");
+  // currentTime = 10;
+  userWord.setText('');
 };
 
 export default onCombo;
