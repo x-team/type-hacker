@@ -34,14 +34,60 @@ export default class GameStartDialogScene extends TFBaseScene {
   }
 
   createStartDialog() {
+    const codeRain = {
+      startingPoint: 0, // 30
+      width: 120, // Fullscreen width
+      height: 70, // Fullscreen height
+      cellWidth: 16, //16
+      cellHeight: 16, //16
+      spacingXMultiplier: 16, // 16
+      spacingYMultiplier: 16, // 16
+      getPoints: function (quantity: number) {
+        const cols = new Array(codeRain.width).fill(0);
+        const lastCol = cols.length - 1;
+        const Between = Phaser.Math.Between;
+        const RND = Phaser.Math.RND;
+        const points = [];
+
+        for (let i = 0; i < quantity; i++) {
+          const col = Between(codeRain.startingPoint, lastCol);
+          let row = (cols[col] += 1);
+
+          if (RND.frac() < 0.01) {
+            row *= RND.frac();
+          }
+
+          row %= codeRain.height;
+          row |= 0;
+
+          points[i] = new Phaser.Math.Vector2( // spacing between letters
+            codeRain.spacingXMultiplier * col,
+            codeRain.spacingYMultiplier * row
+          );
+        }
+        console.log({ points });
+        return points;
+      },
+    };
+    this.add.particles('font').createEmitter({
+      alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
+      angle: 0,
+      blendMode: 'ADD',
+      emitZone: { source: codeRain, type: 'edge', quantity: 32000 },
+      frame: Phaser.Utils.Array.NumberArray(8, 58),
+      frequency: 100, // 100
+      lifespan: 2000, // 6000
+      quantity: 200, // 25
+      scale: -0.5,
+      tint: 0x42defd,
+    });
+
     const dialog = this.rexUI.add
       .dialog({
-        background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x2b11c1),
+        // background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x21879f),
         title: this.rexUI.add.label({
-          background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x020e31),
-          text: this.add.text(0, 0, 'Type Fighters', {
-            fontSize: '50px',
-          }),
+          // background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x42defd),
+          text: this.add.sprite(0, 0, 'type-hacker-logo'),
           space: {
             left: 50,
             right: 50,
@@ -50,18 +96,19 @@ export default class GameStartDialogScene extends TFBaseScene {
           },
         }),
 
-        content: this.add.text(0, 0, 'Do you want to try?', {
+        content: this.add.text(0, 0, 'New Game', {
           fontSize: '34px',
+          color: '#42DEFD',
         }),
-        actions: [this.createLabel('Yes', 'yes')],
+        actions: [this.createLabel('Start', 'yes')],
         space: {
           title: 25,
           content: 25,
           action: 15,
           left: 20,
           right: 20,
-          top: 20,
-          bottom: 20,
+          top: 300,
+          bottom: 300,
         },
         align: {
           title: 'center',
@@ -113,7 +160,7 @@ export default class GameStartDialogScene extends TFBaseScene {
 
   createLabel = (text: string, name: string): any => {
     return this.rexUI.add.label({
-      background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x020e31),
+      // background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x020e31),
       text: this.add.text(0, 0, text, {
         fontSize: '40px',
       }),

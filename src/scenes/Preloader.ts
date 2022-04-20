@@ -7,14 +7,13 @@ export default class PreloaderScene extends TFBaseScene {
   }
 
   preload() {
-    const assetsHakcer = [];
+    const assetsHacker = [];
     for (let i = 0; i < 7; i++) {
-      assetsHakcer.push(`assets/hero/hacker-background-${i}.png`);
+      assetsHacker.push(`assets/hero/hacker-background-${i}.png`);
     }
 
     // ATLAS
-    this.load.atlas('hacker-background', assetsHakcer, 'assets/hero/hacker-background.json');
-
+    this.load.atlas('hacker-background', assetsHacker, 'assets/hero/hacker-background.json');
     this.load.atlas('numbers', 'assets/main/numbers.png', 'assets/main/numbers.json');
 
     // PLUGINS
@@ -26,14 +25,15 @@ export default class PreloaderScene extends TFBaseScene {
 
     // PROPS AND EFFECTS
     this.load.image('panel', 'assets/main/monitor.png');
-
     this.load.image('timer', 'assets/main/timer.png');
-
     this.load.image('smoke', 'assets/main/smoke.png');
 
     // ICONS
     this.load.image('sound', 'assets/icons/sound.png');
     this.load.image('no-sound', 'assets/icons/no-sound.png');
+
+    // LOGOS
+    this.load.image('type-hacker-logo', 'assets/main/type-hacker-logo.png');
 
     // SFX
     this.load.audio('keyboard1', ['assets/sfx/keyboard1.ogg']);
@@ -44,6 +44,12 @@ export default class PreloaderScene extends TFBaseScene {
 
     // Background Music
     this.load.audio('bgm', ['assets/sfx/electronic-senses-fast-and-intense.mp3']);
+
+    // Sprites
+    this.load.spritesheet('font', 'assets/fonts/matrix-font.png', {
+      frameWidth: 32,
+      frameHeight: 25,
+    });
   }
 
   create() {

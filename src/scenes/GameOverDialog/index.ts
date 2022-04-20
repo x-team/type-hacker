@@ -10,9 +10,9 @@ export default class GameOverDialogScene extends TFBaseScene {
   private createDialog() {
     const dialog = this.rexUI.add
       .dialog({
-        background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x2b11c1),
+        background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x21879f),
         title: this.rexUI.add.label({
-          background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x020e31),
+          background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x42defd),
           text: this.add.text(0, 0, 'Game Over', {
             fontSize: '50px',
           }),
