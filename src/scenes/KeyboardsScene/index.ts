@@ -53,6 +53,7 @@ export default class KeyboardsScene extends TFBaseScene {
       '#fdfdfd',
       defaultVisible
     );
+    guessWord.setDepth(2);
     guessWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     guessWord.setOrigin(0, 0.5);
     this.tweens.add({
@@ -77,6 +78,7 @@ export default class KeyboardsScene extends TFBaseScene {
       '#fe9c9d',
       defaultVisible
     );
+    userWord.setDepth(2);
     userWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     userWord.setOrigin(0, 0.5);
 

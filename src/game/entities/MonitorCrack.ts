@@ -2,12 +2,14 @@ import TFBaseScene from '../../scenes/TFBaseScene';
 import { TMonitorsNames } from '../utils/types';
 
 export class MonitorCrack extends Phaser.GameObjects.Container {
+  public cracks: Phaser.GameObjects.Image[];
   static OPACITY = 0.85;
+
   constructor(scene: TFBaseScene, x: number, y: number, monitorToCrack: TMonitorsNames) {
     super(scene, x, y);
-    const cracks = MonitorCrack.getRandomCrack(scene, monitorToCrack);
+    this.cracks = MonitorCrack.getRandomCrack(scene, monitorToCrack);
 
-    cracks.forEach((crack) => this.add(crack).setDepth(0));
+    this.cracks.forEach((crack) => this.add(crack).setDepth(0));
 
     scene.add.existing(this);
   }
@@ -207,6 +209,6 @@ export class MonitorCrack extends Phaser.GameObjects.Container {
       default:
         break;
     }
-    return [topLeftCrackOne, middleBottomCrackOne, middleBottomCrackTwo];
+    return [topLeftCrackOne, middleLeftCrackOne, middleBottomCrackOne, middleBottomCrackTwo];
   }
 }

@@ -1,16 +1,17 @@
-import Phaser from "phaser";
-import CircularProgress from "phaser3-rex-plugins/plugins/circularprogress";
-import { calculateEnabledMonitors } from "../../game/events/onScoreWin";
-import { CLOCK_COLORS } from "../../game/utils/consts";
-import { calculateCurrentTimeout } from "../../game/utils/generators";
-import SceneKeys from "../../game/utils/SceneKeys";
-import { TMonitorsNames } from "../../game/utils/types";
-import TFBaseScene from "../TFBaseScene";
+import Phaser from 'phaser';
+import CircularProgress from 'phaser3-rex-plugins/plugins/circularprogress';
+import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
+import { CLOCK_COLORS } from '../../game/utils/consts';
+import { calculateCurrentTimeout } from '../../game/utils/generators';
+import SceneKeys from '../../game/utils/SceneKeys';
+import { TMonitorsNames } from '../../game/utils/types';
+import TFBaseScene from '../TFBaseScene';
+import { onGameOverClock } from './onGameOverClock';
 
-import onHideClock from "./onHideClock";
-import onResetClock from "./onResetClock";
-import onShowClock from "./onShowClock";
-import onUpdateCurrentMonitor from "./onUpdateCurrentMonitor";
+import onHideClock from './onHideClock';
+import onResetClock from './onResetClock';
+import onShowClock from './onShowClock';
+import onUpdateCurrentMonitor from './onUpdateCurrentMonitor';
 
 type IConfigRexCircularProgress = {
   thickness: number;
@@ -35,22 +36,19 @@ export default class PanelsScene extends TFBaseScene {
     super(SceneKeys.Panels);
   }
 
-  public checkDamageOrGameOver({
-    currentMonitor,
-  }: {
-    currentMonitor: TMonitorsNames;
-  }) {
+  public checkDamageOrGameOver({ currentMonitor }: { currentMonitor: TMonitorsNames }) {
     const playerData = this.getPlayerData();
     const isMonitorDamaged = playerData.data.monitors[currentMonitor].isDamaged;
     const isGameOver = playerData.data.isGameOver;
     if (!isMonitorDamaged) {
-      this.baseEventsScene("damage-monitor", {
+      this.baseEventsScene('damage-monitor', {
         monitorToBeDamaged: currentMonitor,
       });
     } else {
       !isGameOver &&
-        this.scene.get(SceneKeys.GameOverDialog).events.emit("game-over") &&
-        this.baseEventsScene("game-over");
+        this.scene.get(SceneKeys.GameOverDialog).events.emit('game-over') &&
+        this.events.emit('game-over') &&
+        this.baseEventsScene('game-over');
     }
     this.getPlayerData().data.monitors[currentMonitor].currentTimeout = 0;
   }
@@ -78,16 +76,14 @@ export default class PanelsScene extends TFBaseScene {
       },
       onUpdate: (tween) => {
         const currentTimeout =
-          playerData.data.monitors[currentMonitor].totalCurrentTimeout * 1000 -
-          tween.elapsed;
+          playerData.data.monitors[currentMonitor].totalCurrentTimeout * 1000 - tween.elapsed;
 
         if (currentTimeout <= 0.09) {
           tween.pause();
           tween.resetTweenData(true);
           this.checkDamageOrGameOver({ currentMonitor });
         } else {
-          this.getPlayerData().data.monitors[currentMonitor].currentTimeout =
-            currentTimeout / 1000;
+          this.getPlayerData().data.monitors[currentMonitor].currentTimeout = currentTimeout / 1000;
         }
 
         if (clockRadius.value <= 0.25) {
@@ -117,18 +113,17 @@ export default class PanelsScene extends TFBaseScene {
         value: 1,
         easeValue: {
           duration: 0,
-          ease: "Linear",
+          ease: 'Linear',
         },
         valuechangeCallback: () => null,
       };
 
-      const currentMonitorData =
-        this.getPlayerData().data.monitors[currentMonitor];
+      const currentMonitorData = this.getPlayerData().data.monitors[currentMonitor];
 
       const clockImage = this.add?.image(
         currentMonitorData.coordinates.clockX,
         currentMonitorData.coordinates.clockY,
-        "timer"
+        'timer'
       );
 
       const clockRadius = this.rexUI.add.circularProgress(
@@ -147,10 +142,12 @@ export default class PanelsScene extends TFBaseScene {
         currentMonitor,
       });
 
-      clockRadius.setData("clockTimerTween", clockTimerTween);
+      clockRadius.setData('clockTimerTween', clockTimerTween);
+
+      this.events.on('game-over', () => onGameOverClock(clockRadius), this);
 
       this.events.on(
-        "reset-clock",
+        'reset-clock',
         (monitor: TMonitorsNames) =>
           onResetClock({
             scene: this,
@@ -162,14 +159,14 @@ export default class PanelsScene extends TFBaseScene {
       );
 
       this.events.on(
-        "hide-clock",
+        'hide-clock',
         (monitor: TMonitorsNames) =>
           onHideClock({ monitor, currentMonitor, clockRadius, clockImage }),
         this
       );
 
       this.events.on(
-        "show-clock",
+        'show-clock',
         (monitor: TMonitorsNames) =>
           onShowClock({ monitor, currentMonitor, clockRadius, clockImage }),
         this
@@ -182,16 +179,12 @@ export default class PanelsScene extends TFBaseScene {
     };
 
     const makeMonitor = (x: number, y: number) => {
-      const monitorImage = this.add?.image(x, y, "panel");
+      const monitorImage = this.add?.image(x, y, 'panel');
       return monitorImage;
     };
 
     // This is the asset overlay on top of the monitors
-    const makeFullPanel = ({
-      currentMonitor,
-      monitorX,
-      monitorY,
-    }: TFullPanel) => {
+    const makeFullPanel = ({ currentMonitor, monitorX, monitorY }: TFullPanel) => {
       const monitor = makeMonitor(monitorX, monitorY);
       const { clockImage, clockRadius } = makeClock(currentMonitor);
 
@@ -199,7 +192,7 @@ export default class PanelsScene extends TFBaseScene {
         monitor?.setVisible(false); // HERE
       }
 
-      this.events.on("update-currentMonitor", () => {
+      this.events.on('update-currentMonitor', () => {
         onUpdateCurrentMonitor({
           scene: this,
           monitor,
@@ -207,11 +200,9 @@ export default class PanelsScene extends TFBaseScene {
         });
       });
 
-      this.events.on("destroy-panels", () => {
+      this.events.on('destroy-panels', () => {
         clockImage?.destroy();
-        const clockTimerTween = clockRadius?.data?.get(
-          "clockTimerTween"
-        ) as Phaser.Tweens.Tween;
+        const clockTimerTween = clockRadius?.data?.get('clockTimerTween') as Phaser.Tweens.Tween;
         clockRadius?.destroy();
         if (clockTimerTween) {
           clockTimerTween.stop();
@@ -224,19 +215,19 @@ export default class PanelsScene extends TFBaseScene {
     // This shows the white asset overlay on top of the monitor
     const addFullPanels = () => {
       const leftPanel: TFullPanel = {
-        currentMonitor: "left",
+        currentMonitor: 'left',
         monitorX: 465,
         monitorY: 624,
       };
 
       const centerPanel: TFullPanel = {
-        currentMonitor: "center",
+        currentMonitor: 'center',
         monitorX: 989,
         monitorY: 420,
       };
 
       const rightPanel: TFullPanel = {
-        currentMonitor: "right",
+        currentMonitor: 'right',
         monitorX: 1370,
         monitorY: 535,
       };
@@ -251,11 +242,11 @@ export default class PanelsScene extends TFBaseScene {
 
     addFullPanels();
 
-    this.events.on("level-end", () => {
-      this.events.emit("destroy-panels");
+    this.events.on('level-end', () => {
+      this.events.emit('destroy-panels');
     });
 
-    this.events.on("new-level-start", () => {
+    this.events.on('new-level-start', () => {
       addFullPanels();
     });
   }

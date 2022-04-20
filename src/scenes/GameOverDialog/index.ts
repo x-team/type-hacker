@@ -81,7 +81,7 @@ export default class GameOverDialogScene extends TFBaseScene {
           button.getElement('background').setStrokeStyle();
         }
       );
-    dialog.setDepth(2);
+    dialog.setDepth(5);
     return dialog;
   }
 

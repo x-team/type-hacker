@@ -12,7 +12,7 @@ import NewLevelScene from './scenes/NewLevel';
 import PanelsScene from './scenes/PanelsScene';
 import PreloaderScene from './scenes/Preloader';
 import ScoreScene from './scenes/ScoreScene';
-import SmokeScene from './scenes/SmokeScene';
+import DamageMonitorScene from './scenes/DamageMonitorScene';
 import UIElementsScene from './scenes/UIElements';
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -60,6 +60,6 @@ typeFightersGame.scene.add(SceneKeys.NewLevel, NewLevelScene);
 typeFightersGame.scene.add(SceneKeys.Keyboards, KeyboardsScene);
 typeFightersGame.scene.add(SceneKeys.Panels, PanelsScene);
 typeFightersGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
-typeFightersGame.scene.add(SceneKeys.GameOverDialog, SmokeScene);
+typeFightersGame.scene.add(SceneKeys.GameOverDialog, DamageMonitorScene);
 
 export default typeFightersGame;
