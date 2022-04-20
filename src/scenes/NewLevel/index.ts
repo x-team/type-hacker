@@ -42,7 +42,6 @@ export default class NewLevelScene extends TFBaseScene {
       newLevelWord.setY(newLevelWord.y - 60);
       newLevelWord.setAlpha(0);
       newLevelWord.setVisible(true);
-      newLevelWord.setDepth(100);
 
       const newLevelWordTimeline = this.tweens.createTimeline();
 
