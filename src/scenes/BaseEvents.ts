@@ -65,7 +65,6 @@ export default class BaseEventsScene extends TFBaseScene {
     new Background(this, 0, 0, 'hacker-background', {
       isGif: true,
     });
-
     // Add black overlay to monitors
     const offset = 5;
     const generateCoordinates = (monitorCoordinates: TMonitorCoordinates) => {

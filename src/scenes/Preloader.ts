@@ -25,11 +25,15 @@ export default class PreloaderScene extends TFBaseScene {
     // );
 
     // PROPS AND EFFECTS
-    this.load.image('panel', 'assets/main/monitor.png');
+    this.load.image('panel', 'assets/main/damageMonitor/monitor.png');
 
     this.load.image('timer', 'assets/main/timer.png');
 
-    this.load.image('smoke', 'assets/main/smoke.png');
+    // Broken Monitor assets
+    this.load.image('smoke', 'assets/main/damageMonitor/smoke.png');
+    this.load.image('broken-screen-1', 'assets/main/damageMonitor/broken-screen-1.png');
+    this.load.image('broken-screen-2', 'assets/main/damageMonitor/broken-screen-2.png');
+    this.load.image('broken-screen-3', 'assets/main/damageMonitor/broken-screen-3.png');
 
     // ICONS
     this.load.image('sound', 'assets/icons/sound.png');
@@ -41,6 +45,7 @@ export default class PreloaderScene extends TFBaseScene {
     this.load.audio('keyboard3', ['assets/sfx/keyboard3.ogg']);
     this.load.audio('keyboard4', ['assets/sfx/keyboard4.ogg']);
     this.load.audio('mistype', ['assets/sfx/mistype-sound.wav']);
+    this.load.audio('glass-break', ['assets/sfx/glass-break-1.wav']);
 
     // Background Music
     this.load.audio('bgm', ['assets/sfx/electronic-senses-fast-and-intense.mp3']);
