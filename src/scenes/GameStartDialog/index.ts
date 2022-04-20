@@ -28,7 +28,7 @@ export default class GameStartDialogScene extends TFBaseScene {
           this.scene.start(SceneKeys.Keyboards);
           this.scene.start(SceneKeys.Panels);
           this.scene.start(SceneKeys.GameOverDialog);
-          this.scene.start(SceneKeys.Smoke);
+          this.scene.start(SceneKeys.DamageMonitor);
         }
       });
   }

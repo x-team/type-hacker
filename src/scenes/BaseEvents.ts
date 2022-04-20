@@ -51,12 +51,12 @@ export default class BaseEventsScene extends TFBaseScene {
 
     this.events.on('game-over', () => {
       this.getPlayerData().data.isGameOver = true;
-      this.scene.get(SceneKeys.Smoke).events.emit('game-over');
+      this.scene.get(SceneKeys.DamageMonitor).events.emit('game-over');
     });
 
     this.events.on('reset-game', () => {
       this.restartPlayerData();
-      this.scene.get(SceneKeys.Smoke).events.emit('game-over');
+      this.scene.get(SceneKeys.DamageMonitor).events.emit('game-over');
       this.scene.get(SceneKeys.NewLevel).events.emit('level-end', { skipAnimations: true });
     });
   }

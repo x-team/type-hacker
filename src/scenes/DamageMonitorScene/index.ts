@@ -12,7 +12,7 @@ export default class DamageMonitorScene extends TFBaseScene {
   private particles: Phaser.GameObjects.Particles.ParticleEmitterManager[];
 
   constructor() {
-    super(SceneKeys.Smoke);
+    super(SceneKeys.DamageMonitor);
     this.cracks = [];
     this.particles = [];
   }

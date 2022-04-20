@@ -35,7 +35,7 @@ export const onDamageMonitor = ({
   }, getDelayBetweenWords(scene.getPlayerData()));
 
   scene.getPlayerData().data.monitors[monitorToBeDamaged].isDamaged = true;
-  scene.scene.get(SceneKeys.Smoke).events.emit('damage-monitor', monitorToBeDamaged);
+  scene.scene.get(SceneKeys.DamageMonitor).events.emit('damage-monitor', monitorToBeDamaged);
 };
 
 export default onDamageMonitor;
