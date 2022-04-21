@@ -1,8 +1,4 @@
-import {
-  monitorConfiguration,
-  MONITORS_TURNED_OFF_COLOR,
-  MONITORS_TURNED_OFF_OVERLAY_ALPHA,
-} from './consts';
+import { monitorConfiguration } from './consts';
 import {
   LevelProgressionFunction,
   PlayerData,
