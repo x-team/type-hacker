@@ -180,6 +180,20 @@ export default class PanelsScene extends TFBaseScene {
 
     const makeMonitor = (x: number, y: number) => {
       const monitorImage = this.add?.image(x, y, 'panel');
+      monitorImage.scale = 0.95;
+      monitorImage.setDataEnabled();
+      // Yellow
+      // monitorImage.setTint(0xf7b100);
+      // Grinish Yellow
+      // monitorImage.setTint(0xedd205);
+      const monitorPulseTween = this.tweens.add({
+        targets: monitorImage,
+        scale: { from: 1, to: 0.95 },
+        ease: 'Sine.easeInOut',
+        repeat: -1,
+        yoyo: true,
+      });
+      monitorImage.setData('monitorPulseTween', monitorPulseTween);
       return monitorImage;
     };
 
@@ -207,7 +221,12 @@ export default class PanelsScene extends TFBaseScene {
         if (clockTimerTween) {
           clockTimerTween.stop();
         }
+
+        const monitorPulseTween = monitor?.data?.get('monitorPulseTween') as Phaser.Tweens.Tween;
         monitor?.destroy();
+        if (monitorPulseTween) {
+          monitorPulseTween.stop();
+        }
       });
     };
 

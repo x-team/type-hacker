@@ -1,3 +1,7 @@
+import {
+  MONITORS_DEFAULT_OVERLAY_ALPHA,
+  MONITORS_FOCUS_OVERLAY_ALPHA,
+} from '../../game/utils/consts';
 import SceneKeys from '../../game/utils/SceneKeys';
 import {
   LevelSettings,
@@ -240,6 +244,17 @@ export const onKeydown = ({
       const monitor = scene.getPlayerData().configuration.levelSettings.monitorConfiguration;
       const userWord = scene.getPlayerData().data.monitors[monitorName]
         .userText as Phaser.GameObjects.Text;
+
+      // Get away the focus from the previous screen
+      scene
+        .getPlayerData()
+        .data.monitors[scene.getPlayerData().data.currentMonitor].screenOverlay!.setAlpha(
+          MONITORS_DEFAULT_OVERLAY_ALPHA
+        );
+      // Focus on the new screen
+      scene
+        .getPlayerData()
+        .data.monitors[monitorName].screenOverlay!.setAlpha(MONITORS_FOCUS_OVERLAY_ALPHA);
 
       scene.getPlayerData().data.currentMonitor = monitorName;
       scene.scene.get(SceneKeys.Panels).events.emit('update-currentMonitor');

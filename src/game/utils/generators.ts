@@ -1,11 +1,15 @@
-import { monitorConfiguration } from "./consts";
+import {
+  monitorConfiguration,
+  MONITORS_TURNED_OFF_COLOR,
+  MONITORS_TURNED_OFF_OVERLAY_ALPHA,
+} from './consts';
 import {
   LevelProgressionFunction,
   PlayerData,
   TMonitorCoordinates,
   TMonitorData,
   TMonitorsNames,
-} from "./types";
+} from './types';
 
 function getStartingLevelTimeout() {
   // This only runs on the initial load
@@ -41,7 +45,7 @@ export function generatePlayerDataSeed() {
     data: {
       isFocusingOnWord: false,
       currentFocusedGuessWord: undefined,
-      currentMonitor: "center" as TMonitorsNames,
+      currentMonitor: 'center' as TMonitorsNames,
       currentLevel: 1,
       currentCharacterStreak: 0,
       currentScoreMultiplier: 1,
@@ -49,9 +53,9 @@ export function generatePlayerDataSeed() {
       isGameOver: false,
       currentWordsDisplayed: [],
       monitors: {
-        left: generateMonitorData("left"),
-        center: generateMonitorData("center"),
-        right: generateMonitorData("right"),
+        left: generateMonitorData('left'),
+        center: generateMonitorData('center'),
+        right: generateMonitorData('right'),
       },
     },
   };
@@ -73,13 +77,10 @@ export const calculateCurrentTimeout = (playerData: PlayerData) => {
   // Here C and A change meanings between each other.
   // C: Speed of Growth
   // A: Stabilizer
-  const C =
-    playerData.configuration.levelSettings.levelProgressionParams.stabilizer;
-  const A =
-    playerData.configuration.levelSettings.levelProgressionParams.speedOfGrowth;
+  const C = playerData.configuration.levelSettings.levelProgressionParams.stabilizer;
+  const A = playerData.configuration.levelSettings.levelProgressionParams.speedOfGrowth;
   const { currentLevel, currentMonitor } = playerData.data;
-  const actualCurrentTimeout =
-    playerData.data.monitors[currentMonitor].totalCurrentTimeout;
+  const actualCurrentTimeout = playerData.data.monitors[currentMonitor].totalCurrentTimeout;
 
   const DEFAULT_TIMEOUT = 10; // Secs
 
@@ -89,18 +90,15 @@ export const calculateCurrentTimeout = (playerData: PlayerData) => {
 
   const speedOfGrowth = TO_MILLIS / C;
   const logarithmicDecrease = Math.log(currentLevel + A) / currentLevel;
-  const newCurrentTimeout =
-    actualCurrentTimeout - speedOfGrowth * logarithmicDecrease;
+  const newCurrentTimeout = actualCurrentTimeout - speedOfGrowth * logarithmicDecrease;
   return Math.round(newCurrentTimeout * HUNDRED) / HUNDRED;
 };
 
-export function generateMonitorCoordinates(
-  name: TMonitorsNames
-): TMonitorCoordinates {
+export function generateMonitorCoordinates(name: TMonitorsNames): TMonitorCoordinates {
   const monitorCoordinates: Partial<TMonitorCoordinates> = {};
 
   // TODO: Refactor this it should be an object instead of this if else pattern
-  if (name === "center") {
+  if (name === 'center') {
     // 🖥️ Monitor
     monitorCoordinates.topLeft = new Phaser.Math.Vector2(835, 333);
     monitorCoordinates.topRight = new Phaser.Math.Vector2(1148, 333);
@@ -112,7 +110,7 @@ export function generateMonitorCoordinates(
     monitorCoordinates.clockY = 310;
     monitorCoordinates.clockRadiusX = 799;
     monitorCoordinates.clockRadiusY = 310;
-  } else if (name === "left") {
+  } else if (name === 'left') {
     // 🖥️ Monitor
     monitorCoordinates.topLeft = new Phaser.Math.Vector2(360, 558);
     monitorCoordinates.topRight = new Phaser.Math.Vector2(575, 530);
@@ -145,10 +143,8 @@ export function generateMonitorCoordinates(
   monitorCoordinates.smokeY = monitorCoordinates.topRight.y - 5;
 
   // 🔠 Words
-  const middleXPoint =
-    (monitorCoordinates.bottomLeft.x + monitorCoordinates.topLeft.x) / 2;
-  const middleYPoint =
-    (monitorCoordinates.bottomLeft.y + monitorCoordinates.topLeft.y) / 2;
+  const middleXPoint = (monitorCoordinates.bottomLeft.x + monitorCoordinates.topLeft.x) / 2;
+  const middleYPoint = (monitorCoordinates.bottomLeft.y + monitorCoordinates.topLeft.y) / 2;
   const offsetY = 30;
   const offsetX = 30;
   monitorCoordinates.guessWordX = middleXPoint + offsetX;
@@ -165,8 +161,8 @@ export function generateMonitorData(name: TMonitorsNames): TMonitorData {
     coordinates: generateMonitorCoordinates(name),
     currentTimeout: getStartingLevelTimeout(),
     totalCurrentTimeout: getStartingLevelTimeout(),
-    currentUserWord: "",
-    currentGuessWord: "",
+    currentUserWord: '',
+    currentGuessWord: '',
     guessText: undefined,
     isDamaged: false,
     isBurning: false,

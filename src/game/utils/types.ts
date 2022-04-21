@@ -46,10 +46,11 @@ export type TMonitorData = {
   totalCurrentTimeout: number; // refers to the total timeout before substracting time
   currentUserWord: string;
   currentGuessWord: string;
-  userText?: Phaser.GameObjects.Text;
-  guessText?: Phaser.GameObjects.Text;
   name: TMonitorsNames;
   coordinates: TMonitorCoordinates;
+  screenOverlay?: Phaser.GameObjects.Polygon;
+  userText?: Phaser.GameObjects.Text;
+  guessText?: Phaser.GameObjects.Text;
 };
 
 export type LevelSettings = {

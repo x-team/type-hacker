@@ -1,5 +1,9 @@
 import Word from '../../game/entities/Word';
 import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
+import {
+  MONITORS_DEFAULT_OVERLAY_ALPHA,
+  MONITORS_DEFAULT_OVERLAY_COLOR,
+} from '../../game/utils/consts';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorsNames } from '../../game/utils/types';
 import TFBaseScene from '../TFBaseScene';
@@ -105,6 +109,15 @@ export default class KeyboardsScene extends TFBaseScene {
     const monitorsData = this.getPlayerData().data.monitors;
     // 🖥️ Center monitor
     if (centerMonitorEnabled) {
+      if (!this.getPlayerData().data.monitors.center.screenOverlay) {
+        this.generateMonitorsOverlay();
+      }
+      this.getPlayerData().data.monitors.center.screenOverlay!.setFillStyle(
+        MONITORS_DEFAULT_OVERLAY_COLOR
+      );
+      this.getPlayerData().data.monitors.center.screenOverlay!.setAlpha(
+        MONITORS_DEFAULT_OVERLAY_ALPHA
+      );
       this.addSingleKeyboardGameMonitor(
         monitorsData.center.coordinates.guessWordX,
         monitorsData.center.coordinates.guessWordY,
@@ -116,6 +129,15 @@ export default class KeyboardsScene extends TFBaseScene {
 
     // 🖥️ Left monitor
     if (leftMonitorEnabled) {
+      if (!this.getPlayerData().data.monitors.left.screenOverlay) {
+        this.generateMonitorsOverlay();
+      }
+      this.getPlayerData().data.monitors.left.screenOverlay!.setFillStyle(
+        MONITORS_DEFAULT_OVERLAY_COLOR
+      );
+      this.getPlayerData().data.monitors.left.screenOverlay!.setAlpha(
+        MONITORS_DEFAULT_OVERLAY_ALPHA
+      );
       this.addSingleKeyboardGameMonitor(
         monitorsData.left.coordinates.guessWordX,
         monitorsData.left.coordinates.guessWordY,
@@ -127,6 +149,15 @@ export default class KeyboardsScene extends TFBaseScene {
 
     // 🖥️ Right monitor
     if (rightMonitorEnabled) {
+      if (!this.getPlayerData().data.monitors.right.screenOverlay) {
+        this.generateMonitorsOverlay();
+      }
+      this.getPlayerData().data.monitors.right.screenOverlay!.setFillStyle(
+        MONITORS_DEFAULT_OVERLAY_COLOR
+      );
+      this.getPlayerData().data.monitors.right.screenOverlay!.setAlpha(
+        MONITORS_DEFAULT_OVERLAY_ALPHA
+      );
       this.addSingleKeyboardGameMonitor(
         monitorsData.right.coordinates.guessWordX,
         monitorsData.right.coordinates.guessWordY,
