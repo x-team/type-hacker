@@ -134,9 +134,13 @@ export function generateMonitorCoordinates(name: TMonitorsNames): TMonitorCoordi
     monitorCoordinates.clockRadiusY = 411;
   }
 
+  // 🧨Explotion 🌫️ Smoke
+  monitorCoordinates.explotionSmokeX = monitorCoordinates.topRight.x - 30;
+  monitorCoordinates.explotionSmokeY = monitorCoordinates.topRight.y - 100;
+
   // 🌫️ Smoke
-  monitorCoordinates.smokeX = monitorCoordinates.topRight.x;
-  monitorCoordinates.smokeY = monitorCoordinates.topRight.y - 5;
+  monitorCoordinates.smokeX = monitorCoordinates.topRight.x - 15;
+  monitorCoordinates.smokeY = monitorCoordinates.topRight.y - 95;
 
   // 🔠 Words
   const middleXPoint = (monitorCoordinates.bottomLeft.x + monitorCoordinates.topLeft.x) / 2;
@@ -161,7 +165,6 @@ export function generateMonitorData(name: TMonitorsNames): TMonitorData {
     currentGuessWord: '',
     guessText: undefined,
     isDamaged: false,
-    isBurning: false,
     isTimoutAfterFirstdamaged: false,
     name,
     userText: undefined,

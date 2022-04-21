@@ -30,6 +30,8 @@ export type TMonitorCoordinates = {
   clockY: number;
   clockRadiusX: number;
   clockRadiusY: number;
+  explotionSmokeX: number;
+  explotionSmokeY: number;
   smokeX: number;
   smokeY: number;
   userWordX: number;
@@ -40,7 +42,6 @@ export type TMonitorCoordinates = {
 
 export type TMonitorData = {
   isDamaged: boolean;
-  isBurning: boolean; // used to trigger animation once for performance reasons
   isTimoutAfterFirstdamaged: boolean;
   currentTimeout: number;
   totalCurrentTimeout: number; // refers to the total timeout before substracting time

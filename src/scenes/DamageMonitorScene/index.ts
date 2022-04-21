@@ -9,61 +9,68 @@ interface DamageMonitorParams {
 
 export default class DamageMonitorScene extends TFBaseScene {
   private cracks: Phaser.GameObjects.Image[];
-  private particles: Phaser.GameObjects.Particles.ParticleEmitterManager[];
+  private explotionSmokes: Phaser.GameObjects.Sprite[];
+  private smoke: Phaser.GameObjects.Sprite[];
 
   constructor() {
     super(SceneKeys.DamageMonitor);
     this.cracks = [];
-    this.particles = [];
+    this.explotionSmokes = [];
+    this.smoke = [];
   }
 
   create() {
     this.events.on('game-over', () => {
       this.removeSmoke();
       this.removeCrack();
+      this.removeExplotionSmoke();
     });
 
     this.events.on('damage-monitor', (currentMonitor: TMonitorsNames) => {
+      this.createExplotionsSmoke({ currentMonitor });
       this.createSmoke({ currentMonitor });
       this.createCracks({ currentMonitor });
     });
   }
 
   createSmoke = ({ currentMonitor }: DamageMonitorParams) => {
-    const particlesManager = this.add.particles('smoke').setDepth(0);
-    this.particles = this.particles.concat(particlesManager);
-    // Added isBurning for performance reasons as smoke would just continually generate on top of each other
-    if (
-      this.getPlayerData().data.monitors[currentMonitor].isDamaged &&
-      !this.getPlayerData().data.monitors[currentMonitor].isBurning
-    ) {
-      this.getPlayerData().data.monitors[currentMonitor].isBurning = true;
-      const currentMonitorData = this.getPlayerData().data.monitors[currentMonitor];
-      const monitorCoordinates = {
-        x: currentMonitorData.coordinates.smokeX,
-        y: currentMonitorData.coordinates.smokeY,
-      };
+    const currentMonitorData = this.getPlayerData().data.monitors[currentMonitor];
+    const monitorCoordinates = {
+      x: currentMonitorData.coordinates.smokeX,
+      y: currentMonitorData.coordinates.smokeY,
+    };
 
-      particlesManager.createEmitter({
-        scale: { start: 0, end: 0.2 },
-        alpha: {
-          start: 1,
-          end: 0,
-        },
-        gravityY: -300,
-        x: monitorCoordinates?.x,
-        y: monitorCoordinates?.y,
-        speed: { min: 10, max: 100 },
-        blendMode: 'DARKEN',
-      });
-    }
-    if (
-      !this.getPlayerData().data.monitors[currentMonitor].isDamaged &&
-      this.getPlayerData().data.monitors[currentMonitor].isBurning
-    ) {
-      particlesManager.destroy();
-      this.getPlayerData().data.monitors[currentMonitor].isBurning = false;
-    }
+    const explotionSprite = this.explotionSmokes[0];
+    const delayInMillis = explotionSprite.anims.duration * (explotionSprite.anims.repeat + 1);
+
+    // Timeout to create the final smoke after the explotion
+    setTimeout(() => {
+      const smokeSprite = this.add.sprite(
+        monitorCoordinates.x,
+        monitorCoordinates.y,
+        'smoke-atlas'
+      );
+      smokeSprite.setDisplaySize(200, 200);
+      smokeSprite.setAlpha(0.6);
+      smokeSprite.setBlendMode(Phaser.BlendModes.SCREEN);
+      smokeSprite.anims.play('smoke-atlas-anim');
+      this.smoke = this.smoke.concat(smokeSprite);
+    }, delayInMillis);
+  };
+
+  createExplotionsSmoke = ({ currentMonitor }: DamageMonitorParams) => {
+    const currentMonitorData = this.getPlayerData().data.monitors[currentMonitor];
+    const explotionSmoke = this.add.sprite(
+      currentMonitorData.coordinates.explotionSmokeX,
+      currentMonitorData.coordinates.explotionSmokeY,
+      'explotion-atlas'
+    );
+    this.explotionSmokes = this.explotionSmokes.concat(explotionSmoke);
+    explotionSmoke.setDisplaySize(200, 200);
+    explotionSmoke.setAlpha(0.4);
+    explotionSmoke.setBlendMode(Phaser.BlendModes.SCREEN);
+
+    explotionSmoke.anims.play('explotion-smoke-atlas-anim');
   };
 
   createCracks({ currentMonitor }: DamageMonitorParams) {
@@ -72,8 +79,13 @@ export default class DamageMonitorScene extends TFBaseScene {
   }
 
   removeSmoke = () => {
-    this.particles.forEach((particlesManager) => particlesManager.destroy());
-    this.particles = [];
+    this.smoke.forEach((particlesManager) => particlesManager.destroy());
+    this.smoke = [];
+  };
+
+  removeExplotionSmoke = () => {
+    this.explotionSmokes.forEach((explotionSmoke) => explotionSmoke.destroy());
+    this.explotionSmokes = [];
   };
 
   removeCrack = () => {

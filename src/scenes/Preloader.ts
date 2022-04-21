@@ -15,14 +15,17 @@ export default class PreloaderScene extends TFBaseScene {
     // ATLAS
     this.load.atlas('hacker-background', assetsHakcer, 'assets/hero/hacker-background.json');
 
-    this.load.atlas('numbers', 'assets/main/numbers.png', 'assets/main/numbers.json');
+    this.load.atlas(
+      'explotion-atlas',
+      'assets/main/damageMonitor/explotion-atlas.png',
+      'assets/main/damageMonitor/explotion-atlas.json'
+    );
 
-    // PLUGINS
-    // this.load.plugin(
-    //   "rexcircularprogressplugin",
-    //   "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexcircularprogressplugin.min.js",
-    //   true
-    // );
+    this.load.atlas(
+      'smoke-atlas',
+      'assets/main/damageMonitor/smoke-atlas.png',
+      'assets/main/damageMonitor/smoke-atlas.json'
+    );
 
     // PROPS AND EFFECTS
     this.load.image('panel', 'assets/main/damageMonitor/monitor.png');
@@ -56,6 +59,34 @@ export default class PreloaderScene extends TFBaseScene {
       key: 'hacker-background-gif',
       frames: this.anims.generateFrameNames('hacker-background'),
       repeat: -1,
+    });
+
+    const explotionDuration = 2000;
+    const explotionRepetitions = 2;
+    this.anims.create({
+      key: 'explotion-smoke-atlas-anim',
+      frames: this.anims.generateFrameNames('explotion-atlas', {
+        prefix: '0',
+        suffix: '.png',
+        start: 0,
+        end: 15,
+      }),
+      repeat: explotionRepetitions,
+      duration: explotionDuration,
+      hideOnComplete: true,
+    });
+
+    this.anims.create({
+      key: 'smoke-atlas-anim',
+      frames: this.anims.generateFrameNames('smoke-atlas', {
+        prefix: '0',
+        suffix: '.png',
+        start: 0,
+        end: 7,
+      }),
+      repeat: -1,
+      duration: 1500,
+      // delay: explotionDuration * explotionRepetitions,
     });
 
     this.scene.start(SceneKeys.BaseEvents);
