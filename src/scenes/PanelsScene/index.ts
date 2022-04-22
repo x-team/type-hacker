@@ -180,15 +180,16 @@ export default class PanelsScene extends TFBaseScene {
 
     const makeMonitor = (x: number, y: number) => {
       const monitorImage = this.add?.image(x, y, 'panel');
-      monitorImage.scale = 0.95;
+      // monitorImage.scale = 0.7;
       monitorImage.setDataEnabled();
+      monitorImage.setAlpha(0.8);
       // Yellow
       // monitorImage.setTint(0xf7b100);
-      // Grinish Yellow
-      // monitorImage.setTint(0xedd205);
+      // Neon Pink
+      // monitorImage.setTint(0xf016b1);
       const monitorPulseTween = this.tweens.add({
         targets: monitorImage,
-        scale: { from: 1, to: 0.95 },
+        scale: { from: 1, to: 0.85 },
         ease: 'Sine.easeInOut',
         repeat: -1,
         yoyo: true,

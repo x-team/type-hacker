@@ -33,7 +33,6 @@ export default class PreloaderScene extends TFBaseScene {
     this.load.image('timer', 'assets/main/timer.png');
 
     // Broken Monitor assets
-    this.load.image('smoke', 'assets/main/damageMonitor/smoke.png');
     this.load.image('broken-screen-1', 'assets/main/damageMonitor/broken-screen-1.png');
     this.load.image('broken-screen-2', 'assets/main/damageMonitor/broken-screen-2.png');
     this.load.image('broken-screen-3', 'assets/main/damageMonitor/broken-screen-3.png');

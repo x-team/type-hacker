@@ -4,6 +4,7 @@ import { TMonitorsNames } from '../utils/types';
 export class MonitorCrack extends Phaser.GameObjects.Container {
   public cracks: Phaser.GameObjects.Image[];
   static OPACITY = 0.85;
+  static BLEND_MODE = Phaser.BlendModes.MULTIPLY;
 
   constructor(scene: TFBaseScene, x: number, y: number, monitorToCrack: TMonitorsNames) {
     super(scene, x, y);
@@ -32,15 +33,15 @@ export class MonitorCrack extends Phaser.GameObjects.Container {
     const leftCrackOne = scene.add
       .image(0, 0, 'broken-screen-1')
       .setRotation(38.57)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const rightCrackOne = scene.add
       .image(0, 0, 'broken-screen-1')
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const rightCrackTwo = scene.add
       .image(0, 0, 'broken-screen-2')
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
 
     switch (monitorToCrack) {
@@ -84,16 +85,16 @@ export class MonitorCrack extends Phaser.GameObjects.Container {
     const leftCrackOne = scene.add
       .image(0, 0, 'broken-screen-1')
       .setRotation(7.33)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const rightCrackOne = scene.add
       .image(0, 0, 'broken-screen-2')
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const rightCrackTwo = scene.add
       .image(0, 0, 'broken-screen-3')
       .setRotation(0.52)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
 
     switch (monitorToCrack) {
@@ -128,21 +129,21 @@ export class MonitorCrack extends Phaser.GameObjects.Container {
     const topLeftCrackOne = scene.add
       .image(0, 0, 'broken-screen-2')
       .setRotation(5.5)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const middleLeftCrackOne = scene.add
       .image(0, 0, 'broken-screen-3')
       .setRotation(5.5)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const middleBottomCrackOne = scene.add
       .image(0, 0, 'broken-screen-1')
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
     const middleBottomCrackTwo = scene.add
       .image(0, 0, 'broken-screen-3')
       .setRotation(3.8)
-      .setBlendMode(Phaser.BlendModes.MULTIPLY)
+      .setBlendMode(MonitorCrack.BLEND_MODE)
       .setAlpha(MonitorCrack.OPACITY);
 
     switch (monitorToCrack) {
