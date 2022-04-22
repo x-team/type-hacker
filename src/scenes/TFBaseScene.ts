@@ -1,4 +1,5 @@
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import ShakePositionPlugin from 'phaser3-rex-plugins/plugins/shakeposition-plugin';
 import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
 import { FullPlayerData } from '../game/entities/FullPlayerData';
 import SceneKeys from '../game/utils/SceneKeys';
@@ -8,6 +9,7 @@ import { TMonitorCoordinates } from '../game/utils/types';
 export default class TFBaseScene extends Phaser.Scene {
   rexUI!: RexUIPlugin;
   rexGlow!: GlowFilterPipelinePlugin;
+  rexShake!: ShakePositionPlugin;
   playerData: FullPlayerData;
 
   baseEventsScene = (event: string, data?: any) =>

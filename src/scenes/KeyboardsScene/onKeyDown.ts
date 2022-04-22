@@ -64,6 +64,7 @@ const eventCharacterDoesNotMatch = ({ scene }: { scene: TFBaseScene }) => {
     volume: 0.2,
     rate: 1.75,
   });
+  scene.scene.get(SceneKeys.Panels).events.emit('mistype');
   scene.getPlayerData().data.currentCharacterStreak = 0;
   scene.getPlayerData().data.currentScoreMultiplier = 1;
   scene.scene.get(SceneKeys.Score).events.emit('update-combo');
@@ -272,59 +273,5 @@ export const onKeydown = ({
     }
   }
 };
-
-/* const onKeydown = ({
-  scene,
-  guessWord,
-  monitor,
-  userWord,
-  currentMonitor,
-  event,
-}: {
-  scene: TFBaseScene;
-  monitor: TMonitorConfiguration;
-  guessWord: Phaser.GameObjects.Text;
-  userWord: Phaser.GameObjects.Text;
-  currentMonitor: TMonitorsNames;
-  event: { keyCode: number; key: string };
-}) => {
-  //const itsThisMonitor = scene.getPlayerData().data.currentMonitor === currentMonitor;
-  const playerData = scene.getPlayerData().data;
-  const { isFocusingOnWord, currentMonitor: currentFocusedMonitor } = playerData;
-
-  if (isFocusingOnWord && currentFocusedMonitor !== currentMonitor) {
-    return;
-  }
-
-  const guessWordText = guessWord.text;
-  const userWordText = userWord.text;
-  const isValidLetterOrSymbol =
-    event.keyCode === 189 || event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode <= 90);
-
-  if (!isValidLetterOrSymbol) {
-    return;
-  }
-
-  const eventKeyMatchWithNextWord = guessWordText.charAt(userWordText.length) === event.key;
-  // Check if can focus on this monitor
-  if (eventKeyMatchWithNextWord) {
-    if (userWordText.length === 1) {
-      // Focus on this monitor
-      scene.getPlayerData().data.isFocusingOnWord = true;
-      scene.getPlayerData().data.currentMonitor = currentMonitor;
-    }
-
-    eventCharacterDoesMatch({
-      scene,
-      guessWord,
-      monitor,
-      userWord,
-      currentMonitor,
-      newLetter: event.key,
-    });
-  } else {
-    eventCharacterDoesNotMatch({ scene, userWord });
-  }
-}; */
 
 export default onKeydown;

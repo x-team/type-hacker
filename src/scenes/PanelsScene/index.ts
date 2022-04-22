@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
+import ShakePosition from 'phaser3-rex-plugins/plugins/behaviors/shake/ShakePosition';
+
 import CircularProgress from 'phaser3-rex-plugins/plugins/circularprogress';
+
 import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
 import { CLOCK_COLORS } from '../../game/utils/consts';
 import { calculateCurrentTimeout } from '../../game/utils/generators';
@@ -180,13 +183,14 @@ export default class PanelsScene extends TFBaseScene {
 
     const makeMonitor = (x: number, y: number) => {
       const monitorImage = this.add?.image(x, y, 'panel');
-      // monitorImage.scale = 0.7;
       monitorImage.setDataEnabled();
       monitorImage.setAlpha(0.8);
       // Yellow
       // monitorImage.setTint(0xf7b100);
       // Neon Pink
       // monitorImage.setTint(0xf016b1);
+
+      // Add Pulse to focus monitor
       const monitorPulseTween = this.tweens.add({
         targets: monitorImage,
         scale: { from: 1, to: 0.85 },
@@ -195,6 +199,15 @@ export default class PanelsScene extends TFBaseScene {
         yoyo: true,
       });
       monitorImage.setData('monitorPulseTween', monitorPulseTween);
+
+      // Add shake to focus monitor
+      const monitorShaker = this.rexShake.add(monitorImage, {
+        duration: 1000,
+        magnitude: 10,
+        mode: 'effect',
+        magnitudeMode: 'decay',
+      });
+      monitorImage.setData('monitorShaker', monitorShaker);
       return monitorImage;
     };
 
@@ -227,6 +240,39 @@ export default class PanelsScene extends TFBaseScene {
         monitor?.destroy();
         if (monitorPulseTween) {
           monitorPulseTween.stop();
+        }
+      });
+
+      this.events.on('mistype', () => {
+        const endCounter = 100;
+        const monitorInitialColor = Phaser.Display.Color.ValueToColor(0xffffff);
+        const monitorFinalColor = Phaser.Display.Color.ValueToColor(CLOCK_COLORS.FOURTH_COLOR);
+        this.tweens.addCounter({
+          from: 0,
+          to: endCounter,
+          ease: Phaser.Math.Easing.Sine.InOut,
+          duration: 250,
+          repeat: 3,
+          onUpdate: (tween) => {
+            const tweenValue = tween.getValue();
+            const phaserColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+              monitorInitialColor,
+              monitorFinalColor,
+              100,
+              tweenValue
+            );
+            const { r, g, b } = phaserColor;
+            const color = Phaser.Display.Color.GetColor(r, g, b);
+            monitor.setTint(color);
+          },
+          onComplete(tween) {
+            monitor.clearTint();
+            tween.stop();
+          },
+        });
+        const monitorShaker = monitor?.data?.get('monitorShaker') as ShakePosition;
+        if (monitorShaker) {
+          monitorShaker.shake();
         }
       });
     };

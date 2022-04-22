@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
-import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
-import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin';
+import ShakePositionPlugin from 'phaser3-rex-plugins/plugins/shakeposition-plugin';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin';
 
 import { GAME_BG_COLOR } from './game/utils/consts';
 import SceneKeys from './game/utils/SceneKeys';
@@ -41,6 +42,12 @@ const config: Phaser.Types.Core.GameConfig = {
         key: 'rexglowfilterPipelineplugin',
         plugin: GlowFilterPipelinePlugin,
         mapping: 'rexGlow',
+        start: true,
+      },
+      {
+        key: 'rexShakePosition',
+        plugin: ShakePositionPlugin,
+        mapping: 'rexShake',
         start: true,
       },
     ],
