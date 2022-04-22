@@ -4,6 +4,9 @@
 }
 
 @font-face {
-  font-family: Telegrama;
-  src: url('../assets/fonts/telegraw.ttf');
+  font-family: Munro;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 1rem;
+  src: url('../assets/fonts/munro.ttf');
 }

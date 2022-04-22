@@ -258,7 +258,7 @@ export default class PanelsScene extends TFBaseScene {
             const phaserColor = Phaser.Display.Color.Interpolate.ColorWithColor(
               monitorInitialColor,
               monitorFinalColor,
-              100,
+              endCounter,
               tweenValue
             );
             const { r, g, b } = phaserColor;

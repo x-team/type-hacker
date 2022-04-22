@@ -12,8 +12,8 @@ class Word extends Phaser.GameObjects.Text {
     isBold?: boolean
   ) {
     const wordStyleParams: Phaser.Types.GameObjects.Text.TextStyle = {
-      fontFamily: "Telegrama, 'Source Sans Pro', sans-serif",
-      fontSize: defaultFontSize ?? '40px',
+      fontFamily: "Munro, 'Source Sans Pro', sans-serif",
+      fontSize: defaultFontSize ?? '45px',
       color,
       align: 'center',
     };

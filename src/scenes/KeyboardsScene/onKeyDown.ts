@@ -249,13 +249,13 @@ export const onKeydown = ({
       // Get away the focus from the previous screen
       scene
         .getPlayerData()
-        .data.monitors[scene.getPlayerData().data.currentMonitor].screenOverlay!.setAlpha(
+        .data.monitors[scene.getPlayerData().data.currentMonitor].screenOverlay?.setAlpha(
           MONITORS_DEFAULT_OVERLAY_ALPHA
         );
       // Focus on the new screen
       scene
         .getPlayerData()
-        .data.monitors[monitorName].screenOverlay!.setAlpha(MONITORS_FOCUS_OVERLAY_ALPHA);
+        .data.monitors[monitorName].screenOverlay?.setAlpha(MONITORS_FOCUS_OVERLAY_ALPHA);
 
       scene.getPlayerData().data.currentMonitor = monitorName;
       scene.scene.get(SceneKeys.Panels).events.emit('update-currentMonitor');
