@@ -90,6 +90,8 @@ export default class ScoreScene extends TFBaseScene {
     const glowOuterStrength = 5.5;
     const pipeline = this.rexGlow.add(redComboBar, {
       // PARAMS FOR GLOW FLITER 2
+      // TODO: Remove this ts-ignore once the module phaser3-rex-plugins is updated
+      // @ts-ignore
       distance: glowDistance,
       glowColor: ScoreScene.RED_COMBO_BAR_COLOR, // -> Pretty Self explanatory
       outerStrength: 0, // -> Pretty Self explanatory

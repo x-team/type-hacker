@@ -1,6 +1,7 @@
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import ShakePositionPlugin from 'phaser3-rex-plugins/plugins/shakeposition-plugin';
 import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
+
 import { FullPlayerData } from '../game/entities/FullPlayerData';
 import SceneKeys from '../game/utils/SceneKeys';
 import { MONITORS_TURNED_OFF_COLOR, MONITORS_TURNED_OFF_OVERLAY_ALPHA } from '../game/utils/consts';
