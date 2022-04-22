@@ -110,11 +110,18 @@ export default class ScoreScene extends TFBaseScene {
     const circle = makeCircularScoreBar();
     const middleX = this.game.canvas.width / 2;
     const offsetX = 26;
-    console.log({ middleX });
     const levelNumber = new Word(this, middleX + offsetX, 155, '1', '#fdfdfd ', true, '55px');
     levelNumber.setOrigin(0.5, 0);
 
-    const currentScoreMultiplier = new Word(this, 975, 955, '1x', '#fdfdfd ', true, '30px');
+    const currentScoreMultiplier = new Word(
+      this,
+      middleX + offsetX,
+      955,
+      '1x',
+      '#fdfdfd ',
+      true,
+      '30px'
+    );
     currentScoreMultiplier.setOrigin(0.5, 0);
     const score = new Word(
       this,
