@@ -15,7 +15,7 @@ export const onDamageMonitor = ({
     volume: 0.2,
   });
   scene.sound.play('glass-break', {
-    volume: 0.65,
+    volume: 0.6,
   });
   scene.cameras.main.shake(400, 0.007);
   scene.getPlayerData().data.currentCharacterStreak = 0;

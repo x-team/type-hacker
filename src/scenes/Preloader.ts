@@ -15,10 +15,18 @@ export default class PreloaderScene extends TFBaseScene {
     // ATLAS
     this.load.atlas('hacker-background', assetsHakcer, 'assets/hero/hacker-background.json');
 
+    // First Explosion
     this.load.atlas(
       'explosion-atlas',
       'assets/main/damageMonitor/explosion-atlas.png',
       'assets/main/damageMonitor/explosion-atlas.json'
+    );
+
+    // Final Explosion
+    this.load.atlas(
+      'final-explosion-atlas',
+      'assets/main/damageMonitor/final-explosion-atlas.png',
+      'assets/main/damageMonitor/final-explosion-atlas.json'
     );
 
     this.load.atlas(
@@ -48,6 +56,8 @@ export default class PreloaderScene extends TFBaseScene {
     this.load.audio('keyboard4', ['assets/sfx/keyboard4.ogg']);
     this.load.audio('mistype', ['assets/sfx/mistype-sound.wav']);
     this.load.audio('glass-break', ['assets/sfx/glass-break-1.wav']);
+    this.load.audio('monitor-break', ['assets/sfx/monitor-break.wav']);
+    this.load.audio('monitor-break-fire', ['assets/sfx/monitor-break-fire.wav']);
 
     // Background Music
     this.load.audio('bgm', ['assets/sfx/electronic-senses-fast-and-intense.mp3']);
@@ -60,6 +70,7 @@ export default class PreloaderScene extends TFBaseScene {
       repeat: -1,
     });
 
+    // First Explosion
     const explosionDuration = 2000;
     const explosionRepetitions = 2;
     this.anims.create({
@@ -75,6 +86,20 @@ export default class PreloaderScene extends TFBaseScene {
       hideOnComplete: true,
     });
 
+    // Final Explosion
+    const finalExplosionDuration = 1000;
+    this.anims.create({
+      key: 'final-explosion-atlas-anim',
+      frames: this.anims.generateFrameNames('final-explosion-atlas', {
+        prefix: '0',
+        suffix: '.png',
+        start: 0,
+        end: 11,
+      }),
+      duration: finalExplosionDuration,
+      hideOnComplete: true,
+    });
+
     this.anims.create({
       key: 'smoke-atlas-anim',
       frames: this.anims.generateFrameNames('smoke-atlas', {
@@ -85,7 +110,6 @@ export default class PreloaderScene extends TFBaseScene {
       }),
       repeat: -1,
       duration: 1500,
-      // delay: explosionDuration * explosionRepetitions,
     });
 
     this.scene.start(SceneKeys.BaseEvents);
