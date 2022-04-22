@@ -13,7 +13,7 @@ class Word extends Phaser.GameObjects.Text {
   ) {
     const wordStyleParams: Phaser.Types.GameObjects.Text.TextStyle = {
       fontFamily: "Munro, 'Source Sans Pro', sans-serif",
-      fontSize: defaultFontSize ?? '45px',
+      fontSize: defaultFontSize ?? '48px',
       color,
       align: 'center',
     };
