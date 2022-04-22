@@ -16,9 +16,9 @@ export default class PreloaderScene extends TFBaseScene {
     this.load.atlas('hacker-background', assetsHakcer, 'assets/hero/hacker-background.json');
 
     this.load.atlas(
-      'explotion-atlas',
-      'assets/main/damageMonitor/explotion-atlas.png',
-      'assets/main/damageMonitor/explotion-atlas.json'
+      'explosion-atlas',
+      'assets/main/damageMonitor/explosion-atlas.png',
+      'assets/main/damageMonitor/explosion-atlas.json'
     );
 
     this.load.atlas(
@@ -60,18 +60,18 @@ export default class PreloaderScene extends TFBaseScene {
       repeat: -1,
     });
 
-    const explotionDuration = 2000;
-    const explotionRepetitions = 2;
+    const explosionDuration = 2000;
+    const explosionRepetitions = 2;
     this.anims.create({
-      key: 'explotion-smoke-atlas-anim',
-      frames: this.anims.generateFrameNames('explotion-atlas', {
+      key: 'explosion-smoke-atlas-anim',
+      frames: this.anims.generateFrameNames('explosion-atlas', {
         prefix: '0',
         suffix: '.png',
         start: 0,
         end: 15,
       }),
-      repeat: explotionRepetitions,
-      duration: explotionDuration,
+      repeat: explosionRepetitions,
+      duration: explosionDuration,
       hideOnComplete: true,
     });
 
@@ -85,7 +85,7 @@ export default class PreloaderScene extends TFBaseScene {
       }),
       repeat: -1,
       duration: 1500,
-      // delay: explotionDuration * explotionRepetitions,
+      // delay: explosionDuration * explosionRepetitions,
     });
 
     this.scene.start(SceneKeys.BaseEvents);

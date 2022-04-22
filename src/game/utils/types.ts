@@ -30,8 +30,8 @@ export type TMonitorCoordinates = {
   clockY: number;
   clockRadiusX: number;
   clockRadiusY: number;
-  explotionSmokeX: number;
-  explotionSmokeY: number;
+  explosionSmokeX: number;
+  explosionSmokeY: number;
   smokeX: number;
   smokeY: number;
   userWordX: number;

@@ -9,13 +9,13 @@ interface DamageMonitorParams {
 
 export default class DamageMonitorScene extends TFBaseScene {
   private cracks: Phaser.GameObjects.Image[];
-  private explotionSmokes: Phaser.GameObjects.Sprite[];
+  private explosionSmokes: Phaser.GameObjects.Sprite[];
   private smoke: Phaser.GameObjects.Sprite[];
 
   constructor() {
     super(SceneKeys.DamageMonitor);
     this.cracks = [];
-    this.explotionSmokes = [];
+    this.explosionSmokes = [];
     this.smoke = [];
   }
 
@@ -40,10 +40,10 @@ export default class DamageMonitorScene extends TFBaseScene {
       y: currentMonitorData.coordinates.smokeY,
     };
 
-    const explotionSprite = this.explotionSmokes[0];
-    const delayInMillis = explotionSprite.anims.duration * (explotionSprite.anims.repeat + 1);
+    const explosionSprite = this.explosionSmokes[0];
+    const delayInMillis = explosionSprite.anims.duration * (explosionSprite.anims.repeat + 1);
 
-    // Timeout to create the final smoke after the explotion
+    // Timeout to create the final smoke after the explosion
     setTimeout(() => {
       const smokeSprite = this.add.sprite(
         monitorCoordinates.x,
@@ -60,17 +60,17 @@ export default class DamageMonitorScene extends TFBaseScene {
 
   createExplotionsSmoke = ({ currentMonitor }: DamageMonitorParams) => {
     const currentMonitorData = this.getPlayerData().data.monitors[currentMonitor];
-    const explotionSmoke = this.add.sprite(
-      currentMonitorData.coordinates.explotionSmokeX,
-      currentMonitorData.coordinates.explotionSmokeY,
-      'explotion-atlas'
+    const explosionSmoke = this.add.sprite(
+      currentMonitorData.coordinates.explosionSmokeX,
+      currentMonitorData.coordinates.explosionSmokeY,
+      'explosion-atlas'
     );
-    this.explotionSmokes = this.explotionSmokes.concat(explotionSmoke);
-    explotionSmoke.setDisplaySize(200, 200);
-    explotionSmoke.setAlpha(0.4);
-    explotionSmoke.setBlendMode(Phaser.BlendModes.SCREEN);
+    this.explosionSmokes = this.explosionSmokes.concat(explosionSmoke);
+    explosionSmoke.setDisplaySize(200, 200);
+    explosionSmoke.setAlpha(0.4);
+    explosionSmoke.setBlendMode(Phaser.BlendModes.SCREEN);
 
-    explotionSmoke.anims.play('explotion-smoke-atlas-anim');
+    explosionSmoke.anims.play('explosion-smoke-atlas-anim');
   };
 
   createCracks({ currentMonitor }: DamageMonitorParams) {
@@ -84,8 +84,8 @@ export default class DamageMonitorScene extends TFBaseScene {
   };
 
   removeExplotionSmoke = () => {
-    this.explotionSmokes.forEach((explotionSmoke) => explotionSmoke.destroy());
-    this.explotionSmokes = [];
+    this.explosionSmokes.forEach((explosionSmoke) => explosionSmoke.destroy());
+    this.explosionSmokes = [];
   };
 
   removeCrack = () => {

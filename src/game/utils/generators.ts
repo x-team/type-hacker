@@ -135,8 +135,8 @@ export function generateMonitorCoordinates(name: TMonitorsNames): TMonitorCoordi
   }
 
   // 🧨Explotion 🌫️ Smoke
-  monitorCoordinates.explotionSmokeX = monitorCoordinates.topRight.x - 30;
-  monitorCoordinates.explotionSmokeY = monitorCoordinates.topRight.y - 100;
+  monitorCoordinates.explosionSmokeX = monitorCoordinates.topRight.x - 30;
+  monitorCoordinates.explosionSmokeY = monitorCoordinates.topRight.y - 100;
 
   // 🌫️ Smoke
   monitorCoordinates.smokeX = monitorCoordinates.topRight.x - 15;
