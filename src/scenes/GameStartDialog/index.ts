@@ -33,7 +33,7 @@ export default class GameStartDialogScene extends TFBaseScene {
       .modalPromise(startDialog, {
         manualClose: true,
         duration: {
-          in: 1500,
+          in: 1300,
           out: 300,
         },
       })
@@ -93,7 +93,6 @@ export default class GameStartDialogScene extends TFBaseScene {
             codeRain.spacingYMultiplier * row
           );
         }
-        console.log({ points });
         return points;
       },
     };
@@ -177,7 +176,7 @@ export default class GameStartDialogScene extends TFBaseScene {
             setStrokeStyle: () => void;
           };
         }) {
-          button.getElement('background').setStrokeStyle();
+          // button.getElement('background').setStrokeStyle();
         }
       );
     dialog.setDepth(2);
