@@ -166,7 +166,7 @@ export default class GameStartDialogScene extends TFBaseScene {
             };
           };
         }) {
-          // button.getElement('background').setStrokeStyle(1, 0xffffff);
+          button.getElement('background').setStrokeStyle(1, 0xffffff);
         }
       )
       .on(
@@ -176,7 +176,7 @@ export default class GameStartDialogScene extends TFBaseScene {
             setStrokeStyle: () => void;
           };
         }) {
-          // button.getElement('background').setStrokeStyle();
+          button.getElement('background').setStrokeStyle();
         }
       );
     dialog.setDepth(2);
@@ -293,7 +293,7 @@ export default class GameStartDialogScene extends TFBaseScene {
 
   createLabel = (text: string, name: string, color?: string): any => {
     return this.rexUI.add.label({
-      // background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x020e31),
+      background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20),
       text: this.add.text(0, 0, text, {
         fontSize: '40px',
         color: color ? color : 'white',
