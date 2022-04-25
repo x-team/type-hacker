@@ -62,7 +62,7 @@ export default class GameStartDialogScene extends TFBaseScene {
   }
 
   createStartDialog() {
-    const codeRain = {
+    const matrixRain = {
       startingPoint: 0, // 30
       width: 120, // Fullscreen width
       height: 70, // Fullscreen height
@@ -71,26 +71,26 @@ export default class GameStartDialogScene extends TFBaseScene {
       spacingXMultiplier: 16, // 16
       spacingYMultiplier: 16, // 16
       getPoints: function (quantity: number) {
-        const cols = new Array(codeRain.width).fill(0);
+        const cols = new Array(matrixRain.width).fill(0);
         const lastCol = cols.length - 1;
         const Between = Phaser.Math.Between;
         const RND = Phaser.Math.RND;
         const points = [];
 
         for (let i = 0; i < quantity; i++) {
-          const col = Between(codeRain.startingPoint, lastCol);
+          const col = Between(matrixRain.startingPoint, lastCol);
           let row = (cols[col] += 1);
 
           if (RND.frac() < 0.01) {
             row *= RND.frac();
           }
 
-          row %= codeRain.height;
+          row %= matrixRain.height;
           row |= 0;
 
           points[i] = new Phaser.Math.Vector2( // spacing between letters
-            codeRain.spacingXMultiplier * col,
-            codeRain.spacingYMultiplier * row
+            matrixRain.spacingXMultiplier * col,
+            matrixRain.spacingYMultiplier * row
           );
         }
         return points;
@@ -100,7 +100,7 @@ export default class GameStartDialogScene extends TFBaseScene {
       alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
       angle: 0,
       blendMode: 'ADD',
-      emitZone: { source: codeRain, type: 'edge', quantity: 32000 },
+      emitZone: { source: matrixRain, type: 'edge', quantity: 32000 },
       frame: Phaser.Utils.Array.NumberArray(8, 58),
       frequency: 100, // 100
       lifespan: 2000, // 6000
@@ -282,13 +282,17 @@ export default class GameStartDialogScene extends TFBaseScene {
       loop: true,
       volume: 0.08,
     });
-    this.scene.stop(SceneKeys.GameStartDialog);
-    this.scene.start(SceneKeys.Score);
-    this.scene.start(SceneKeys.NewLevel);
-    this.scene.start(SceneKeys.Keyboards);
-    this.scene.start(SceneKeys.Panels);
-    this.scene.start(SceneKeys.GameOverDialog);
-    this.scene.start(SceneKeys.Smoke);
+
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    this.time.delayedCall(1000, () => {
+      this.scene.stop(SceneKeys.GameStartDialog);
+      this.scene.start(SceneKeys.Panels);
+      this.scene.start(SceneKeys.Score);
+      this.scene.start(SceneKeys.NewLevel);
+      this.scene.start(SceneKeys.Keyboards);
+      this.scene.start(SceneKeys.GameOverDialog);
+      this.scene.start(SceneKeys.Smoke);
+    });
   }
 
   createLabel = (text: string, name: string, color?: string): any => {

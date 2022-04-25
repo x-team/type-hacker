@@ -1,10 +1,10 @@
-import Word from "../../game/entities/Word";
-import { calculateEnabledMonitors } from "../../game/events/onScoreWin";
-import SceneKeys from "../../game/utils/SceneKeys";
-import { TMonitorsNames } from "../../game/utils/types";
-import TFBaseScene from "../TFBaseScene";
-import onComboFn from "./onCombo";
-import onKeydownFn, { getNextWord } from "./onKeyDown";
+import Word from '../../game/entities/Word';
+import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
+import SceneKeys from '../../game/utils/SceneKeys';
+import { TMonitorsNames } from '../../game/utils/types';
+import TFBaseScene from '../TFBaseScene';
+import onComboFn from './onCombo';
+import onKeydownFn, { getNextWord } from './onKeyDown';
 
 export default class KeyboardsScene extends TFBaseScene {
   constructor() {
@@ -12,30 +12,28 @@ export default class KeyboardsScene extends TFBaseScene {
   }
 
   create() {
+    this.cameras.main.fadeIn(600, 0, 0, 0);
     this.addKeyboardListener();
     this.addAllKeyboardGameMonitors();
 
-    this.events.on("level-end", () => {
-      this.events.emit("destroy-words");
-      this.input.keyboard.removeListener("keydown");
+    this.events.on('level-end', () => {
+      this.events.emit('destroy-words');
+      this.input.keyboard.removeListener('keydown');
     });
 
-    this.events.on("new-level-start", () => {
+    this.events.on('new-level-start', () => {
       this.addAllKeyboardGameMonitors();
       this.addKeyboardListener();
     });
   }
 
   private addKeyboardListener() {
-    this.input.keyboard.on(
-      "keydown",
-      (event: { keyCode: number; key: string }) => {
-        onKeydownFn({
-          scene: this,
-          event,
-        });
-      }
-    );
+    this.input.keyboard.on('keydown', (event: { keyCode: number; key: string }) => {
+      onKeydownFn({
+        scene: this,
+        event,
+      });
+    });
   }
 
   private addSingleKeyboardGameMonitor(
@@ -53,10 +51,10 @@ export default class KeyboardsScene extends TFBaseScene {
         scene: this,
         levelSettings: this.getPlayerData().configuration.levelSettings,
       }),
-      "#fdfdfd",
+      '#fdfdfd',
       defaultVisible
     );
-    guessWord.setShadow(3, 3, "rgba(0,0,0,0.5)", 5);
+    guessWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     guessWord.setOrigin(0, 0.5);
     this.tweens.add({
       targets: guessWord,
@@ -76,24 +74,24 @@ export default class KeyboardsScene extends TFBaseScene {
       this,
       guessWordX,
       userWordY + guessWord.height,
-      "",
-      "#fe9c9d",
+      '',
+      '#fe9c9d',
       defaultVisible
     );
-    userWord.setShadow(3, 3, "rgba(0,0,0,0.5)", 5);
+    userWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     userWord.setOrigin(0, 0.5);
 
     this.getPlayerData().data.monitors[currentMonitor].userText = userWord;
     const currentTime = 10;
 
-    const onCombo = this.events?.on("combo", () => {
+    const onCombo = this.events?.on('combo', () => {
       onComboFn({ currentTime, userWord });
     });
 
-    this.events.on("destroy-words", () => {
+    this.events.on('destroy-words', () => {
       guessWord.destroy();
       userWord.destroy();
-      onCombo.off("combo");
+      onCombo.off('combo');
     });
   }
 
@@ -110,7 +108,7 @@ export default class KeyboardsScene extends TFBaseScene {
         monitorsData.center.coordinates.guessWordX,
         monitorsData.center.coordinates.guessWordY,
         monitorsData.center.coordinates.userWordY,
-        "center",
+        'center',
         true
       );
     }
@@ -121,7 +119,7 @@ export default class KeyboardsScene extends TFBaseScene {
         monitorsData.left.coordinates.guessWordX,
         monitorsData.left.coordinates.guessWordY,
         monitorsData.left.coordinates.userWordY,
-        "left",
+        'left',
         true
       );
     }
@@ -132,7 +130,7 @@ export default class KeyboardsScene extends TFBaseScene {
         monitorsData.right.coordinates.guessWordX,
         monitorsData.right.coordinates.guessWordY,
         monitorsData.right.coordinates.userWordY,
-        "right",
+        'right',
         true
       );
     }
