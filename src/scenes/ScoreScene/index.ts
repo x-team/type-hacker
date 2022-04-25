@@ -1,12 +1,12 @@
-import Graphics from "../../game/entities/Graphics";
-import Word from "../../game/entities/Word";
+import Graphics from '../../game/entities/Graphics';
+import Word from '../../game/entities/Word';
 import {
   calculateScoreRequirementForLevel,
   generateMonitorData,
-} from "../../game/utils/generators";
-import SceneKeys from "../../game/utils/SceneKeys";
-import { TMonitorData } from "../../game/utils/types";
-import TFBaseScene from "../TFBaseScene";
+} from '../../game/utils/generators';
+import SceneKeys from '../../game/utils/SceneKeys';
+import { TMonitorData } from '../../game/utils/types';
+import TFBaseScene from '../TFBaseScene';
 
 const circularScoreBarMeasurements = { x: 985, y: 184, radius: 90 };
 const horizontalComboBarMeasurements = { x: 735, y: 942 };
@@ -22,6 +22,7 @@ export default class ScoreScene extends TFBaseScene {
   }
 
   create() {
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     const makeCircularScoreBar = () => {
       const config = {
         thickness: 0.145,
@@ -31,7 +32,7 @@ export default class ScoreScene extends TFBaseScene {
         easeValue: {
           // TODO: not working
           duration: 3000,
-          ease: "Linear",
+          ease: 'Linear',
         },
         valuechangeCallback: () => null,
       };
@@ -88,42 +89,26 @@ export default class ScoreScene extends TFBaseScene {
 
     const middleX = this.game.canvas.width / 2;
     const offsetX = 24;
-    const levelNumber = new Word(
-      this,
-      middleX + offsetX,
-      155,
-      "1",
-      "#fdfdfd ",
-      true,
-      "50px"
-    );
+    const levelNumber = new Word(this, middleX + offsetX, 155, '1', '#fdfdfd ', true, '50px');
     levelNumber.setOrigin(0.5, 0);
 
-    const currentScoreMultiplier = new Word(
-      this,
-      975,
-      955,
-      "1x",
-      "#fdfdfd ",
-      true,
-      "30px"
-    );
+    const currentScoreMultiplier = new Word(this, 975, 955, '1x', '#fdfdfd ', true, '30px');
 
     const score = new Word(
       this,
       1070,
       90,
       this.getPlayerData().data.currentScore.toString(),
-      "#fdfdfd ",
+      '#fdfdfd ',
       true,
-      "50px"
+      '50px'
     );
 
     // const plusScoreWordX = 1090;
     const plusScoreWords = {
-      left: new Word(this, 0, 0, "", "#FC9842", true, "30px", true),
-      center: new Word(this, 0, 0, "", "#FC9842", true, "30px", true),
-      right: new Word(this, 0, 0, "", "#FC9842", true, "30px", true),
+      left: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
+      center: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
+      right: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
     };
 
     const handlePlusScore = ({
@@ -152,16 +137,15 @@ export default class ScoreScene extends TFBaseScene {
           from: 1,
           to: 0,
         },
-        ease: "cubic.inout",
+        ease: 'cubic.inout',
         onComplete: () => {
           moveUpTweeen.resetTweenData(true);
         },
       });
     };
 
-    this.events.on("update-combo", () => {
-      const comboPercentage =
-        this.getPlayerData().data.currentCharacterStreak / 50;
+    this.events.on('update-combo', () => {
+      const comboPercentage = this.getPlayerData().data.currentCharacterStreak / 50;
       if (comboPercentage <= 1) {
         this.tweens.add({
           targets: redComboBar,
@@ -188,30 +172,24 @@ export default class ScoreScene extends TFBaseScene {
       );
     });
 
-    this.events.on("new-level-start", () => {
-      this.getPlayerData().data.currentWordsDisplayed = [];
-      this.events.emit("update-score", { score: 0 });
+    this.events.on('new-level-start', () => {
+      this.getPlayerData().data.currentWordsDisplayed = []; // This was commented out for some reason
+      this.events.emit('update-score', { score: 0 });
     });
 
     this.events.on(
-      "update-score",
-      ({
-        score: plusScore,
-        monitorData,
-      }: {
-        score: number;
-        monitorData?: TMonitorData;
-      }) => {
+      'update-score',
+      ({ score: plusScore, monitorData }: { score: number; monitorData?: TMonitorData }) => {
         this.getPlayerData().data.currentScore += plusScore;
         score.setText(this.getPlayerData().data.currentScore.toString());
         if (plusScore > 0)
           handlePlusScore({
             score: score.text,
             plusScore,
-            monitorData: monitorData ?? generateMonitorData("center"),
+            monitorData: monitorData ?? generateMonitorData('center'),
           });
 
-        this.events.emit("update-combo");
+        this.events.emit('update-combo');
 
         levelNumber.setText(this.getPlayerData().data.currentLevel.toString());
         currentScoreMultiplier.setText(
@@ -225,13 +203,10 @@ export default class ScoreScene extends TFBaseScene {
           this.getPlayerData().data.currentLevel
         );
 
-        const remainingScoreToNextLevel =
-          nextLevelScore - scoreRequiredToCurrentLevel;
-        const initialValue =
-          this.getPlayerData().data.currentScore - scoreRequiredToCurrentLevel;
+        const remainingScoreToNextLevel = nextLevelScore - scoreRequiredToCurrentLevel;
+        const initialValue = this.getPlayerData().data.currentScore - scoreRequiredToCurrentLevel;
 
-        const levelPercentage =
-          (initialValue / remainingScoreToNextLevel) * 100;
+        const levelPercentage = (initialValue / remainingScoreToNextLevel) * 100;
 
         if (levelPercentage <= 100) {
           this.tweens.add({
@@ -254,9 +229,7 @@ export default class ScoreScene extends TFBaseScene {
             this.getPlayerData().data.currentLevel ===
               this.getPlayerData().configuration.pointsPerLevel.length
           ) {
-            levelNumber.setText(
-              this.getPlayerData().data.currentLevel.toString()
-            );
+            levelNumber.setText(this.getPlayerData().data.currentLevel.toString());
             levelNumber.setFontSize(80);
           }
         }
