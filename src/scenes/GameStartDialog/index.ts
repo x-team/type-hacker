@@ -8,14 +8,19 @@ export default class GameStartDialogScene extends TFBaseScene {
 
   create() {
     const startDialog = this.createStartDialog().setPosition(950, 450);
+    const rectangle = this.add.rectangle(0, 0, 10100, 11000, 0x000000);
+    rectangle.setDepth(0);
+    const xTeamLogo = this.add.image(1703, 203, 'x-team-logo-3');
+    xTeamLogo.setDepth(0);
+    xTeamLogo.setScale(0.7);
 
     // Game Start Dialog
     this.rexUI
       .modalPromise(startDialog, {
         manualClose: true,
         duration: {
-          in: 1300,
-          out: 300,
+          in: 700,
+          out: 250,
         },
       })
       .then((result: Phaser.GameObjects.GameObject) => {
@@ -29,8 +34,8 @@ export default class GameStartDialogScene extends TFBaseScene {
             .modalPromise(howToPlayDialog, {
               manualClose: true,
               duration: {
-                in: 500,
-                out: 500,
+                in: 700,
+                out: 250,
               },
             })
             .then((result: Phaser.GameObjects.GameObject) => {
@@ -77,7 +82,9 @@ export default class GameStartDialogScene extends TFBaseScene {
         return points;
       },
     };
-    this.add.particles('font').createEmitter({
+    const particle = this.add.particles('font');
+
+    particle.createEmitter({
       alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
       angle: 0,
       blendMode: 'ADD',
@@ -89,6 +96,8 @@ export default class GameStartDialogScene extends TFBaseScene {
       scale: -0.5,
       tint: 0x42defd,
     });
+    particle.setDepth(1);
+    // partic.stop();
 
     const dialog = this.rexUI.add
       .dialog({
@@ -255,12 +264,13 @@ export default class GameStartDialogScene extends TFBaseScene {
       );
     dialog.setDepth(2);
     // dialog.scaleDownDestroy(10);
+
     return dialog;
   }
 
   startGame() {
-    this.cameras.main.fadeOut(300, 0, 0, 0);
-    this.time.delayedCall(300, () => {
+    this.cameras.main.fadeOut(250, 0, 0, 0);
+    this.time.delayedCall(250, () => {
       this.sound.play('bgm', {
         loop: true,
         volume: 0.08,

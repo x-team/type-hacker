@@ -31,6 +31,9 @@ export default class PreloaderScene extends TFBaseScene {
     // ICONS
     this.load.image('sound', 'assets/icons/sound.png');
     this.load.image('no-sound', 'assets/icons/no-sound.png');
+    this.load.image('x-team-logo', 'assets/icons/x-team-logo.png');
+    this.load.image('x-team-logo-2', 'assets/icons/x-team-logo-2.png');
+    this.load.image('x-team-logo-3', 'assets/icons/x-team-logo-3.png');
 
     // LOGOS
     this.load.image('type-hacker-logo', 'assets/main/type-hacker-logo.png');
