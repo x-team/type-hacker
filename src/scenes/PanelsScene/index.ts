@@ -98,7 +98,7 @@ export default class PanelsScene extends TFBaseScene {
   }
 
   create() {
-    this.cameras.main.fadeIn(2000, 0, 0, 0);
+    this.cameras.main.fadeIn(700, 0, 0, 0);
     const makeClock = (
       currentMonitor: TMonitorsNames
     ): {

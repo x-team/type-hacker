@@ -8,25 +8,6 @@ export default class GameStartDialogScene extends TFBaseScene {
 
   create() {
     const startDialog = this.createStartDialog().setPosition(950, 450);
-    let showHowToPlayDialog = false;
-
-    // How to Play Dialog
-    if (showHowToPlayDialog) {
-      const howToPlayDialog = this.createHowToPlayDialog().setPosition(950, 450);
-      this.rexUI
-        .modalPromise(howToPlayDialog, {
-          manualClose: true,
-          duration: {
-            in: 300,
-            out: 300,
-          },
-        })
-        .then((result: Phaser.GameObjects.GameObject) => {
-          if (result.name === 'game-start') {
-            this.startGame();
-          }
-        });
-    }
 
     // Game Start Dialog
     this.rexUI
@@ -42,7 +23,7 @@ export default class GameStartDialogScene extends TFBaseScene {
           this.startGame();
         }
         if (result.name === 'how-to-play') {
-          showHowToPlayDialog = true;
+          // How to Play Dialog
           const howToPlayDialog = this.createHowToPlayDialog().setPosition(950, 450);
           this.rexUI
             .modalPromise(howToPlayDialog, {
@@ -278,13 +259,8 @@ export default class GameStartDialogScene extends TFBaseScene {
   }
 
   startGame() {
-    this.sound.play('bgm', {
-      loop: true,
-      volume: 0.08,
-    });
-
-    this.cameras.main.fadeOut(1000, 0, 0, 0);
-    this.time.delayedCall(1000, () => {
+    this.cameras.main.fadeOut(300, 0, 0, 0);
+    this.time.delayedCall(300, () => {
       this.scene.stop(SceneKeys.GameStartDialog);
       this.scene.start(SceneKeys.Panels);
       this.scene.start(SceneKeys.Score);
@@ -292,6 +268,10 @@ export default class GameStartDialogScene extends TFBaseScene {
       this.scene.start(SceneKeys.Keyboards);
       this.scene.start(SceneKeys.GameOverDialog);
       this.scene.start(SceneKeys.Smoke);
+      this.sound.play('bgm', {
+        loop: true,
+        volume: 0.08,
+      });
     });
   }
 
