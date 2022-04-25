@@ -10,7 +10,7 @@ export default class GameStartDialogScene extends TFBaseScene {
     const startDialog = this.createStartDialog().setPosition(950, 450);
     const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
     rectangle.setDepth(0);
-    const xTeamLogo = this.add.image(1703, 203, 'x-team-logo-3');
+    const xTeamLogo = this.add.image(1703, 203, 'x-team-logo');
     xTeamLogo.setDepth(0);
     xTeamLogo.setScale(0.7);
 
