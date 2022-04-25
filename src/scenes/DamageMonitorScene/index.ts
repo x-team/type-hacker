@@ -44,8 +44,7 @@ export default class DamageMonitorScene extends TFBaseScene {
       y: currentMonitorData.coordinates.smokeY,
     };
 
-    const explosionSprite = this.explosionSmokes[0];
-    const delayInMillis = explosionSprite.anims.duration * (explosionSprite.anims.repeat + 1);
+    const delayInMillis = 300;
 
     // Timeout to create the final smoke after the explosion
     setTimeout(() => {
@@ -55,7 +54,7 @@ export default class DamageMonitorScene extends TFBaseScene {
         'smoke-atlas'
       );
       smokeSprite.setDisplaySize(200, 200);
-      smokeSprite.setAlpha(0.6);
+      smokeSprite.setAlpha(0.45);
       smokeSprite.setBlendMode(Phaser.BlendModes.SCREEN);
       smokeSprite.anims.play('smoke-atlas-anim');
       this.smoke = this.smoke.concat(smokeSprite);
@@ -83,9 +82,7 @@ export default class DamageMonitorScene extends TFBaseScene {
       x: currentMonitorData.coordinates.topRight.x,
       y: currentMonitorData.coordinates.topRight.y - 8,
     };
-
-    const explosionSprite = this.explosionSmokes[0];
-    const delayInMillis = explosionSprite.anims.duration * (explosionSprite.anims.repeat + 1);
+    const delayInMillis = 200;
 
     // Timeout to create the final smoke after the explosion
     setTimeout(() => {
