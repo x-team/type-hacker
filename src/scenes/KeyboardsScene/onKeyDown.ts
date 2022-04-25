@@ -257,6 +257,9 @@ export const onKeydown = ({
         .getPlayerData()
         .data.monitors[monitorName].screenOverlay?.setAlpha(MONITORS_FOCUS_OVERLAY_ALPHA);
 
+      if (scene.getPlayerData().data.currentMonitor !== monitorName) {
+        scene.scene.get(SceneKeys.Panels).events.emit('restart-on-focus-animation');
+      }
       scene.getPlayerData().data.currentMonitor = monitorName;
       scene.scene.get(SceneKeys.Panels).events.emit('update-currentMonitor');
 

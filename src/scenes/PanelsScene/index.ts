@@ -195,8 +195,9 @@ export default class PanelsScene extends TFBaseScene {
         targets: monitorImage,
         scale: { from: 1, to: 0.85 },
         ease: 'Sine.easeInOut',
-        repeat: -1,
+        repeat: 1,
         yoyo: true,
+        duration: 500,
       });
       monitorImage.setData('monitorPulseTween', monitorPulseTween);
 
@@ -273,6 +274,13 @@ export default class PanelsScene extends TFBaseScene {
         const monitorShaker = monitor?.data?.get('monitorShaker') as ShakePosition;
         if (monitorShaker) {
           monitorShaker.shake();
+        }
+      });
+
+      this.events.on('restart-on-focus-animation', () => {
+        const monitorPulseTween = monitor?.data?.get('monitorPulseTween') as Phaser.Tweens.Tween;
+        if (monitorPulseTween) {
+          monitorPulseTween.restart();
         }
       });
     };

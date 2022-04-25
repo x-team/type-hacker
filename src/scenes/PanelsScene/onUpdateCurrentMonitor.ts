@@ -1,5 +1,5 @@
-import { TMonitorsNames } from "../../game/utils/types";
-import TFBaseScene from "../TFBaseScene";
+import { TMonitorsNames } from '../../game/utils/types';
+import TFBaseScene from '../TFBaseScene';
 
 const onUpdateCurrentMonitor = ({
   scene,
