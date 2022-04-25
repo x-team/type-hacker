@@ -261,6 +261,10 @@ export default class GameStartDialogScene extends TFBaseScene {
   startGame() {
     this.cameras.main.fadeOut(300, 0, 0, 0);
     this.time.delayedCall(300, () => {
+      this.sound.play('bgm', {
+        loop: true,
+        volume: 0.08,
+      });
       this.scene.stop(SceneKeys.GameStartDialog);
       this.scene.start(SceneKeys.Panels);
       this.scene.start(SceneKeys.Score);
@@ -268,10 +272,6 @@ export default class GameStartDialogScene extends TFBaseScene {
       this.scene.start(SceneKeys.Keyboards);
       this.scene.start(SceneKeys.GameOverDialog);
       this.scene.start(SceneKeys.Smoke);
-      this.sound.play('bgm', {
-        loop: true,
-        volume: 0.08,
-      });
     });
   }
 
