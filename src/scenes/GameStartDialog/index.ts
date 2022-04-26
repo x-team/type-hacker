@@ -24,7 +24,7 @@ export default class GameStartDialogScene extends TFBaseScene {
         },
       })
       .then((result: Phaser.GameObjects.GameObject) => {
-        if (result.name === 'yes') {
+        if (result.name === 'game-start') {
           this.sound.play('bgm', {
             loop: true,
             volume: 0.08,
