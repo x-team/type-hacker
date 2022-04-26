@@ -15,9 +15,12 @@ import PreloaderScene from './scenes/Preloader';
 import ScoreScene from './scenes/ScoreScene';
 import DamageMonitorScene from './scenes/DamageMonitorScene';
 import UIElementsScene from './scenes/UIElements';
+import { setupPlayfab } from './game/playfab';
+
+setupPlayfab();
 
 const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.WEBGL,
+  type: Phaser.AUTO,
   pixelArt: true,
   fps: {
     target: 1,
@@ -38,12 +41,6 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     ],
     global: [
-      {
-        key: 'rexglowfilterPipelineplugin',
-        plugin: GlowFilterPipelinePlugin,
-        mapping: 'rexGlow',
-        start: true,
-      },
       {
         key: 'rexShakePosition',
         plugin: ShakePositionPlugin,
