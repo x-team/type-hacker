@@ -25,7 +25,16 @@ export default class GameStartDialogScene extends TFBaseScene {
       })
       .then((result: Phaser.GameObjects.GameObject) => {
         if (result.name === 'game-start') {
-          this.startGame();
+          this.sound.play('bgm', {
+            loop: true,
+            volume: 0.08,
+          });
+          this.scene.start(SceneKeys.Score);
+          this.scene.start(SceneKeys.NewLevel);
+          this.scene.start(SceneKeys.Keyboards);
+          this.scene.start(SceneKeys.Panels);
+          this.scene.start(SceneKeys.GameOverDialog);
+          this.scene.start(SceneKeys.DamageMonitor);
         }
         if (result.name === 'how-to-play') {
           // How to Play Dialog
@@ -281,7 +290,7 @@ export default class GameStartDialogScene extends TFBaseScene {
       this.scene.start(SceneKeys.NewLevel);
       this.scene.start(SceneKeys.Keyboards);
       this.scene.start(SceneKeys.GameOverDialog);
-      this.scene.start(SceneKeys.Smoke);
+      this.scene.start(SceneKeys.DamageMonitor);
     });
   }
 

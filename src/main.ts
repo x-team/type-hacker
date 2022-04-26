@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
-import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin';
+import ShakePositionPlugin from 'phaser3-rex-plugins/plugins/shakeposition-plugin';
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin';
 
 import { GAME_BG_COLOR } from './game/utils/consts';
 import SceneKeys from './game/utils/SceneKeys';
@@ -11,11 +13,11 @@ import NewLevelScene from './scenes/NewLevel';
 import PanelsScene from './scenes/PanelsScene';
 import PreloaderScene from './scenes/Preloader';
 import ScoreScene from './scenes/ScoreScene';
-import SmokeScene from './scenes/SmokeScene';
+import DamageMonitorScene from './scenes/DamageMonitorScene';
 import UIElementsScene from './scenes/UIElements';
 
 const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.CANVAS,
+  type: Phaser.WEBGL,
   pixelArt: true,
   fps: {
     target: 1,
@@ -35,6 +37,20 @@ const config: Phaser.Types.Core.GameConfig = {
         mapping: 'rexUI',
       },
     ],
+    global: [
+      {
+        key: 'rexglowfilterPipelineplugin',
+        plugin: GlowFilterPipelinePlugin,
+        mapping: 'rexGlow',
+        start: true,
+      },
+      {
+        key: 'rexShakePosition',
+        plugin: ShakePositionPlugin,
+        mapping: 'rexShake',
+        start: true,
+      },
+    ],
   },
 };
 
@@ -51,6 +67,6 @@ typeHackerGame.scene.add(SceneKeys.NewLevel, NewLevelScene);
 typeHackerGame.scene.add(SceneKeys.Keyboards, KeyboardsScene);
 typeHackerGame.scene.add(SceneKeys.Panels, PanelsScene);
 typeHackerGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
-typeHackerGame.scene.add(SceneKeys.GameOverDialog, SmokeScene);
+typeHackerGame.scene.add(SceneKeys.GameOverDialog, DamageMonitorScene);
 
 export default typeHackerGame;

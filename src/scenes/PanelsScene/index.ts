@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
+import ShakePosition from 'phaser3-rex-plugins/plugins/behaviors/shake/ShakePosition';
 import CircularProgress from 'phaser3-rex-plugins/plugins/circularprogress';
+
 import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
 import { CLOCK_COLORS } from '../../game/utils/consts';
 import { calculateCurrentTimeout } from '../../game/utils/generators';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorsNames } from '../../game/utils/types';
 import TFBaseScene from '../TFBaseScene';
+import { onGameOverClock } from './onGameOverClock';
 
 import onHideClock from './onHideClock';
 import onResetClock from './onResetClock';
@@ -46,6 +49,7 @@ export default class PanelsScene extends TFBaseScene {
     } else {
       !isGameOver &&
         this.scene.get(SceneKeys.GameOverDialog).events.emit('game-over') &&
+        this.events.emit('game-over') &&
         this.baseEventsScene('game-over');
     }
     this.getPlayerData().data.monitors[currentMonitor].currentTimeout = 0;
@@ -143,6 +147,8 @@ export default class PanelsScene extends TFBaseScene {
 
       clockRadius.setData('clockTimerTween', clockTimerTween);
 
+      this.events.on('game-over', () => onGameOverClock(clockRadius), this);
+
       this.events.on(
         'reset-clock',
         (monitor: TMonitorsNames) =>
@@ -177,6 +183,32 @@ export default class PanelsScene extends TFBaseScene {
 
     const makeMonitor = (x: number, y: number) => {
       const monitorImage = this.add?.image(x, y, 'panel');
+      monitorImage.setDataEnabled();
+      monitorImage.setAlpha(0.8);
+      // Yellow
+      // monitorImage.setTint(0xf7b100);
+      // Neon Pink
+      // monitorImage.setTint(0xf016b1);
+
+      // Add Pulse to focus monitor
+      const monitorPulseTween = this.tweens.add({
+        targets: monitorImage,
+        scale: { from: 1, to: 0.85 },
+        ease: 'Sine.easeInOut',
+        repeat: 1,
+        yoyo: true,
+        duration: 500,
+      });
+      monitorImage.setData('monitorPulseTween', monitorPulseTween);
+
+      // Add shake to focus monitor
+      const monitorShaker = this.rexShake.add(monitorImage, {
+        duration: 1000,
+        magnitude: 10,
+        mode: 'effect',
+        magnitudeMode: 'decay',
+      });
+      monitorImage.setData('monitorShaker', monitorShaker);
       return monitorImage;
     };
 
@@ -204,7 +236,52 @@ export default class PanelsScene extends TFBaseScene {
         if (clockTimerTween) {
           clockTimerTween.stop();
         }
+
+        const monitorPulseTween = monitor?.data?.get('monitorPulseTween') as Phaser.Tweens.Tween;
         monitor?.destroy();
+        if (monitorPulseTween) {
+          monitorPulseTween.stop();
+        }
+      });
+
+      this.events.on('mistype', () => {
+        const endCounter = 100;
+        const monitorInitialColor = Phaser.Display.Color.ValueToColor(0xffffff);
+        const monitorFinalColor = Phaser.Display.Color.ValueToColor(CLOCK_COLORS.FOURTH_COLOR);
+        this.tweens.addCounter({
+          from: 0,
+          to: endCounter,
+          ease: Phaser.Math.Easing.Sine.InOut,
+          duration: 250,
+          repeat: 3,
+          onUpdate: (tween) => {
+            const tweenValue = tween.getValue();
+            const phaserColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+              monitorInitialColor,
+              monitorFinalColor,
+              endCounter,
+              tweenValue
+            );
+            const { r, g, b } = phaserColor;
+            const color = Phaser.Display.Color.GetColor(r, g, b);
+            monitor.setTint(color);
+          },
+          onComplete(tween) {
+            monitor.clearTint();
+            tween.stop();
+          },
+        });
+        const monitorShaker = monitor?.data?.get('monitorShaker') as ShakePosition;
+        if (monitorShaker) {
+          monitorShaker.shake();
+        }
+      });
+
+      this.events.on('restart-on-focus-animation', () => {
+        const monitorPulseTween = monitor?.data?.get('monitorPulseTween') as Phaser.Tweens.Tween;
+        if (monitorPulseTween) {
+          monitorPulseTween.restart();
+        }
       });
     };
 

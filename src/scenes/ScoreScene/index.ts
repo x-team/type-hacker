@@ -86,14 +86,21 @@ export default class ScoreScene extends TFBaseScene {
     whiteComboBar.setDepth(1);
 
     const circle = makeCircularScoreBar();
-
     const middleX = this.game.canvas.width / 2;
-    const offsetX = 24;
-    const levelNumber = new Word(this, middleX + offsetX, 155, '1', '#fdfdfd ', true, '50px');
+    const offsetX = 26;
+    const levelNumber = new Word(this, middleX + offsetX, 155, '1', '#fdfdfd ', true, '55px');
     levelNumber.setOrigin(0.5, 0);
 
-    const currentScoreMultiplier = new Word(this, 975, 955, '1x', '#fdfdfd ', true, '30px');
-
+    const currentScoreMultiplier = new Word(
+      this,
+      middleX + offsetX,
+      955,
+      '1x',
+      '#fdfdfd ',
+      true,
+      '30px'
+    );
+    currentScoreMultiplier.setOrigin(0.5, 0);
     const score = new Word(
       this,
       1070,
@@ -104,7 +111,6 @@ export default class ScoreScene extends TFBaseScene {
       '50px'
     );
 
-    // const plusScoreWordX = 1090;
     const plusScoreWords = {
       left: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
       center: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
@@ -173,7 +179,7 @@ export default class ScoreScene extends TFBaseScene {
     });
 
     this.events.on('new-level-start', () => {
-      this.getPlayerData().data.currentWordsDisplayed = []; // This was commented out for some reason
+      this.getPlayerData().data.currentWordsDisplayed = [];
       this.events.emit('update-score', { score: 0 });
     });
 
@@ -209,18 +215,41 @@ export default class ScoreScene extends TFBaseScene {
         const levelPercentage = (initialValue / remainingScoreToNextLevel) * 100;
 
         if (levelPercentage <= 100) {
+          const endCounter = 100;
+          const scoreCircleInitialColor = Phaser.Display.Color.ValueToColor(
+            ScoreScene.BLUE_PROGRESS_BAR_COLOR
+          );
+          const scoreCircleFinalColor = Phaser.Display.Color.ValueToColor(0xffffff);
+          this.tweens.addCounter({
+            from: 0,
+            to: endCounter,
+            ease: Phaser.Math.Easing.Sine.InOut,
+            duration: 200,
+            repeat: 1,
+            onUpdate: (tween) => {
+              const tweenValue = tween.getValue();
+              const phaserColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                scoreCircleInitialColor,
+                scoreCircleFinalColor,
+                endCounter,
+                tweenValue
+              );
+              const { r, g, b } = phaserColor;
+              const color = Phaser.Display.Color.GetColor(r, g, b);
+              circle.setBarColor(color);
+            },
+            onComplete(tween) {
+              circle.setBarColor(ScoreScene.BLUE_PROGRESS_BAR_COLOR);
+              tween.stop();
+            },
+          });
+
           this.tweens.add({
             targets: circle,
             value: { value: levelPercentage / 100, duration: 300 },
-            barColor: {
-              value: ScoreScene.LIGHT_BLUE_PROGRESS_BAR_COLOR,
-              durartion: 100,
-              repeat: 0,
-            },
-            duration: 300,
+            duration: 400,
             onComplete: (tween) => {
-              tween.resetTweenData(true);
-              circle.setBarColor(ScoreScene.BLUE_PROGRESS_BAR_COLOR);
+              tween.stop();
             },
           });
 

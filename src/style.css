@@ -3,3 +3,11 @@
   padding: 0;
   background-color: black;
 }
+
+@font-face {
+  font-family: Munro;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 1rem;
+  src: url('../assets/fonts/munro.ttf');
+}
