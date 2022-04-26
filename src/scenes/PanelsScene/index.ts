@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import ShakePosition from 'phaser3-rex-plugins/plugins/behaviors/shake/ShakePosition';
-
 import CircularProgress from 'phaser3-rex-plugins/plugins/circularprogress';
 
 import { calculateEnabledMonitors } from '../../game/events/onScoreWin';
@@ -103,6 +102,7 @@ export default class PanelsScene extends TFBaseScene {
   }
 
   create() {
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     const makeClock = (
       currentMonitor: TMonitorsNames
     ): {

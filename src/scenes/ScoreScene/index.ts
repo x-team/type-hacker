@@ -22,6 +22,7 @@ export default class ScoreScene extends TFBaseScene {
   }
 
   create() {
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     const makeCircularScoreBar = () => {
       const config = {
         thickness: 0.145,

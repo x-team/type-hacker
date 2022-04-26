@@ -16,6 +16,7 @@ export default class KeyboardsScene extends TFBaseScene {
   }
 
   create() {
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     this.addKeyboardListener();
     this.addAllKeyboardGameMonitors();
 

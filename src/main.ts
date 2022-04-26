@@ -54,19 +54,19 @@ const config: Phaser.Types.Core.GameConfig = {
   },
 };
 
-const typeFightersGame = new Phaser.Game(config);
+const typeHackerGame = new Phaser.Game(config);
 
 // SCENES
-typeFightersGame.scene.add(SceneKeys.Preloader, PreloaderScene, true);
-typeFightersGame.scene.add(SceneKeys.Preloader, BaseEventsScene);
-typeFightersGame.scene.add(SceneKeys.GameStartDialog, GameStartDialogScene);
-typeFightersGame.scene.add(SceneKeys.UIElements, UIElementsScene);
+typeHackerGame.scene.add(SceneKeys.Preloader, PreloaderScene, true);
+typeHackerGame.scene.add(SceneKeys.Preloader, BaseEventsScene);
+typeHackerGame.scene.add(SceneKeys.GameStartDialog, GameStartDialogScene);
+typeHackerGame.scene.add(SceneKeys.UIElements, UIElementsScene);
 
-typeFightersGame.scene.add(SceneKeys.UIElements, ScoreScene);
-typeFightersGame.scene.add(SceneKeys.NewLevel, NewLevelScene);
-typeFightersGame.scene.add(SceneKeys.Keyboards, KeyboardsScene);
-typeFightersGame.scene.add(SceneKeys.Panels, PanelsScene);
-typeFightersGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
-typeFightersGame.scene.add(SceneKeys.GameOverDialog, DamageMonitorScene);
+typeHackerGame.scene.add(SceneKeys.UIElements, ScoreScene);
+typeHackerGame.scene.add(SceneKeys.NewLevel, NewLevelScene);
+typeHackerGame.scene.add(SceneKeys.Keyboards, KeyboardsScene);
+typeHackerGame.scene.add(SceneKeys.Panels, PanelsScene);
+typeHackerGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
+typeHackerGame.scene.add(SceneKeys.GameOverDialog, DamageMonitorScene);
 
-export default typeFightersGame;
+export default typeHackerGame;
