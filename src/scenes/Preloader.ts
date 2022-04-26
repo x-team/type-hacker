@@ -13,7 +13,7 @@ export default class PreloaderScene extends TFBaseScene {
     }
 
     // ATLAS
-    this.load.atlas('hacker-background', assetsHakcer, 'assets/hero/hacker-background.json');
+    this.load.atlas('hacker-background', assetsHacker, 'assets/hero/hacker-background.json');
 
     // First Explosion
     this.load.atlas(
