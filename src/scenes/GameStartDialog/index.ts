@@ -1,5 +1,6 @@
 import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
+import { matrixRain } from './matrixRain';
 
 export default class GameStartDialogScene extends TFBaseScene {
   constructor() {
@@ -25,16 +26,7 @@ export default class GameStartDialogScene extends TFBaseScene {
       })
       .then((result: Phaser.GameObjects.GameObject) => {
         if (result.name === 'game-start') {
-          this.sound.play('bgm', {
-            loop: true,
-            volume: 0.08,
-          });
-          this.scene.start(SceneKeys.Score);
-          this.scene.start(SceneKeys.NewLevel);
-          this.scene.start(SceneKeys.Keyboards);
-          this.scene.start(SceneKeys.Panels);
-          this.scene.start(SceneKeys.GameOverDialog);
-          this.scene.start(SceneKeys.DamageMonitor);
+          this.startGame();
         }
         if (result.name === 'how-to-play') {
           // How to Play Dialog
@@ -57,41 +49,7 @@ export default class GameStartDialogScene extends TFBaseScene {
   }
 
   createStartDialog() {
-    const matrixRain = {
-      startingPoint: 0, // 30
-      width: 120, // Fullscreen width
-      height: 70, // Fullscreen height
-      cellWidth: 16, //16
-      cellHeight: 16, //16
-      spacingXMultiplier: 16, // 16
-      spacingYMultiplier: 16, // 16
-      getPoints: function (quantity: number) {
-        const cols = new Array(matrixRain.width).fill(0);
-        const lastCol = cols.length - 1;
-        const Between = Phaser.Math.Between;
-        const RND = Phaser.Math.RND;
-        const points = [];
-
-        for (let i = 0; i < quantity; i++) {
-          const col = Between(matrixRain.startingPoint, lastCol);
-          let row = (cols[col] += 1);
-
-          if (RND.frac() < 0.01) {
-            row *= RND.frac();
-          }
-
-          row %= matrixRain.height;
-          row |= 0;
-
-          points[i] = new Phaser.Math.Vector2( // spacing between letters
-            matrixRain.spacingXMultiplier * col,
-            matrixRain.spacingYMultiplier * row
-          );
-        }
-        return points;
-      },
-    };
-    const particle = this.add.particles('font');
+    const particle = this.add.particles('matrix-font');
 
     particle.createEmitter({
       alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
@@ -106,7 +64,6 @@ export default class GameStartDialogScene extends TFBaseScene {
       tint: 0x42defd,
     });
     particle.setDepth(1);
-    // partic.stop();
 
     const dialog = this.rexUI.add
       .dialog({

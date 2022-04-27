@@ -1,6 +1,13 @@
 export const submitScore = (score: number) => {
-  PlayFabClientSDK.UpdatePlayerStatistics({
-    Statistics: [{ StatisticName: 'Highscore', Value: score }],
+  return new Promise((resolve, reject) => {
+    PlayFabClientSDK.UpdatePlayerStatistics(
+      {
+        Statistics: [{ StatisticName: 'Highscore', Value: score }],
+      },
+      (result: any) => {
+        return resolve(result.code);
+      }
+    );
   });
 };
 
@@ -10,7 +17,7 @@ export const getLeaderboardScores = () => {
       {
         StartPosition: 0,
         StatisticName: 'Highscore',
-        MaxResultsCount: 100,
+        MaxResultsCount: 10,
       },
       (result: any) => {
         return resolve(result.data);
