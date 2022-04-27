@@ -6,6 +6,8 @@ setTimeout(() => {
     if (usernameInput) {
       usernameInput.style.visibility = 'visible';
     }
+  } else {
+    setupPlayfab();
   }
 }, 1250);
 
