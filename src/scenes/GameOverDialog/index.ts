@@ -22,7 +22,7 @@ export default class GameOverDialogScene extends TFBaseScene {
         (player: { Position: number; StatValue: number; DisplayName: number }) =>
           `${player.Position + 1}. |${player.StatValue}| ${player.DisplayName} `
       );
-      return [...yourScoreText, ' ', 'Top Scores:', ...scoreboardText];
+      return [...yourScoreText, ' ', 'TOP SCORES:', ...scoreboardText];
     }
     return [];
   }
@@ -41,7 +41,7 @@ export default class GameOverDialogScene extends TFBaseScene {
       xTeamLogo.setDepth(0);
       xTeamLogo.setScale(0.7);
       const scoreb = await this.getScoreboard();
-      const startDialog = this.createGameOverDialog(scoreb).setPosition(950, 450);
+      const startDialog = this.createGameOverDialog(scoreb).setPosition(1000, 450);
 
       this.rexUI
         .modalPromise(startDialog, {
@@ -52,9 +52,11 @@ export default class GameOverDialogScene extends TFBaseScene {
           },
         })
         .then((result: Phaser.GameObjects.GameObject) => {
-          if (result.name === 'game-start') {
-            // emit game reset here
-            // Game start logic here
+          if (result.name === 'game-reset') {
+            // TODO: reload the game instead of refreshing page
+            // this.events.emit('reset-game');
+            // this.restartGame();
+            location.reload();
           }
         });
     });
@@ -88,7 +90,7 @@ export default class GameOverDialogScene extends TFBaseScene {
             bottom: 10,
           },
         }),
-        actions: [this.createLabel('<New Game />', 'game-start')],
+        actions: [this.createLabel('<Retry />', 'game-reset')],
         content: this.add.text(0, 0, scoreb, { fontSize: '40px' }),
         space: {
           title: 25,
@@ -163,4 +165,17 @@ export default class GameOverDialogScene extends TFBaseScene {
       },
     });
   };
+
+  restartGame() {
+    this.cameras.main.fadeOut(250, 0, 0, 0);
+    this.time.delayedCall(250, () => {
+      this.scene.stop(SceneKeys.Panels);
+      this.scene.stop(SceneKeys.Score);
+      this.scene.stop(SceneKeys.NewLevel);
+      this.scene.stop(SceneKeys.Keyboards);
+      this.scene.stop(SceneKeys.GameOverDialog);
+      this.scene.stop(SceneKeys.DamageMonitor);
+      this.scene.start(SceneKeys.GameStartDialog);
+    });
+  }
 }

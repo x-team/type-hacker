@@ -1,7 +1,7 @@
 import { TMonitorConfiguration } from './types';
 
 // GENERAL GAME
-export const GAME_BG_COLOR = 0x848d9a;
+export const GAME_BG_COLOR = 0x000000;
 
 export enum CLOCK_COLORS {
   FIRST_COLOR = 0x41defd, // BLUE SCREEN COLOR
