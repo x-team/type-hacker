@@ -66,7 +66,7 @@ export default class BaseEventsScene extends TFBaseScene {
       submitPlayerEvent('player_gets_game_over', {
         finalScore: this.getPlayerData().data.currentScore,
       });
-      submitScore(this.getPlayerData().data.currentScore);
+      // submitScore(this.getPlayerData().data.currentScore);
     });
 
     this.events.on('reset-game', () => {

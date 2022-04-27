@@ -45,7 +45,7 @@ export const submitPlayerEvent = async (
       });
     });
   } catch (e) {
-    return new Error('submitPlayerEvent Failed');
+    return new Error(`submitPlayerEvent Failed ${e}`);
   }
 };
 
