@@ -15,7 +15,7 @@ export default class GameOverDialogScene extends TFBaseScene {
     const yourLongestStreak = this.getPlayerData().data.longestStreak;
     const userName = getPlayerName();
     const yourScoreText = `YOUR SCORE ${userName}: ${yourScore}`;
-    const yourStreakText = `Your longest streak was ${yourLongestStreak}`;
+    const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
     const topScoresText = 'TOP SCORES:';
     try {
       const scoreSubmitted = await submitScore(this.getPlayerData().data.currentScore);
