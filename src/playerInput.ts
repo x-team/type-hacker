@@ -1,5 +1,12 @@
 import { setPlayerName, setupPlayfab } from './game/playfab';
 
+setTimeout(() => {
+  const usernameInput = document.getElementById('#username-input-container');
+  if (usernameInput) {
+    usernameInput.style.visibility = 'visible';
+  }
+}, 1250);
+
 const submitButton = document.getElementById('#submit-button');
 if (submitButton) {
   submitButton.onclick = function () {
