@@ -99,6 +99,7 @@ export type PlayerDataData = {
   currentWordsDisplayed: string[];
   currentMonitor: TMonitorsNames;
   currentCharacterStreak: number;
+  longestStreak: number;
   currentScoreMultiplier: number;
   currentScore: number;
   isGameOver: boolean;

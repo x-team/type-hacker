@@ -11,18 +11,28 @@ export default class GameOverDialogScene extends TFBaseScene {
   }
 
   async getScoreboard() {
-    const scoreSubmitted = await submitScore(this.getPlayerData().data.currentScore);
-    if (scoreSubmitted === 200) {
-      const scoreBoard = (await getLeaderboardScores()) as any;
-      const yourScore = this.getPlayerData().data.currentScore;
-      const userName = getPlayerName();
-      console.log({ userName });
-      const yourScoreText = [`YOUR SCORE ${userName}: ${yourScore}`];
-      const scoreboardText = scoreBoard.Leaderboard.map(
-        (player: { Position: number; StatValue: number; DisplayName: number }) =>
-          `${player.Position + 1}. |${player.StatValue}| ${player.DisplayName} `
-      );
-      return [...yourScoreText, ' ', 'TOP SCORES:', ...scoreboardText];
+    try {
+      const scoreSubmitted = await submitScore(this.getPlayerData().data.currentScore);
+      if (scoreSubmitted === 200) {
+        const scoreBoard = (await getLeaderboardScores()) as any;
+        const yourScore = this.getPlayerData().data.currentScore;
+        const yourLongestStreak =
+          this.getPlayerData().data.longestStreak > this.getPlayerData().data.currentCharacterStreak
+            ? this.getPlayerData().data.longestStreak
+            : this.getPlayerData().data.currentCharacterStreak;
+        const userName = getPlayerName();
+        console.log({ userName });
+        const yourScoreText = `YOUR SCORE ${userName}: ${yourScore}`;
+        const yourStreakText = `Yout longest streak was ${yourLongestStreak}`;
+        const topScoresText = 'TOP SCORES:';
+        const scoreboardText = scoreBoard.Leaderboard.map(
+          (player: { Position: number; StatValue: number; DisplayName: number }) =>
+            `${player.Position + 1}. |${player.StatValue}| ${player.DisplayName} `
+        );
+        return [yourScoreText, yourStreakText, ' ', topScoresText, ...scoreboardText];
+      }
+    } catch (e) {
+      return ['Something went wrong'];
     }
     return [];
   }
