@@ -1,5 +1,6 @@
 import Graphics from '../../game/entities/Graphics';
 import Word from '../../game/entities/Word';
+import { submitPlayerEvent } from '../../game/playfab';
 import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
 
@@ -30,6 +31,10 @@ export default class NewLevelScene extends TFBaseScene {
     blackBackground.setAlpha(0);
 
     this.events.on('level-end', async ({ skipAnimations }: { skipAnimations?: boolean }) => {
+      submitPlayerEvent('player_reached_level', {
+        level: this.getPlayerData().data.currentLevel,
+      });
+
       this.scene.get(SceneKeys.Panels).events.emit('level-end');
       this.scene.get(SceneKeys.Keyboards).events.emit('level-end');
       if (skipAnimations) {

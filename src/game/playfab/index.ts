@@ -32,6 +32,19 @@ export const setPlayerName = (playerName: string) => {
   localStorage.setItem('player-name', playerName);
 };
 
+export const submitPlayerEvent = async (
+  eventName: string,
+  body: { [s: string]: number | string }
+) => {
+  console.log('Submitting event: ' + eventName);
+  return new Promise((resolve) => {
+    PlayFabClientSDK.WritePlayerEvent({
+      EventName: eventName,
+      Body: body,
+    });
+  });
+};
+
 export const setupPlayfab = async () => {
   const playfabId = getPlayfabUUID();
   const playerName = getPlayerName();

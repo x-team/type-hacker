@@ -1,6 +1,7 @@
 import { getNextWord } from '../../scenes/KeyboardsScene/onKeyDown';
 import { getDelayBetweenWords } from '../../scenes/KeyboardsScene/utils';
 import TFBaseScene from '../../scenes/TFBaseScene';
+import { submitPlayerEvent } from '../playfab';
 import SceneKeys from '../utils/SceneKeys';
 import { TMonitorsNames } from '../utils/types';
 

@@ -1,6 +1,7 @@
 import Background from '../game/entities/Background';
 import onDamageMonitor from '../game/events/onDamageMonitor';
 import onScoreWin from '../game/events/onScoreWin';
+import { submitPlayerEvent } from '../game/playfab';
 import { submitScore } from '../game/playfab/leaderboard';
 import SceneKeys from '../game/utils/SceneKeys';
 import { TMonitorData, TMonitorsNames } from '../game/utils/types';
@@ -22,6 +23,11 @@ export default class BaseEventsScene extends TFBaseScene {
     this.events.on(
       'damage-monitor',
       ({ monitorToBeDamaged }: { monitorToBeDamaged: TMonitorsNames }) => {
+        submitPlayerEvent('player_damages_monitor', {
+          monitor: monitorToBeDamaged,
+          currentScore: this.getPlayerData().data.currentScore,
+          currentLevel: this.getPlayerData().data.currentLevel,
+        });
         onDamageMonitor({ scene: this, monitorToBeDamaged });
       }
     );
@@ -57,6 +63,9 @@ export default class BaseEventsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.right.screenOverlay = undefined;
       this.scene.get(SceneKeys.DamageMonitor).events.emit('game-over');
 
+      submitPlayerEvent('player_gets_game_over', {
+        finalScore: this.getPlayerData().data.currentScore,
+      });
       submitScore(this.getPlayerData().data.currentScore);
     });
 
