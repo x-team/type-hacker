@@ -12,10 +12,7 @@ export default class GameOverDialogScene extends TFBaseScene {
 
   async getScoreboard() {
     const yourScore = this.getPlayerData().data.currentScore;
-    const yourLongestStreak =
-      this.getPlayerData().data.longestStreak > this.getPlayerData().data.currentCharacterStreak
-        ? this.getPlayerData().data.longestStreak
-        : this.getPlayerData().data.currentCharacterStreak;
+    const yourLongestStreak = this.getPlayerData().data.longestStreak;
     const userName = getPlayerName();
     const yourScoreText = `YOUR SCORE ${userName}: ${yourScore}`;
     const yourStreakText = `Yout longest streak was ${yourLongestStreak}`;

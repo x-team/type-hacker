@@ -65,6 +65,11 @@ const eventCharacterDoesNotMatch = ({ scene }: { scene: TFBaseScene }) => {
     rate: 1.75,
   });
   scene.scene.get(SceneKeys.Panels).events.emit('mistype');
+  // Set longest streak
+  const longestStreak = scene.getPlayerData().data.longestStreak;
+  if (longestStreak < scene.getPlayerData().data.currentCharacterStreak) {
+    scene.getPlayerData().data.longestStreak = scene.getPlayerData().data.currentCharacterStreak;
+  }
   scene.getPlayerData().data.currentCharacterStreak = 0;
   scene.getPlayerData().data.currentScoreMultiplier = 1;
   scene.scene.get(SceneKeys.Score).events.emit('update-combo');
