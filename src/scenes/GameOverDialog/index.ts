@@ -56,7 +56,7 @@ export default class GameOverDialogScene extends TFBaseScene {
     });
   }
 
-  createGameOverDialog(scoreb) {
+  createGameOverDialog(scoreb: any[]) {
     const particle = this.add.particles('matrix-font-salmon');
 
     particle.createEmitter({

@@ -63,7 +63,7 @@ export const setupPlayfab = async () => {
       CreateAccount: true,
       CustomId: playfabId,
     },
-    async (result: any) => {
+    async () => {
       PlayFabClientSDK.UpdateUserTitleDisplayName({
         DisplayName: playerName,
       });

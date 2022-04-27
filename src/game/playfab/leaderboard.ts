@@ -1,5 +1,5 @@
 export const submitScore = (score: number) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     PlayFabClientSDK.UpdatePlayerStatistics(
       {
         Statistics: [{ StatisticName: 'Highscore', Value: score }],
@@ -12,7 +12,7 @@ export const submitScore = (score: number) => {
 };
 
 export const getLeaderboardScores = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     PlayFabClientSDK.GetLeaderboard(
       {
         StartPosition: 0,
