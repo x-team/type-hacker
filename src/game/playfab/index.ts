@@ -37,7 +37,7 @@ export const submitPlayerEvent = async (
   body: { [s: string]: number | string }
 ) => {
   console.log('Submitting event: ' + eventName);
-  return new Promise((resolve) => {
+  return new Promise(() => {
     PlayFabClientSDK.WritePlayerEvent({
       EventName: eventName,
       Body: body,
