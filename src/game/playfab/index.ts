@@ -36,11 +36,17 @@ export const setupPlayfab = async () => {
   const playfabId = getPlayfabUUID();
   const playerName = getPlayerName();
 
-  console.log({ playerName });
-  PlayFab.settings.titleId = 'A3A68';
+  let titleId;
+  if (import.meta.env.DEV) {
+    titleId = 'A3A68';
+  } else {
+    titleId = 'B3FFB';
+  }
+
+  PlayFab.settings.titleId = titleId;
   PlayFabClientSDK.LoginWithCustomID(
     {
-      TitleId: 'A3A68',
+      TitleId: titleId,
       CreateAccount: true,
       CustomId: playfabId,
     },
