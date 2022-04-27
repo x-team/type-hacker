@@ -1,7 +1,6 @@
 import { getNextWord } from '../../scenes/KeyboardsScene/onKeyDown';
 import { getDelayBetweenWords } from '../../scenes/KeyboardsScene/utils';
 import TFBaseScene from '../../scenes/TFBaseScene';
-import { submitPlayerEvent } from '../playfab';
 import SceneKeys from '../utils/SceneKeys';
 import { TMonitorsNames } from '../utils/types';
 
@@ -19,6 +18,11 @@ export const onDamageMonitor = ({
     volume: 0.6,
   });
   scene.cameras.main.shake(400, 0.007);
+  // Set longest streak
+  const longestStreak = scene.getPlayerData().data.longestStreak;
+  if (longestStreak < scene.getPlayerData().data.currentCharacterStreak) {
+    scene.getPlayerData().data.longestStreak = scene.getPlayerData().data.currentCharacterStreak;
+  }
   scene.getPlayerData().data.currentCharacterStreak = 0;
   scene.getPlayerData().data.currentScoreMultiplier = 1;
   scene.getPlayerData().data.monitors[monitorToBeDamaged].guessText?.setText('');

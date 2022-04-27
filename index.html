@@ -11,7 +11,58 @@
   </head>
   <body>
     <div style="font-family: Munro; position: absolute; left: -1000px; visibility: hidden">.</div>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div
+      id="app"
+      style="position: absolute; width: 100vw; height: 100vh; background-color: transparent"
+    >
+      <div
+        id="#username-input-container"
+        style="
+          color: #42defd;
+          position: relative;
+          left: 0;
+          right: 0;
+          top: 53%;
+          text-align: center;
+          background-color: transparent;
+          visibility: hidden;
+        "
+      >
+        <label
+          id="#username-label"
+          for="user-name"
+          style="color: #42defd; background-color: transparent; font-size: 24px; font-family: Munro"
+          >Username:</label
+        >
+        <input
+          style="
+            color: #42defd;
+            border: 1px solid #42defd;
+            border-radius: 5px;
+            padding-left: 5px;
+            font-family: Munro;
+          "
+          type="text"
+          id="#user-name"
+          name="user-name"
+          placeholder="3 chars min"
+        />
+        <button
+          id="#submit-button"
+          style="
+            border: 1px solid #42defd;
+            border-radius: 5px;
+            color: #42defd;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-family: Munro;
+          "
+        >
+          Submit
+        </button>
+      </div>
+      <script type="module" src="/src/playerInput.ts"></script>
+      <script type="module" src="/src/main.ts"></script>
+    </div>
   </body>
 </html>

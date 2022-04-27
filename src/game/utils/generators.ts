@@ -44,6 +44,7 @@ export function generatePlayerDataSeed() {
       currentMonitor: 'center' as TMonitorsNames,
       currentLevel: 1,
       currentCharacterStreak: 0,
+      longestStreak: 0,
       currentScoreMultiplier: 1,
       currentScore: 0,
       isGameOver: false,

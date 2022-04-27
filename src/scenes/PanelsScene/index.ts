@@ -193,11 +193,11 @@ export default class PanelsScene extends TFBaseScene {
       // Add Pulse to focus monitor
       const monitorPulseTween = this.tweens.add({
         targets: monitorImage,
-        scale: { from: 1, to: 0.85 },
+        scale: { from: 1, to: 0.9 },
         ease: 'Sine.easeInOut',
-        repeat: 1,
+        repeat: 0,
         yoyo: true,
-        duration: 500,
+        duration: 200,
       });
       monitorImage.setData('monitorPulseTween', monitorPulseTween);
 

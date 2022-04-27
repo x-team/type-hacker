@@ -2,7 +2,7 @@ import Background from '../game/entities/Background';
 import onDamageMonitor from '../game/events/onDamageMonitor';
 import onScoreWin from '../game/events/onScoreWin';
 import { submitPlayerEvent } from '../game/playfab';
-import { submitScore } from '../game/playfab/leaderboard';
+// import { submitScore } from '../game/playfab/leaderboard';
 import SceneKeys from '../game/utils/SceneKeys';
 import { TMonitorData, TMonitorsNames } from '../game/utils/types';
 import TFBaseScene from './TFBaseScene';
@@ -66,7 +66,7 @@ export default class BaseEventsScene extends TFBaseScene {
       submitPlayerEvent('player_gets_game_over', {
         finalScore: this.getPlayerData().data.currentScore,
       });
-      submitScore(this.getPlayerData().data.currentScore);
+      // submitScore(this.getPlayerData().data.currentScore);
     });
 
     this.events.on('reset-game', () => {

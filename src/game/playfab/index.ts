@@ -37,12 +37,16 @@ export const submitPlayerEvent = async (
   body: { [s: string]: number | string }
 ) => {
   console.log('Submitting event: ' + eventName);
-  return new Promise((resolve) => {
-    PlayFabClientSDK.WritePlayerEvent({
-      EventName: eventName,
-      Body: body,
+  try {
+    return new Promise(() => {
+      PlayFabClientSDK.WritePlayerEvent({
+        EventName: eventName,
+        Body: body,
+      });
     });
-  });
+  } catch (e) {
+    return new Error(`submitPlayerEvent Failed ${e}`);
+  }
 };
 
 export const setupPlayfab = async () => {
@@ -57,16 +61,21 @@ export const setupPlayfab = async () => {
   }
 
   PlayFab.settings.titleId = titleId;
-  PlayFabClientSDK.LoginWithCustomID(
-    {
-      TitleId: titleId,
-      CreateAccount: true,
-      CustomId: playfabId,
-    },
-    async (result: any) => {
-      PlayFabClientSDK.UpdateUserTitleDisplayName({
-        DisplayName: playerName,
-      });
-    }
-  );
+  try {
+    PlayFabClientSDK.LoginWithCustomID(
+      {
+        TitleId: titleId,
+        CreateAccount: true,
+        CustomId: playfabId,
+      },
+      async () => {
+        PlayFabClientSDK.UpdateUserTitleDisplayName({
+          DisplayName: playerName,
+        });
+      }
+    );
+  } catch (e) {
+    return new Error('setupPlayFab Failed');
+  }
+  return;
 };

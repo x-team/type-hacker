@@ -52,6 +52,7 @@ export default class PreloaderScene extends TFBaseScene {
 
     // LOGOS
     this.load.image('type-hacker-logo', 'assets/main/type-hacker-logo.png');
+    this.load.image('game-over-logo', 'assets/main/game-over-logo.png');
 
     // SFX
     this.load.audio('keyboard1', ['assets/sfx/keyboard1.ogg']);
@@ -67,7 +68,11 @@ export default class PreloaderScene extends TFBaseScene {
     this.load.audio('bgm', ['assets/sfx/electronic-senses-fast-and-intense.mp3']);
 
     // Sprites
-    this.load.spritesheet('font', 'assets/fonts/matrix-font.png', {
+    this.load.spritesheet('matrix-font', 'assets/fonts/matrix-font.png', {
+      frameWidth: 32,
+      frameHeight: 25,
+    });
+    this.load.spritesheet('matrix-font-salmon', 'assets/fonts/matrix-font-salmon.png', {
       frameWidth: 32,
       frameHeight: 25,
     });
