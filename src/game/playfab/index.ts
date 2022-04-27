@@ -77,4 +77,5 @@ export const setupPlayfab = async () => {
   } catch (e) {
     return new Error('setupPlayFab Failed');
   }
+  return;
 };
