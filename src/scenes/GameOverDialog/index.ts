@@ -23,9 +23,16 @@ export default class GameOverDialogScene extends TFBaseScene {
         const scoreBoard = (await getLeaderboardScores()) as any;
         const scoreboardText = scoreBoard.Leaderboard.map(
           (player: { Position: number; StatValue: number; DisplayName: number }) =>
-            `${player.Position + 1}. |${player.StatValue}| ${player.DisplayName} `
+            `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
         );
-        return [yourScoreText, yourStreakText, ' ', topScoresText, ...scoreboardText];
+        return [
+          yourScoreText,
+          yourStreakText,
+          ' ',
+          topScoresText,
+          '-----------------------------',
+          ...scoreboardText,
+        ];
       }
     } catch (e) {
       return [
