@@ -3,6 +3,7 @@ import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
 import { getLeaderboardScores, submitScore } from '../../game/playfab/leaderboard';
 import { matrixRain } from '../GameStartDialog/matrixRain';
+import { getPlayerName } from '../../game/playfab';
 
 export default class GameOverDialogScene extends TFBaseScene {
   constructor() {
@@ -14,7 +15,9 @@ export default class GameOverDialogScene extends TFBaseScene {
     if (scoreSubmitted === 200) {
       const scoreBoard = (await getLeaderboardScores()) as any;
       const yourScore = this.getPlayerData().data.currentScore;
-      const yourScoreText = [`YOUR SCORE: ${yourScore}`];
+      const userName = getPlayerName();
+      console.log({ userName });
+      const yourScoreText = [`YOUR SCORE ${userName}: ${yourScore}`];
       const scoreboardText = scoreBoard.Leaderboard.map(
         (player: { Position: number; StatValue: number; DisplayName: number }) =>
           `${player.Position + 1}. |${player.StatValue}| ${player.DisplayName} `
@@ -50,6 +53,7 @@ export default class GameOverDialogScene extends TFBaseScene {
         })
         .then((result: Phaser.GameObjects.GameObject) => {
           if (result.name === 'game-start') {
+            // emit game reset here
             // Game start logic here
           }
         });

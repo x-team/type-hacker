@@ -1,4 +1,4 @@
-import { setupPlayfab } from './game/playfab';
+import { setPlayerName, setupPlayfab } from './game/playfab';
 
 const submitButton = document.getElementById('#submit-button');
 if (submitButton) {
@@ -6,7 +6,7 @@ if (submitButton) {
     const usernameInput = document.getElementById('#user-name') as HTMLInputElement;
     const usernameLabel = document.getElementById('#username-label');
     const username = usernameInput?.value;
-    localStorage.setItem('player-name', username);
+    setPlayerName(username);
     setupPlayfab();
     usernameInput.remove();
     submitButton.remove();
