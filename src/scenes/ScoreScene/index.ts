@@ -112,9 +112,9 @@ export default class ScoreScene extends TFBaseScene {
     );
 
     const plusScoreWords = {
-      left: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
-      center: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
-      right: new Word(this, 0, 0, '', '#FC9842', true, '30px', true),
+      left: new Word(this, 0, 0, '', '#FC9842', true, '30px', false),
+      center: new Word(this, 0, 0, '', '#FC9842', true, '30px', false),
+      right: new Word(this, 0, 0, '', '#FC9842', true, '30px', false),
     };
 
     const handlePlusScore = ({
