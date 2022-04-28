@@ -31,7 +31,6 @@ const getScoreIncrement = (
   const completeWordSpeedCoefficient =
     Math.round((timeoutLeftOnCompletion / totalCurrentTimeout) * 100) / 100;
   const currentScoreMultiplier = scene.getPlayerData().data.currentScoreMultiplier;
-  console.log({ completeWordSpeedCoefficient });
   if (completeWordSpeedCoefficient >= 0.66) {
     return Math.round(monitor.rightKeyStrokeWinPoints * currentScoreMultiplier);
   }

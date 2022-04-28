@@ -1,5 +1,5 @@
-import { PlayerData } from "../../game/utils/types";
-import { words } from "./words";
+import { PlayerData } from '../../game/utils/types';
+import { words } from './words';
 
 export function getRandomInteger(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -9,12 +9,8 @@ export const getMinimumWordLengthByLevel = (level: number): number => {
   return level;
 };
 
-export const generateNewWord = (
-  length: number,
-  existingWords: string[]
-): string => {
+export const generateNewWord = (length: number, existingWords: string[]): string => {
   // `existingWords` should be used to not create words that start with the same later (which would generate a conflict for the game's autofocus)
-  console.log({ existingWords });
 
   let wordLength = length;
   if (length < 2) {

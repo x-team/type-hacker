@@ -40,7 +40,6 @@ export const submitPlayerEvent = async (
   eventName: string,
   body: { [s: string]: number | string }
 ) => {
-  console.log('Submitting event: ' + eventName);
   try {
     return new Promise(() => {
       PlayFabClientSDK.WritePlayerEvent({
@@ -54,7 +53,6 @@ export const submitPlayerEvent = async (
 };
 
 export const setupPlayfab = async () => {
-  console.log('Setting playfab');
   const playfabId = getPlayfabUUID();
   const playerName = getPlayerName();
 
@@ -67,7 +65,6 @@ export const setupPlayfab = async () => {
 
   PlayFab.settings.titleId = titleId;
   try {
-    console.log('Logging in...');
     PlayFabClientSDK.LoginWithCustomID(
       {
         TitleId: titleId,
@@ -75,7 +72,6 @@ export const setupPlayfab = async () => {
         CustomId: playfabId,
       },
       async () => {
-        console.log('logged in YAY');
         PlayFabClientSDK.UpdateUserTitleDisplayName({
           DisplayName: playerName,
         });
