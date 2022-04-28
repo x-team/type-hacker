@@ -1781,7 +1781,6 @@ export const words: WordsType = {
     'shorten',
     'silence',
     'sincere',
-    'slavery',
     'society',
     'soldier',
     'somehow',
