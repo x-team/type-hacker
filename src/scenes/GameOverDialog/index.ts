@@ -19,6 +19,7 @@ export default class GameOverDialogScene extends TFBaseScene {
     const topScoresText = 'TOP SCORES:';
     try {
       const scoreSubmitted = await submitScore(this.getPlayerData().data.currentScore);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       if (scoreSubmitted === 200) {
         const scoreBoard = (await getLeaderboardScores()) as any;
         const scoreboardText = scoreBoard.Leaderboard.map(

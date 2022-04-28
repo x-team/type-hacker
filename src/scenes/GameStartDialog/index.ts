@@ -1,3 +1,4 @@
+import { hasPlayerName } from '../../game/playfab';
 import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
 import { matrixRain } from './matrixRain';
@@ -26,7 +27,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       })
       .then((result: Phaser.GameObjects.GameObject) => {
         if (result.name === 'game-start') {
-          this.startGame();
+          if (hasPlayerName()) {
+            this.startGame();
+          }
         }
         if (result.name === 'how-to-play') {
           // How to Play Dialog
@@ -41,7 +44,9 @@ export default class GameStartDialogScene extends TFBaseScene {
             })
             .then((result: Phaser.GameObjects.GameObject) => {
               if (result.name === 'game-start') {
-                this.startGame();
+                if (hasPlayerName()) {
+                  this.startGame();
+                }
               }
             });
         }
@@ -106,11 +111,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        dialog.emit('modal.requestClose', {
-          index: index,
-          text: button.text,
-          name: button.name,
-        });
+        if (hasPlayerName()) {
+          dialog.emit('modal.requestClose', {
+            index: index,
+            text: button.text,
+            name: button.name,
+          });
+        }
       })
       .on(
         'button.over',
@@ -199,11 +206,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        dialog.emit('modal.requestClose', {
-          index: index,
-          text: button.text,
-          name: button.name,
-        });
+        if (hasPlayerName()) {
+          dialog.emit('modal.requestClose', {
+            index: index,
+            text: button.text,
+            name: button.name,
+          });
+        }
       })
       .on(
         'button.over',
@@ -235,6 +244,10 @@ export default class GameStartDialogScene extends TFBaseScene {
   }
 
   startGame() {
+    const usernameInputContainer = document.getElementById('#username-input-container');
+    if (usernameInputContainer) {
+      usernameInputContainer.style.visibility = 'hidden';
+    }
     this.cameras.main.fadeOut(250, 0, 0, 0);
     this.time.delayedCall(250, () => {
       this.sound.play('bgm', {
