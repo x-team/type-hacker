@@ -16,6 +16,10 @@ export const getPlayfabUUID = () => {
   return existingUUID;
 };
 
+export const hasPlayerName = () => {
+  return !!localStorage.getItem('player-name');
+};
+
 export const getPlayerName = () => {
   const existingPlayerName = localStorage.getItem('player-name');
   if (existingPlayerName) {
@@ -29,7 +33,7 @@ export const getPlayerName = () => {
 };
 
 export const setPlayerName = (playerName: string) => {
-  localStorage.setItem('player-name', playerName);
+  localStorage.setItem('player-name', playerName.substring(0, 24));
 };
 
 export const submitPlayerEvent = async (
@@ -50,6 +54,7 @@ export const submitPlayerEvent = async (
 };
 
 export const setupPlayfab = async () => {
+  console.log('Setting playfab');
   const playfabId = getPlayfabUUID();
   const playerName = getPlayerName();
 
@@ -62,6 +67,7 @@ export const setupPlayfab = async () => {
 
   PlayFab.settings.titleId = titleId;
   try {
+    console.log('Logging in...');
     PlayFabClientSDK.LoginWithCustomID(
       {
         TitleId: titleId,
@@ -69,6 +75,7 @@ export const setupPlayfab = async () => {
         CustomId: playfabId,
       },
       async () => {
+        console.log('logged in YAY');
         PlayFabClientSDK.UpdateUserTitleDisplayName({
           DisplayName: playerName,
         });

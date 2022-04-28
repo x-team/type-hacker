@@ -17,6 +17,9 @@ if (submitButton) {
     const usernameInput = document.getElementById('#user-name') as HTMLInputElement;
     const usernameLabel = document.getElementById('#username-label');
     const username = usernameInput?.value;
+    if (username.length <= 2) {
+      return;
+    }
     setPlayerName(username);
     setupPlayfab();
     usernameInput.remove();
