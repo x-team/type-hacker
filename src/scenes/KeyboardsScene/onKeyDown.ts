@@ -121,6 +121,7 @@ const onLastCharacterMatching = ({
   currentMonitor: TMonitorsNames;
   newLetter: string;
 }) => {
+  // Remove word from currentWordsDisplayed
   scene.getPlayerData().data.currentWordsDisplayed = scene
     .getPlayerData()
     .data.currentWordsDisplayed.filter((word) => word !== guessWord.text);
