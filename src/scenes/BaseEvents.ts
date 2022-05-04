@@ -62,6 +62,11 @@ export default class BaseEventsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.center.screenOverlay = undefined;
       this.getPlayerData().data.monitors.right.screenOverlay = undefined;
       this.scene.get(SceneKeys.DamageMonitor).events.emit('game-over');
+      this.scene.stop(SceneKeys.Panels);
+      this.scene.stop(SceneKeys.Score);
+      this.scene.stop(SceneKeys.NewLevel);
+      this.scene.stop(SceneKeys.Keyboards);
+      this.scene.stop(SceneKeys.DamageMonitor);
 
       submitPlayerEvent('player_gets_game_over', {
         finalScore: this.getPlayerData().data.currentScore,
