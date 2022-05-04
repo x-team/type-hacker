@@ -18,6 +18,14 @@ export const onDamageMonitor = ({
     volume: 0.6,
   });
   scene.cameras.main.shake(400, 0.007);
+
+  // Remove word from current Words Displayed
+  scene.getPlayerData().data.currentWordsDisplayed = scene
+    .getPlayerData()
+    .data.currentWordsDisplayed.filter(
+      (word) => word !== scene.getPlayerData().data.monitors[monitorToBeDamaged].guessText?.text
+    );
+
   // Set longest streak
   const longestStreak = scene.getPlayerData().data.longestStreak;
   if (longestStreak < scene.getPlayerData().data.currentCharacterStreak) {

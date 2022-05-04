@@ -179,7 +179,6 @@ export default class ScoreScene extends TFBaseScene {
     });
 
     this.events.on('new-level-start', () => {
-      this.getPlayerData().data.currentWordsDisplayed = [];
       this.events.emit('update-score', { score: 0 });
     });
 

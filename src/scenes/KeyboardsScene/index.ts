@@ -21,6 +21,7 @@ export default class KeyboardsScene extends TFBaseScene {
     this.addAllKeyboardGameMonitors();
 
     this.events.on('level-end', () => {
+      this.getPlayerData().data.currentWordsDisplayed = [];
       this.events.emit('destroy-words');
       this.input.keyboard.removeListener('keydown');
     });
@@ -72,7 +73,6 @@ export default class KeyboardsScene extends TFBaseScene {
         tween.resetTweenData(true);
       },
     });
-    this.getPlayerData().data.currentWordsDisplayed.push(guessWord.text);
     this.getPlayerData().data.monitors[currentMonitor].guessText = guessWord;
 
     const userWord = new Word(
