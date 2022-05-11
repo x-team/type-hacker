@@ -18,17 +18,36 @@ import { checkIfMobile } from './mobileGame';
 
 const isMobile = checkIfMobile();
 
+if (isMobile) {
+  const selectElement = document.querySelector('#game-container') as HTMLElement;
+  if (selectElement) {
+    // selectElement.style.marginLeft = '-100px';
+    // selectElement.style.display = 'flex';
+    selectElement.style.justifyContent = 'center';
+    selectElement.style.alignItems = 'center';
+    selectElement.style.margin = 'auto auto';
+    selectElement.style.textAlign = 'center';
+    selectElement.style.height = '40%';
+    // selectElement.style.width = '90%';
+    // selectElement.style.marginLeft = '-100px';
+  }
+}
+
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   pixelArt: true,
   fps: {
     target: 1,
   },
+  width: isMobile ? 1920 : 1920,
+  height: isMobile ? 1080 : 1080,
+  // parent: 'gameDiv',
   backgroundColor: GAME_BG_COLOR,
   scale: {
+    parent: 'game-container',
     width: isMobile ? 1920 : 1920,
     height: isMobile ? 1080 : 1080,
-    mode: isMobile ? Phaser.Scale.FIT : Phaser.Scale.FIT,
+    mode: isMobile ? Phaser.Scale.ZOOM_2X : Phaser.Scale.FIT, // ZOOM_2X
     autoCenter: isMobile ? Phaser.Scale.CENTER_BOTH : Phaser.Scale.CENTER_BOTH,
   },
   plugins: {
