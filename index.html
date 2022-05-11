@@ -43,9 +43,10 @@
             font-family: Munro;
           "
           type="text"
-          id="#user-name"
+          id="user-name"
           name="user-name"
           placeholder="3 chars min"
+          data-kioskboard-type="keyboard"
         />
         <button
           id="#submit-button"
@@ -74,7 +75,17 @@
           Pick something unique!
         </div>
       </div>
+      <input
+        type="text"
+        name="name"
+        required
+        size="10"
+        id="virtual-keyboard"
+        data-kioskboard-type="keyboard"
+        style="display: none"
+      />
       <script type="module" src="/src/playerInput.ts"></script>
+      <script type="module" src="/src/mobileGame.ts"></script>
       <script type="module" src="/src/main.ts"></script>
     </div>
   </body>

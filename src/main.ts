@@ -14,6 +14,9 @@ import PreloaderScene from './scenes/Preloader';
 import ScoreScene from './scenes/ScoreScene';
 import DamageMonitorScene from './scenes/DamageMonitorScene';
 import UIElementsScene from './scenes/UIElements';
+import { checkIfMobile } from './mobileGame';
+
+const isMobile = checkIfMobile();
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -23,10 +26,10 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   backgroundColor: GAME_BG_COLOR,
   scale: {
-    width: 1920,
-    height: 1080,
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: isMobile ? 1920 : 1920,
+    height: isMobile ? 1080 : 1080,
+    mode: isMobile ? Phaser.Scale.FIT : Phaser.Scale.FIT,
+    autoCenter: isMobile ? Phaser.Scale.CENTER_BOTH : Phaser.Scale.CENTER_BOTH,
   },
   plugins: {
     scene: [

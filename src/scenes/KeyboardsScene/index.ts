@@ -6,6 +6,7 @@ import {
 } from '../../game/utils/consts';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorsNames } from '../../game/utils/types';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 import onComboFn from './onCombo';
 import onKeydownFn, { getNextWord } from './onKeyDown';
@@ -33,12 +34,26 @@ export default class KeyboardsScene extends TFBaseScene {
   }
 
   private addKeyboardListener() {
-    this.input.keyboard.on('keydown', (event: { keyCode: number; key: string }) => {
-      onKeydownFn({
-        scene: this,
-        event,
+    if (checkIfMobile()) {
+      const selectElement = document.querySelector('#virtual-keyboard');
+      selectElement?.addEventListener('change', (event) => {
+        const inputFieldValue = (event.target as HTMLInputElement).value || '';
+        if (inputFieldValue) {
+          const typedLetter = inputFieldValue.charAt(inputFieldValue.length - 1);
+          onKeydownFn({
+            scene: this,
+            event: { keyCode: 48, key: typedLetter }, // TODO: update keycodes
+          });
+        }
       });
-    });
+    } else {
+      this.input.keyboard.on('keydown', (event: { keyCode: number; key: string }) => {
+        onKeydownFn({
+          scene: this,
+          event,
+        });
+      });
+    }
   }
 
   private addSingleKeyboardGameMonitor(

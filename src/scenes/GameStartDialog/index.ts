@@ -1,7 +1,10 @@
 import { hasPlayerName } from '../../game/playfab';
 import SceneKeys from '../../game/utils/SceneKeys';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 import { matrixRain } from './matrixRain';
+import KioskBoard from 'kioskboard';
+import { keyboardSettings } from '../../mobileGame/virtualKeyboard';
 
 export default class GameStartDialogScene extends TFBaseScene {
   constructor() {
@@ -261,6 +264,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       this.scene.start(SceneKeys.Keyboards);
       this.scene.start(SceneKeys.GameOverDialog);
       this.scene.start(SceneKeys.DamageMonitor);
+      if (checkIfMobile()) {
+        renderVirtualKeyboard();
+      }
     });
   }
 
@@ -281,3 +287,12 @@ export default class GameStartDialogScene extends TFBaseScene {
     });
   };
 }
+
+const renderVirtualKeyboard = () => {
+  KioskBoard.run('#virtual-keyboard', keyboardSettings);
+  const selectElement = document.querySelector('#virtual-keyboard') as HTMLInputElement;
+  selectElement.style.display = 'inline';
+  selectElement.style.position = 'absolute';
+  // selectElement.style.bottom = '0';
+  setTimeout(() => selectElement?.focus(), 1000);
+};

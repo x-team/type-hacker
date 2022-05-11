@@ -7,7 +7,7 @@ setTimeout(() => {
     usernameInputContainer.style.visibility = 'visible';
   }
   if (name) {
-    const usernameInput = document.getElementById('#user-name') as HTMLInputElement;
+    const usernameInput = document.getElementById('user-name') as HTMLInputElement;
     if (usernameInput) {
       usernameInput.value = name;
     }
@@ -19,7 +19,7 @@ setTimeout(() => {
 const submitButton = document.getElementById('#submit-button');
 if (submitButton) {
   submitButton.onclick = function () {
-    const usernameInput = document.getElementById('#user-name') as HTMLInputElement;
+    const usernameInput = document.getElementById('user-name') as HTMLInputElement;
     const usernameInfoText = document.getElementById('username-info-text');
     const usernameLabel = document.getElementById('#username-label');
     const username = usernameInput?.value;
