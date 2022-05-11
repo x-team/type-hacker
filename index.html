@@ -6,76 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
     <link rel="preload" as="font" href="./assets/fonts/munro.ttf" type="font/ttf" crossorigin />
-    <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
     <title>TypeHacker</title>
   </head>
-  <body style="max-height: 100px; border: 1px solid yellow; overflow: hidden">
+  <body>
     <div style="font-family: Munro; position: absolute; left: -1000px; visibility: hidden">.</div>
     <div
       id="app"
       style="position: absolute; width: 100vw; height: 100vh; background-color: transparent"
     >
-      <div id="game-container" style="border: 1px solid red; overflow: hidden"></div>
-      <div
-        id="#username-input-container"
-        style="
-          color: #42defd;
-          position: relative;
-          left: 0;
-          right: 0;
-          top: 56%;
-          text-align: center;
-          background-color: transparent;
-          visibility: hidden;
-        "
-      >
-        <label
-          id="#username-label"
-          for="user-name"
-          style="color: #42defd; background-color: transparent; font-size: 24px; font-family: Munro"
-          >Username:</label
-        >
-        <input
-          style="
-            color: #42defd;
-            border: 1px solid #42defd;
-            border-radius: 5px;
-            padding-left: 5px;
-            font-family: Munro;
-          "
-          type="text"
-          id="user-name"
-          name="user-name"
-          placeholder="3 chars min"
-          data-kioskboard-type="keyboard"
-        />
-        <button
-          id="#submit-button"
-          style="
-            border: 1px solid #42defd;
-            border-radius: 5px;
-            color: #42defd;
-            padding-left: 10px;
-            padding-right: 10px;
-            font-family: Munro;
-          "
-        >
-          Submit
-        </button>
-        <div
-          id="username-info-text"
-          style="
-            background-color: transparent;
-            font-family: Munro;
-            font-size: 13px;
-            margin-top: 5px;
-          "
-        >
-          A username is required to play.
-          <br />
-          Pick something unique!
-        </div>
-      </div>
+      <div id="game-container" style="overflow: hidden"></div>
       <input
         type="text"
         name="name"

@@ -1,10 +1,10 @@
-import KioskBoard from 'kioskboard';
-import { keyboardSettings } from './virtualKeyboard';
+// import KioskBoard from 'kioskboard';
+// import { keyboardSettings } from './virtualKeyboard';
 
 const renderVirtualKeyboard = () => {
-  KioskBoard.run('#user-name', keyboardSettings);
-  const selectElement = document.getElementById('user-name') as HTMLInputElement;
-  setTimeout(() => selectElement?.focus(), 1000);
+  // const selectElement = document.getElementById('user-name') as HTMLInputElement;
+  // KioskBoard.run('#user-name', keyboardSettings);
+  // setTimeout(() => selectElement?.focus(), 1000);
 };
 
 export const checkIfMobile = (): boolean => {

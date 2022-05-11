@@ -1,4 +1,4 @@
-import { hasPlayerName } from '../../game/playfab';
+// import { hasPlayerName } from '../../game/playfab';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
@@ -30,9 +30,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       })
       .then((result: Phaser.GameObjects.GameObject) => {
         if (result.name === 'game-start') {
-          if (hasPlayerName()) {
-            this.startGame();
-          }
+          // if (hasPlayerName()) {
+          this.startGame();
+          // }
         }
         if (result.name === 'how-to-play') {
           // How to Play Dialog
@@ -47,9 +47,9 @@ export default class GameStartDialogScene extends TFBaseScene {
             })
             .then((result: Phaser.GameObjects.GameObject) => {
               if (result.name === 'game-start') {
-                if (hasPlayerName()) {
-                  this.startGame();
-                }
+                // if (hasPlayerName()) {
+                this.startGame();
+                // }
               }
             });
         }
@@ -114,13 +114,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        if (hasPlayerName()) {
-          dialog.emit('modal.requestClose', {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
+        // if (hasPlayerName()) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+        // }
       })
       .on(
         'button.over',
@@ -209,13 +209,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        if (hasPlayerName()) {
-          dialog.emit('modal.requestClose', {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
+        // if (hasPlayerName()) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+        // }
       })
       .on(
         'button.over',

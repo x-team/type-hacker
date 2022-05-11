@@ -1,4 +1,4 @@
-import { setPlayerName, setupPlayfab } from './game/playfab';
+// import { setPlayerName, setupPlayfab } from './game/playfab';
 
 setTimeout(() => {
   const name = localStorage.getItem('player-name');
@@ -12,7 +12,7 @@ setTimeout(() => {
       usernameInput.value = name;
     }
 
-    setupPlayfab();
+    // setupPlayfab();
   }
 }, 1250);
 
@@ -26,11 +26,13 @@ if (submitButton) {
     if (username.length <= 2) {
       return;
     }
-    setPlayerName(username);
-    setupPlayfab();
+    // setPlayerName(username);
+    // setupPlayfab();
     usernameInput.remove();
     submitButton.remove();
     usernameLabel?.remove();
     usernameInfoText?.remove();
   };
 }
+
+export {};
