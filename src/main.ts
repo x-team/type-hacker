@@ -27,7 +27,7 @@ if (isMobile) {
     selectElement.style.alignItems = 'center';
     selectElement.style.margin = 'auto auto';
     selectElement.style.textAlign = 'center';
-    selectElement.style.height = '40%';
+    selectElement.style.height = '45%';
     // selectElement.style.width = '90%';
     // selectElement.style.marginLeft = '-100px';
   }

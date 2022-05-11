@@ -26,6 +26,9 @@ window.addEventListener(
 
 const main = () => {
   checkIfMobile() && renderVirtualKeyboard();
+  // if (document.getElementById('virtual-keyboard') == document.activeElement) {
+  //   document.getElementById('fixed').class += 'absolute';
+  // }
 };
 
 main();

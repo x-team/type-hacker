@@ -9,10 +9,15 @@
     <title>TypeHacker</title>
   </head>
   <body>
-    <div style="font-family: Munro; position: absolute; left: -1000px; visibility: hidden">.</div>
     <div
       id="app"
-      style="position: absolute; width: 100vw; height: 100vh; background-color: transparent"
+      style="
+        width: 99vw;
+        height: 90vh;
+        max-height: 100vh;
+        background-color: transparent;
+        position: relative;
+      "
     >
       <div id="game-container" style="overflow: hidden"></div>
       <input
@@ -22,12 +27,10 @@
         size="10"
         id="virtual-keyboard"
         data-kioskboard-type="keyboard"
-        style="display: none"
       />
-
-      <script type="module" src="/src/playerInput.ts"></script>
-      <script type="module" src="/src/mobileGame/index.ts"></script>
-      <script type="module" src="/src/main.ts"></script>
     </div>
   </body>
+  <script type="module" src="/src/playerInput.ts"></script>
+  <script type="module" src="/src/mobileGame/index.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
 </html>
