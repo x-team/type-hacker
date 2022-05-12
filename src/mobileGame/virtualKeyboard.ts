@@ -12,8 +12,6 @@ const virtualKeyboard: { [key: string]: string }[] = [
     '7': 'I',
     '8': 'O',
     '9': 'P',
-    '10': '{',
-    '11': '}',
   },
   {
     '0': 'A',
@@ -25,8 +23,6 @@ const virtualKeyboard: { [key: string]: string }[] = [
     '6': 'J',
     '7': 'K',
     '8': 'L',
-    '9': ':',
-    '10': '"',
   },
   {
     '0': 'Z',
@@ -36,8 +32,6 @@ const virtualKeyboard: { [key: string]: string }[] = [
     '4': 'B',
     '5': 'N',
     '6': 'M',
-    '7': '<',
-    '8': '>',
   },
 ];
 
@@ -102,7 +96,7 @@ export const keyboardSettings: IKioskBoardOptions = {
   keysFontFamily: 'sans-serif',
 
   // Font size of the keys
-  keysFontSize: '22px',
+  keysFontSize: '22px !important',
 
   // Font weight of the keys
   keysFontWeight: 'normal',
