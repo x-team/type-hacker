@@ -291,8 +291,7 @@ export default class GameStartDialogScene extends TFBaseScene {
 const renderVirtualKeyboard = () => {
   KioskBoard.run('#virtual-keyboard', keyboardSettings);
   const selectElement = document.querySelector('#virtual-keyboard') as HTMLInputElement;
-  // selectElement.style.display = 'initial';
-  // selectElement.style.position = 'absolute';
-  // selectElement.style.bottom = '0';
-  setTimeout(() => selectElement?.focus(), 1000);
+  selectElement.style.display = 'inline-block';
+  selectElement?.focus();
+  selectElement.style.display = 'none';
 };
