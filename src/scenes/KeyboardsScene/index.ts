@@ -56,7 +56,7 @@ export default class KeyboardsScene extends TFBaseScene {
     }
   }
 
-  private addSingleKeyboardGameMonitor(
+  private addMonitorText(
     guessWordX: number,
     guessWordY: number,
     userWordY: number,
@@ -77,6 +77,7 @@ export default class KeyboardsScene extends TFBaseScene {
     guessWord.setDepth(2);
     guessWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     guessWord.setOrigin(0, 0.5);
+    checkIfMobile() && guessWord.setFontSize(90);
     this.tweens.add({
       targets: guessWord,
       alpha: {
@@ -93,7 +94,7 @@ export default class KeyboardsScene extends TFBaseScene {
     const userWord = new Word(
       this,
       guessWordX,
-      userWordY + guessWord.height,
+      checkIfMobile() ? guessWordY : userWordY + guessWord.height,
       '',
       '#fe9c9d',
       defaultVisible
@@ -101,6 +102,7 @@ export default class KeyboardsScene extends TFBaseScene {
     userWord.setDepth(2);
     userWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     userWord.setOrigin(0, 0.5);
+    checkIfMobile() && userWord.setFontSize(90);
 
     this.getPlayerData().data.monitors[currentMonitor].userText = userWord;
     const currentTime = 10;
@@ -134,7 +136,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.center.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.center.coordinates.guessWordX,
         monitorsData.center.coordinates.guessWordY,
         monitorsData.center.coordinates.userWordY,
@@ -154,7 +156,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.left.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.left.coordinates.guessWordX,
         monitorsData.left.coordinates.guessWordY,
         monitorsData.left.coordinates.userWordY,
@@ -174,7 +176,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.right.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.right.coordinates.guessWordX,
         monitorsData.right.coordinates.guessWordY,
         monitorsData.right.coordinates.userWordY,
