@@ -6,6 +6,7 @@ import {
 } from '../../game/utils/generators';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorData } from '../../game/utils/types';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 
 const circularScoreBarMeasurements = { x: 985, y: 184, radius: 90 };
@@ -128,6 +129,7 @@ export default class ScoreScene extends TFBaseScene {
     }) => {
       const guessText = monitorData.guessText!;
       const plusScoreWord = plusScoreWords[monitorData.name];
+      checkIfMobile() && plusScoreWord.setFontSize(90);
       plusScoreWord.setText(`+${plusScore}`);
       plusScoreWord.x = guessText.x + guessText.width / 2 + score.length * 15;
       plusScoreWord.y = guessText.y;

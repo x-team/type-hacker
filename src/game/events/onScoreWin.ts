@@ -1,12 +1,12 @@
-import TFBaseScene from "../../scenes/TFBaseScene";
-import { monitorConfiguration } from "../utils/consts";
+import TFBaseScene from '../../scenes/TFBaseScene';
+import { monitorConfiguration } from '../utils/consts';
 import {
   calculateCurrentTimeout,
   generateLevelProgressionFunctionParams,
-} from "../utils/generators";
-import SceneKeys from "../utils/SceneKeys";
-import { LevelSettings, TMonitorData } from "../utils/types";
-import { newLevel } from "./onNewLevel";
+} from '../utils/generators';
+import SceneKeys from '../utils/SceneKeys';
+import { LevelSettings, TMonitorData } from '../utils/types';
+import { newLevel } from './onNewLevel';
 
 export const calculateScoreRequirementForLevel = (level: number) => {
   if (level <= 1) {
@@ -76,7 +76,7 @@ const onScoreWin = ({
   combo: number;
   monitorData: TMonitorData;
 }) => {
-  scene.scene.get(SceneKeys.Score).events.emit("update-score", {
+  scene.scene.get(SceneKeys.Score).events.emit('update-score', {
     score: scoreIncrement,
     combo,
     monitorData,
@@ -92,20 +92,15 @@ const onScoreWin = ({
 
     // We need to update also the total current time
     // so we can calculate the completeWordSpeedCoefficient and the currentimeout on reset-clock
-    scene.getPlayerData().data.monitors.left.totalCurrentTimeout =
-      currentTimeout;
-    scene.getPlayerData().data.monitors.center.totalCurrentTimeout =
-      currentTimeout;
-    scene.getPlayerData().data.monitors.right.totalCurrentTimeout =
-      currentTimeout;
+    scene.getPlayerData().data.monitors.left.totalCurrentTimeout = currentTimeout;
+    scene.getPlayerData().data.monitors.center.totalCurrentTimeout = currentTimeout;
+    scene.getPlayerData().data.monitors.right.totalCurrentTimeout = currentTimeout;
 
     scene.getPlayerData().configuration.levelSettings = calculateLevelSettings(
       scene.getPlayerData().configuration.levelSettings.levelNumber
     );
     scene.getPlayerData().data.currentLevel = newLevelToUpdate;
-    scene.scene
-      .get(SceneKeys.NewLevel)
-      .events.emit("level-end", { skipAnimations: false });
+    scene.scene.get(SceneKeys.NewLevel).events.emit('level-end', { skipAnimations: false });
   }
 };
 
