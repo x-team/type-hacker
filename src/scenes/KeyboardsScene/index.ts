@@ -29,7 +29,7 @@ export default class KeyboardsScene extends TFBaseScene {
 
     this.events.on('new-level-start', () => {
       this.addAllKeyboardGameMonitors();
-      this.addKeyboardListener();
+      !checkIfMobile() && this.addKeyboardListener();
     });
   }
 
