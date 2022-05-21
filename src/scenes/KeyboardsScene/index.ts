@@ -11,6 +11,8 @@ import TFBaseScene from '../TFBaseScene';
 import onComboFn from './onCombo';
 import onKeydownFn, { getNextWord } from './onKeyDown';
 
+const isMobile = checkIfMobile();
+
 export default class KeyboardsScene extends TFBaseScene {
   constructor() {
     super(SceneKeys.Keyboards);
@@ -29,12 +31,12 @@ export default class KeyboardsScene extends TFBaseScene {
 
     this.events.on('new-level-start', () => {
       this.addAllKeyboardGameMonitors();
-      !checkIfMobile() && this.addKeyboardListener();
+      !isMobile && this.addKeyboardListener();
     });
   }
 
   private addKeyboardListener() {
-    if (checkIfMobile()) {
+    if (isMobile) {
       const selectElement = document.querySelector('#virtual-keyboard');
       selectElement?.addEventListener('change', (event) => {
         const inputFieldValue = (event.target as HTMLInputElement).value || '';
@@ -77,7 +79,7 @@ export default class KeyboardsScene extends TFBaseScene {
     guessWord.setDepth(2);
     guessWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     guessWord.setOrigin(0, 0.5);
-    checkIfMobile() && guessWord.setFontSize(90);
+    isMobile && guessWord.setFontSize(90);
     this.tweens.add({
       targets: guessWord,
       alpha: {
@@ -94,7 +96,7 @@ export default class KeyboardsScene extends TFBaseScene {
     const userWord = new Word(
       this,
       guessWordX,
-      checkIfMobile() ? guessWordY : userWordY + guessWord.height,
+      isMobile ? guessWordY : userWordY + guessWord.height,
       '',
       '#fe9c9d',
       defaultVisible
@@ -102,7 +104,7 @@ export default class KeyboardsScene extends TFBaseScene {
     userWord.setDepth(2);
     userWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     userWord.setOrigin(0, 0.5);
-    checkIfMobile() && userWord.setFontSize(90);
+    isMobile && userWord.setFontSize(90);
 
     this.getPlayerData().data.monitors[currentMonitor].userText = userWord;
     const currentTime = 10;
