@@ -2,6 +2,11 @@
 // import { keyboardSettings } from './virtualKeyboard';
 
 const renderVirtualKeyboard = () => {
+  const selectAppElement = document.getElementById('app') as HTMLDivElement;
+  if (selectAppElement) {
+    selectAppElement.style.height = '80vh';
+    selectAppElement.style.maxHeight = '80vh';
+  }
   // const selectElement = document.getElementById('user-name') as HTMLInputElement;
   // KioskBoard.run('#user-name', keyboardSettings);
   // setTimeout(() => selectElement?.focus(), 1000);
