@@ -4,8 +4,8 @@
 const renderVirtualKeyboard = () => {
   const selectAppElement = document.getElementById('app') as HTMLDivElement;
   if (selectAppElement) {
-    selectAppElement.style.height = '80vh';
-    selectAppElement.style.maxHeight = '80vh';
+    selectAppElement.style.height = '90vh';
+    selectAppElement.style.maxHeight = '90vh';
   }
   // const selectElement = document.getElementById('user-name') as HTMLInputElement;
   // KioskBoard.run('#user-name', keyboardSettings);

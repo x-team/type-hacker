@@ -25,7 +25,7 @@ if (isMobile) {
     selectElement.style.alignItems = 'center';
     selectElement.style.margin = 'auto auto';
     selectElement.style.textAlign = 'center';
-    selectElement.style.height = '45%';
+    selectElement.style.height = '40%';
     // selectElement.style.marginLeft = '-100px';
     // selectElement.style.display = 'flex';
     // selectElement.style.width = '90%';
