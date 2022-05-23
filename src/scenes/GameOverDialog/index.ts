@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
-import { getLeaderboardScores, submitScore } from '../../game/playfab/leaderboard';
+// import { getLeaderboardScores, submitScore } from '../../game/playfab/leaderboard';
 import { matrixRain } from '../GameStartDialog/matrixRain';
-import { getPlayerName } from '../../game/playfab';
+// import { getPlayerName } from '../../game/playfab';
 
 export default class GameOverDialogScene extends TFBaseScene {
   constructor() {
@@ -13,28 +13,28 @@ export default class GameOverDialogScene extends TFBaseScene {
   async getScoreboard() {
     const yourScore = this.getPlayerData().data.currentScore;
     const yourLongestStreak = this.getPlayerData().data.longestStreak;
-    const userName = getPlayerName();
-    const yourScoreText = `YOUR SCORE ${userName}: ${yourScore}`;
+    // const userName = getPlayerName();
+    const yourScoreText = `YOUR SCORE ${yourScore}`;
     const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
     const topScoresText = 'TOP SCORES:';
     try {
-      const scoreSubmitted = await submitScore(this.getPlayerData().data.currentScore);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (scoreSubmitted === 200) {
-        const scoreBoard = (await getLeaderboardScores()) as any;
-        const scoreboardText = scoreBoard.Leaderboard.map(
-          (player: { Position: number; StatValue: number; DisplayName: number }) =>
-            `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
-        );
-        return [
-          yourScoreText,
-          yourStreakText,
-          ' ',
-          topScoresText,
-          '-----------------------------',
-          ...scoreboardText,
-        ];
-      }
+      // const scoreSubmitted = await submitScore();
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      // if (scoreSubmitted === 200) {
+      //   const scoreBoard = (await getLeaderboardScores()) as any;
+      //   const scoreboardText = scoreBoard.Leaderboard.map(
+      //     (player: { Position: number; StatValue: number; DisplayName: number }) =>
+      //       `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
+      //   );
+      return [
+        yourScoreText,
+        yourStreakText,
+        ' ',
+        topScoresText,
+        '-----------------------------',
+        // ...scoreboardText,
+      ];
+      // }
     } catch (e) {
       return [
         yourScoreText,

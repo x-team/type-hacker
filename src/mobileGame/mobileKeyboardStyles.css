@@ -1,0 +1,12 @@
+.kioskboard-key {
+  /* padding: 10px !important; */
+  min-width: calc(100% / 11.5) !important;
+  /* width: 33px !important; */
+  /* display: flex !important;
+  align-items: center !important;
+  justify-content: center !important; */
+}
+
+.kioskboard-row-bottom {
+  display: none !important;
+}

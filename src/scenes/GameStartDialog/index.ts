@@ -1,7 +1,10 @@
-import { hasPlayerName } from '../../game/playfab';
+// import { hasPlayerName } from '../../game/playfab';
 import SceneKeys from '../../game/utils/SceneKeys';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 import { matrixRain } from './matrixRain';
+import KioskBoard from 'kioskboard';
+import { keyboardSettings } from '../../mobileGame/virtualKeyboard';
 
 export default class GameStartDialogScene extends TFBaseScene {
   constructor() {
@@ -27,9 +30,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       })
       .then((result: Phaser.GameObjects.GameObject) => {
         if (result.name === 'game-start') {
-          if (hasPlayerName()) {
-            this.startGame();
-          }
+          // if (hasPlayerName()) {
+          this.startGame();
+          // }
         }
         if (result.name === 'how-to-play') {
           // How to Play Dialog
@@ -44,9 +47,9 @@ export default class GameStartDialogScene extends TFBaseScene {
             })
             .then((result: Phaser.GameObjects.GameObject) => {
               if (result.name === 'game-start') {
-                if (hasPlayerName()) {
-                  this.startGame();
-                }
+                // if (hasPlayerName()) {
+                this.startGame();
+                // }
               }
             });
         }
@@ -111,13 +114,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        if (hasPlayerName()) {
-          dialog.emit('modal.requestClose', {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
+        // if (hasPlayerName()) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+        // }
       })
       .on(
         'button.over',
@@ -206,13 +209,13 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     dialog
       .on('button.click', function (button: { text: string; name: string }, index: number) {
-        if (hasPlayerName()) {
-          dialog.emit('modal.requestClose', {
-            index: index,
-            text: button.text,
-            name: button.name,
-          });
-        }
+        // if (hasPlayerName()) {
+        dialog.emit('modal.requestClose', {
+          index: index,
+          text: button.text,
+          name: button.name,
+        });
+        // }
       })
       .on(
         'button.over',
@@ -261,6 +264,9 @@ export default class GameStartDialogScene extends TFBaseScene {
       this.scene.start(SceneKeys.Keyboards);
       this.scene.start(SceneKeys.GameOverDialog);
       this.scene.start(SceneKeys.DamageMonitor);
+      if (checkIfMobile()) {
+        renderVirtualKeyboard();
+      }
     });
   }
 
@@ -281,3 +287,11 @@ export default class GameStartDialogScene extends TFBaseScene {
     });
   };
 }
+
+const renderVirtualKeyboard = () => {
+  KioskBoard.run('#virtual-keyboard', keyboardSettings);
+  const selectElement = document.querySelector('#virtual-keyboard') as HTMLInputElement;
+  selectElement.style.display = 'inline-block';
+  selectElement?.focus();
+  selectElement.style.display = 'none';
+};

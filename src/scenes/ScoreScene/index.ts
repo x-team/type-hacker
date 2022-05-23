@@ -6,10 +6,12 @@ import {
 } from '../../game/utils/generators';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorData } from '../../game/utils/types';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 
 const circularScoreBarMeasurements = { x: 985, y: 184, radius: 90 };
 const horizontalComboBarMeasurements = { x: 735, y: 942 };
+const isMobile = checkIfMobile();
 
 export default class ScoreScene extends TFBaseScene {
   static RED_COMBO_BAR_COLOR = 0xff0000;
@@ -58,7 +60,7 @@ export default class ScoreScene extends TFBaseScene {
       graphics?.fillStyle(color, 1);
       const width = 480;
       const percent = Phaser.Math.Clamp(value, 0, 100) / 100;
-      graphics?.fillRect(0, 0, width * percent, 8);
+      graphics?.fillRect(0, 0, width * percent, isMobile ? 18 : 8);
       graphics.x = x;
       graphics.y = y;
       graphics.scaleX = isFullLength ? 1 : 0;
@@ -110,6 +112,8 @@ export default class ScoreScene extends TFBaseScene {
       true,
       '50px'
     );
+    isMobile && currentScoreMultiplier.setFontSize(70);
+    isMobile && currentScoreMultiplier.setPadding(30);
 
     const plusScoreWords = {
       left: new Word(this, 0, 0, '', '#FC9842', true, '30px', false),
@@ -128,6 +132,7 @@ export default class ScoreScene extends TFBaseScene {
     }) => {
       const guessText = monitorData.guessText!;
       const plusScoreWord = plusScoreWords[monitorData.name];
+      isMobile && plusScoreWord.setFontSize(90);
       plusScoreWord.setText(`+${plusScore}`);
       plusScoreWord.x = guessText.x + guessText.width / 2 + score.length * 15;
       plusScoreWord.y = guessText.y;
