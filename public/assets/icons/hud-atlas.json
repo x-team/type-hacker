@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "horizontal_bar.png": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 114,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 114,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 114,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "square.png": {
+      "frame": {
+        "x": 120,
+        "y": 2,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "hud-atlas.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 154,
+      "h": 36
+    },
+    "scale": 1
+  }
+}

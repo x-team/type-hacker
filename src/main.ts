@@ -15,6 +15,7 @@ import ScoreScene from './scenes/ScoreScene';
 import DamageMonitorScene from './scenes/DamageMonitorScene';
 import UIElementsScene from './scenes/UIElements';
 import { checkIfMobile } from './mobileGame';
+import HUDScene from './scenes/HUD';
 
 const isMobile = checkIfMobile();
 
@@ -82,6 +83,7 @@ typeHackerGame.scene.add(SceneKeys.NewLevel, NewLevelScene);
 typeHackerGame.scene.add(SceneKeys.Keyboards, KeyboardsScene);
 typeHackerGame.scene.add(SceneKeys.Panels, PanelsScene);
 typeHackerGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
-typeHackerGame.scene.add(SceneKeys.GameOverDialog, DamageMonitorScene);
+typeHackerGame.scene.add(SceneKeys.DamageMonitor, DamageMonitorScene);
+typeHackerGame.scene.add(SceneKeys.HUD, HUDScene);
 
 export default typeHackerGame;

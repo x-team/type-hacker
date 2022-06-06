@@ -44,7 +44,6 @@ export default class GameOverDialogScene extends TFBaseScene {
         'Something went wrong with scoreboard provider',
       ];
     }
-    return [];
   }
 
   create() {

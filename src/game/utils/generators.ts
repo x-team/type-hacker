@@ -12,7 +12,7 @@ function getStartingLevelTimeout() {
   return 10;
 }
 
-export function generatePlayerDataSeed() {
+export function generatePlayerDataSeed(): PlayerData {
   return {
     settings: {
       soundEnabled: true,
@@ -53,6 +53,21 @@ export function generatePlayerDataSeed() {
         left: generateMonitorData('left'),
         center: generateMonitorData('center'),
         right: generateMonitorData('right'),
+      },
+      session: {
+        isLoggedIn: false,
+        user: {
+          displayName: '',
+          email: '',
+          slackId: undefined,
+          firebaseUserUid: undefined,
+          profilePictureUrl: undefined,
+          role: 1,
+        },
+        data: {
+          token: '',
+          expireTime: 0,
+        },
       },
     },
   };
