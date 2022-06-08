@@ -3,50 +3,20 @@ import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
 // import { getLeaderboardScores, submitScore } from '../../game/playfab/leaderboard';
 import { matrixRain } from '../GameStartDialog/matrixRain';
+import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
+import { gamesHqUrl } from '../../api/utils';
+import { EndMenu } from '../../game/entities/EndMenu';
+import Word from '../../game/entities/Word';
 // import { getPlayerName } from '../../game/playfab';
 
 export default class GameOverDialogScene extends TFBaseScene {
+  private startMenuContainer!: EndMenu;
+
   constructor() {
     super(SceneKeys.GameOverDialog);
   }
 
-  async getScoreboard() {
-    const yourScore = this.getPlayerData().data.currentScore;
-    const yourLongestStreak = this.getPlayerData().data.longestStreak;
-    // const userName = getPlayerName();
-    const yourScoreText = `YOUR SCORE ${yourScore}`;
-    const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
-    const topScoresText = 'TOP SCORES:';
-    try {
-      // const scoreSubmitted = await submitScore();
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      // if (scoreSubmitted === 200) {
-      //   const scoreBoard = (await getLeaderboardScores()) as any;
-      //   const scoreboardText = scoreBoard.Leaderboard.map(
-      //     (player: { Position: number; StatValue: number; DisplayName: number }) =>
-      //       `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
-      //   );
-      return [
-        yourScoreText,
-        yourStreakText,
-        ' ',
-        topScoresText,
-        '-----------------------------',
-        // ...scoreboardText,
-      ];
-      // }
-    } catch (e) {
-      return [
-        yourScoreText,
-        yourStreakText,
-        ' ',
-        topScoresText,
-        'Something went wrong with scoreboard provider',
-      ];
-    }
-  }
-
-  create() {
+  async create() {
     this.events.on('game-over', async () => {
       this.sound.play('mistype', {
         volume: 0.2,
@@ -56,32 +26,31 @@ export default class GameOverDialogScene extends TFBaseScene {
       this.scene.get(SceneKeys.BaseEvents).cameras.main.shake(400, 0.007);
       const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
       rectangle.setDepth(0);
-      const xTeamLogo = this.add.image(1703, 203, 'x-team-logo');
+      const xTeamLogo = this.add.image(1750, 80, 'x-team-logo');
+      xTeamLogo.setOrigin(0.5, 0);
       xTeamLogo.setDepth(0);
       xTeamLogo.setScale(0.7);
-      const scoreb = await this.getScoreboard();
-      const startDialog = this.createGameOverDialog(scoreb).setPosition(1000, 450);
 
-      this.rexUI
-        .modalPromise(startDialog, {
-          manualClose: true,
-          duration: {
-            in: 700,
-            out: 250,
-          },
-        })
-        .then((result: Phaser.GameObjects.GameObject) => {
-          if (result.name === 'game-reset') {
-            // TODO: reload the game instead of refreshing page
-            // this.events.emit('reset-game');
-            // this.restartGame();
-            location.reload();
-          }
-        });
+      this.createParticles();
+      const { width, height } = this.game.canvas;
+      const containerXPos = width / 2;
+      const containerYPos = height / 2;
+      this.startMenuContainer = new EndMenu(
+        this,
+        containerXPos,
+        containerYPos - 100,
+        this.handleClickButton
+      );
+      const topScores = await this.startMenuContainer.getScoreboard();
+      const topScoresText = new Word(this, 0, 0, topScores, 'white', true, '60px');
+      topScoresText.setOrigin(0.5, 0.5);
+      topScoresText.setAlign('left');
+      this.startMenuContainer.setTopScoreText(topScoresText);
+      topScoresText.destroy();
     });
   }
 
-  createGameOverDialog(scoreb: any[]) {
+  createParticles() {
     const particle = this.add.particles('matrix-font-salmon');
 
     particle.createEmitter({
@@ -97,93 +66,7 @@ export default class GameOverDialogScene extends TFBaseScene {
       // tint: 0xff668f,
     });
     particle.setDepth(1);
-
-    const dialog = this.rexUI.add
-      .dialog({
-        title: this.rexUI.add.label({
-          text: this.add.sprite(0, 0, 'game-over-logo'),
-          space: {
-            left: 50,
-            right: 50,
-            top: 10,
-            bottom: 10,
-          },
-        }),
-        actions: [this.createLabel('<Retry />', 'game-reset')],
-        content: this.add.text(0, 0, scoreb, { fontSize: '40px' }),
-        space: {
-          title: 25,
-          content: 25,
-          action: 15,
-          left: 20,
-          right: 20,
-          top: 300,
-          bottom: 300,
-        },
-        align: {
-          title: 'center',
-          content: 'center',
-          description: 'center',
-          choices: 'center',
-          actions: 'center',
-        },
-        expand: {
-          content: false,
-        },
-      })
-      .layout();
-
-    dialog
-      .on('button.click', function (button: { text: string; name: string }, index: number) {
-        dialog.emit('modal.requestClose', {
-          index: index,
-          text: button.text,
-          name: button.name,
-        });
-      })
-      .on(
-        'button.over',
-        function (button: {
-          getElement: (arg0: string) => {
-            setStrokeStyle: {
-              (arg0: number, color: number): void;
-              new (): any;
-            };
-          };
-        }) {
-          button.getElement('background').setStrokeStyle(1, 0xffffff);
-        }
-      )
-      .on(
-        'button.out',
-        function (button: {
-          getElement: (element: string) => {
-            setStrokeStyle: () => void;
-          };
-        }) {
-          button.getElement('background').setStrokeStyle();
-        }
-      );
-    dialog.setDepth(2);
-    return dialog;
   }
-
-  createLabel = (text: string, name: string, color?: string): any => {
-    return this.rexUI.add.label({
-      background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 20),
-      text: this.add.text(0, 0, text, {
-        fontSize: '40px',
-        color: color ? color : 'white',
-      }),
-      name,
-      space: {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10,
-      },
-    });
-  };
 
   restartGame() {
     this.cameras.main.fadeOut(250, 0, 0, 0);
@@ -196,5 +79,43 @@ export default class GameOverDialogScene extends TFBaseScene {
       this.scene.stop(SceneKeys.DamageMonitor);
       this.scene.start(SceneKeys.GameStartDialog);
     });
+  }
+
+  loginToXTU() {
+    window.open(
+      gamesHqUrl + '/general/login/google',
+      'popup',
+      'width=600,height=600,scrollbars=no,resizable=no'
+    );
+    const receivePostMessage = async (event: MessageEvent<any>) => {
+      // IMPORTANT: check the origin of the data!
+      if (event.origin.startsWith(gamesHqUrl)) {
+        console.log(event.data);
+        const session = event.data;
+        localStorage.setItem('session', JSON.stringify(session));
+        this.startMenuContainer.toggleLoginbutton(false);
+      } else {
+        // The data was NOT sent from your site!
+        // Be careful! Do not use it. This else branch is
+        // here just for clarity, you usually shouldn't need it.
+        return;
+      }
+      window.removeEventListener('message', receivePostMessage);
+    };
+    window.addEventListener('message', receivePostMessage);
+  }
+
+  handleClickButton(button: Label) {
+    switch (button.name) {
+      case 'game-xtu-login':
+        this.loginToXTU();
+        break;
+      case 'game-start':
+        // TODO: reload the game instead of refreshing page
+        // scene.events.emit('reset-game');
+        // scene.restartGame();
+        location.reload();
+        break;
+    }
   }
 }

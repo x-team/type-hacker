@@ -21,7 +21,8 @@ export default class GameStartDialogScene extends TFBaseScene {
   create() {
     const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
     rectangle.setDepth(0);
-    const xTeamLogo = this.add.image(1703, 300, 'x-team-logo');
+    const xTeamLogo = this.add.image(1750, 80, 'x-team-logo');
+    xTeamLogo.setOrigin(0.5, 0);
     xTeamLogo.setDepth(0);
     xTeamLogo.setScale(0.7);
 
@@ -123,7 +124,6 @@ export default class GameStartDialogScene extends TFBaseScene {
     this.scene.start(SceneKeys.DamageMonitor);
   }
 
-  // Not working
   handleClickButton(this: { scene: GameStartDialogScene; button: Label }) {
     const { scene, button } = this;
     switch (button.name) {

@@ -27,20 +27,20 @@ export default class HUDScene extends TFBaseScene {
 
   create() {
     this.createHUDInstance();
-    this.tweens.add({
-      targets: this.hudInstance,
-      alpha: {
-        from: 0,
-        to: 1,
-      },
-      duration: 1500,
-    });
   }
 
   createHUDInstance() {
     const xPos = this.game.canvas.width;
     if (this.getPlayerData().data.session.isLoggedIn) {
       this.hudInstance = new HUD(this, xPos, 0, this.getPlayerData().data.session);
+      this.tweens.add({
+        targets: this.hudInstance,
+        alpha: {
+          from: 0,
+          to: 1,
+        },
+        duration: 1500,
+      });
     }
   }
 }
