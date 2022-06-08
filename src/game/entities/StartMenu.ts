@@ -153,7 +153,7 @@ export class StartMenu extends Phaser.GameObjects.Container {
   handleOverButton(this: Label) {
     const button = this;
     const roundRect = button.getElement('background') as RoundRectangle;
-    roundRect.setStrokeStyle(1, 0xffffff);
+    roundRect.setStrokeStyle(1, 0xfc973f);
   }
 
   handleOutButton(this: Label) {

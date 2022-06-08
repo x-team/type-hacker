@@ -59,11 +59,11 @@ export class EndMenu extends Phaser.GameObjects.Container {
         orientation: 'x',
         buttons: [this.loginWithButton, this.retryGameButton],
         space: {
-          left: 10,
-          right: 10,
+          left: 15,
+          right: 15,
           top: 10,
-          bottom: 10,
-          item: 3,
+          bottom: 25,
+          item: 150,
         },
         expand: true,
       })
@@ -148,7 +148,7 @@ export class EndMenu extends Phaser.GameObjects.Container {
       text,
       settings?.color ?? 'white',
       true,
-      '60px'
+      '50px'
     );
     wordtext.setOrigin(0.5, 0.5);
     this.add(wordtext);
@@ -173,7 +173,7 @@ export class EndMenu extends Phaser.GameObjects.Container {
 
   handleOverButton(button: Label) {
     const roundRect = button.getElement('background') as RoundRectangle;
-    roundRect.setStrokeStyle(1, 0xffffff);
+    roundRect.setStrokeStyle(1, 0x3f95b0);
   }
 
   handleOutButton(button: Label) {
