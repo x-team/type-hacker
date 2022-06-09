@@ -8,6 +8,8 @@ import { keyboardSettings } from '../../mobileGame/virtualKeyboard';
 import { gamesHqUrl } from '../../api/utils';
 import { StartMenu } from '../../game/entities/StartMenu';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
+import Word from '../../game/entities/Word';
+import { submitScore } from '../../api/leaderboard';
 
 export default class GameStartDialogScene extends TFBaseScene {
   private fadeInMenuTransition: number = 1500;
@@ -47,6 +49,38 @@ export default class GameStartDialogScene extends TFBaseScene {
     }
 
     this.fadeInStartMenu();
+
+    const callApiButton = this.createLabel('< call the API />', 'game-call-the-api');
+    callApiButton.setInteractive({ useHandCursor: true });
+
+    callApiButton.onClick(async () => {
+      console.log('Hello from new Button');
+      const achievements = await submitScore();
+      console.log({ achievements });
+    }, this);
+  }
+
+  createLabel(text: string, name: string, color?: string) {
+    const bgRect = this.rexUI.add.roundRectangle(0, 0, 0, 0, 20);
+    const wordtext = new Word(this, 0, 0, text, color ? color : 'white', true, '60px');
+    wordtext.setOrigin(0.5, 0.5);
+    const label = this.rexUI.add
+      .label({
+        x: 400,
+        y: 200,
+        background: bgRect,
+        text: wordtext,
+        name,
+        space: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10,
+        },
+      })
+      .fadeIn(1000, 1)
+      .layout();
+    return label;
   }
 
   createParticles() {
