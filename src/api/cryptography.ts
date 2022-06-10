@@ -17,6 +17,5 @@ export function createAPISignature({ timestamp, bodyPayload }: APISignatureParam
   const bodyToHash = bodyPayloadBuffer.toString('utf-8');
   const version = 'v0';
   const signatureBase = `${version}:${timestamp}:${bodyToHash}`;
-  console.log({ signatureBase });
   return `${version}=${signMessage(signatureBase, __API_SIGNING_SECRET__)}`;
 }

@@ -9,7 +9,6 @@ import { gamesHqUrl } from '../../api/utils';
 import { StartMenu } from '../../game/entities/StartMenu';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import Word from '../../game/entities/Word';
-import { submitScore } from '../../api/leaderboard';
 
 export default class GameStartDialogScene extends TFBaseScene {
   private fadeInMenuTransition: number = 1500;
@@ -23,7 +22,7 @@ export default class GameStartDialogScene extends TFBaseScene {
   create() {
     const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
     rectangle.setDepth(0);
-    const xTeamLogo = this.add.image(1750, 80, 'x-team-logo');
+    const xTeamLogo = this.add.image(1750, 150, 'x-team-logo');
     xTeamLogo.setOrigin(0.5, 0);
     xTeamLogo.setDepth(0);
     xTeamLogo.setScale(0.7);
@@ -49,15 +48,6 @@ export default class GameStartDialogScene extends TFBaseScene {
     }
 
     this.fadeInStartMenu();
-
-    const callApiButton = this.createLabel('< call the API />', 'game-call-the-api');
-    callApiButton.setInteractive({ useHandCursor: true });
-
-    callApiButton.onClick(async () => {
-      console.log('Hello from new Button');
-      const achievements = await submitScore();
-      console.log({ achievements });
-    }, this);
   }
 
   createLabel(text: string, name: string, color?: string) {

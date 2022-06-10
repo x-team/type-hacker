@@ -3,6 +3,7 @@ import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
+import { submitScore } from '../../api/leaderboard';
 
 interface LabelSettings {
   xPos?: number;
@@ -36,7 +37,7 @@ export class EndMenu extends Phaser.GameObjects.Container {
     this.add(mainTextText);
     this.mainTextLabel = scene.rexUI.add
       .label({
-        y: -y + 100 + mainTextText.height / 2,
+        y: -y + 170 + mainTextText.height / 2,
         text: mainTextText,
       })
       .fadeIn(1000, 1)
@@ -68,11 +69,15 @@ export class EndMenu extends Phaser.GameObjects.Container {
         expand: true,
       })
       .layout();
+
     // EVENTS
     this.buttonsContainer.on('button.over', this.handleOverButton);
     this.buttonsContainer.on('button.out', this.handleOutButton);
     this.buttonsContainer.on('button.click', handleClickFunc, scene);
     this.add(this.buttonsContainer);
+
+    const isUserloggedIn = scene.getPlayerData().data.session.isLoggedIn;
+    this.toggleLoginbutton(!isUserloggedIn);
 
     // TOP SCORES
     const yPos = this.buttonsContainer.y + this.buttonsContainer.height;
@@ -100,8 +105,16 @@ export class EndMenu extends Phaser.GameObjects.Container {
   async getScoreboard() {
     const yourScore = this.parentScene.getPlayerData().data.currentScore;
     const yourLongestStreak = this.parentScene.getPlayerData().data.longestStreak;
+    if (this.parentScene.getPlayerData().data.session.isLoggedIn) {
+      const currentLevel = this.parentScene.getPlayerData().data.currentLevel;
+      await submitScore({
+        score: yourScore,
+        longestStreak: yourLongestStreak,
+        level: currentLevel,
+      });
+    }
     // const userName = getPlayerName();
-    const yourScoreText = `YOUR SCORE ${yourScore}`;
+    const yourScoreText = `YOUR SCORE: ${yourScore}`;
     const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
     const topScoresText = 'TOP SCORES';
     try {
