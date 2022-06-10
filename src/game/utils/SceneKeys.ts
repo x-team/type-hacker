@@ -9,6 +9,7 @@ enum SceneKeys {
   NewLevel = 'NewLevel',
   Keyboards = 'Keyboards',
   Panels = 'Panels',
+  HUD = 'HUD',
   DamageMonitor = 'DamageMonitor',
 }
 

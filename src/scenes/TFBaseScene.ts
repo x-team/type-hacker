@@ -5,7 +5,8 @@ import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pip
 import { FullPlayerData } from '../game/entities/FullPlayerData';
 import SceneKeys from '../game/utils/SceneKeys';
 import { MONITORS_TURNED_OFF_COLOR, MONITORS_TURNED_OFF_OVERLAY_ALPHA } from '../game/utils/consts';
-import { TMonitorCoordinates } from '../game/utils/types';
+import { SignIn, TMonitorCoordinates } from '../game/utils/types';
+import { checkSession } from '../api/signInAndOut';
 
 export default class TFBaseScene extends Phaser.Scene {
   rexUI!: RexUIPlugin;
@@ -27,6 +28,35 @@ export default class TFBaseScene extends Phaser.Scene {
 
   getPlayerData() {
     return FullPlayerData.getPlayerData();
+  }
+
+  async checkAvailableSession() {
+    const userSession = this.getPlayerData().data.session;
+    if (userSession.isLoggedIn) {
+      return;
+    }
+    const localSession = localStorage.getItem('session');
+    if (!localSession) {
+      return;
+    }
+
+    // FECTH DATA
+    const apiSession: SignIn = await checkSession();
+    const headerNeeded = 'xtu-session-token Header needed';
+
+    if (!apiSession.success && apiSession.message === headerNeeded) {
+      this.getPlayerData().data.session.isLoggedIn = false;
+      localStorage.removeItem('session');
+      // Promt a message saying something happened or error or something
+    }
+
+    if (apiSession.success) {
+      // Set as logged in
+      this.getPlayerData().data.session.isLoggedIn = true;
+      this.getPlayerData().data.session.user = apiSession.user;
+      this.getPlayerData().data.session.data = apiSession.session;
+      localStorage.setItem('session', JSON.stringify(apiSession.session));
+    }
   }
 
   generateMonitorsOverlay() {

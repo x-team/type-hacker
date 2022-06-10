@@ -35,6 +35,9 @@ export default class PreloaderScene extends TFBaseScene {
       'assets/main/damageMonitor/smoke-atlas.json'
     );
 
+    // HUD
+    this.load.atlas('player-hud', 'assets/icons/hud-atlas.png', 'assets/icons/hud-atlas.json');
+
     // PROPS AND EFFECTS
     this.load.image('panel', 'assets/main/damageMonitor/monitor.png');
 
@@ -78,7 +81,7 @@ export default class PreloaderScene extends TFBaseScene {
     });
   }
 
-  create() {
+  async create() {
     this.anims.create({
       key: 'hacker-background-gif',
       frames: this.anims.generateFrameNames('hacker-background'),
@@ -126,6 +129,8 @@ export default class PreloaderScene extends TFBaseScene {
       repeat: -1,
       duration: 1500,
     });
+
+    await this.checkAvailableSession();
 
     this.scene.start(SceneKeys.BaseEvents);
     this.scene.start(SceneKeys.GameStartDialog);

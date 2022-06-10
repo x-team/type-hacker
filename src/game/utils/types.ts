@@ -92,6 +92,36 @@ export type PlayerDataConfiguration = {
   }[];
 };
 
+interface GamesAPIUSer {
+  displayName: string;
+  email: string;
+  slackId?: string;
+  firebaseUserUid?: string;
+  profilePictureUrl?: string;
+  role: number;
+}
+
+interface SignInOut {
+  success: boolean;
+  message?: string;
+}
+
+export interface SignIn extends SignInOut {
+  user: GamesAPIUSer;
+  session: GamesAPISession;
+}
+
+export interface GamesAPISession {
+  token: string;
+  expireTime?: number;
+}
+
+export interface LoggedUserSession {
+  isLoggedIn: boolean;
+  user: GamesAPIUSer;
+  data: GamesAPISession;
+}
+
 export type PlayerDataData = {
   currentLevel: number;
   isFocusingOnWord: boolean;
@@ -108,6 +138,7 @@ export type PlayerDataData = {
     center: TMonitorData;
     right: TMonitorData;
   };
+  session: LoggedUserSession;
 };
 
 export type PlayerDataSettings = {
