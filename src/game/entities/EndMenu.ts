@@ -58,13 +58,14 @@ export class EndMenu extends Phaser.GameObjects.Container {
         y: mainTextText.y + mainTextText.height + 100,
         // width: 400,
         orientation: 'x',
+        align: 'center',
         buttons: [this.loginWithButton, this.retryGameButton],
         space: {
-          left: 15,
-          right: 15,
-          top: 10,
+          left: 10,
+          right: 10,
+          top: 15,
           bottom: 25,
-          item: 150,
+          // item: 10,
         },
         expand: true,
       })
@@ -95,6 +96,8 @@ export class EndMenu extends Phaser.GameObjects.Container {
     this.topScoreLabel.setOrigin(0.5, 0.5);
     this.add(this.topScoreLabel);
 
+    // To draw the box container
+    // this.buttonsContainer.drawBounds(scene.add.graphics(), 0xff0000);
     scene.add.existing(this);
   }
 
@@ -173,9 +176,10 @@ export class EndMenu extends Phaser.GameObjects.Container {
         background: bgRect,
         text: wordtext,
         name,
+        align: 'center',
         space: {
-          left: 10,
-          right: 10,
+          left: 50,
+          right: 50,
           top: 10,
           bottom: 10,
         },
