@@ -26,7 +26,7 @@ export default class GameOverDialogScene extends TFBaseScene {
       this.scene.get(SceneKeys.BaseEvents).cameras.main.shake(400, 0.007);
       const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
       rectangle.setDepth(0);
-      const xTeamLogo = this.add.image(1750, 80, 'x-team-logo');
+      const xTeamLogo = this.add.image(1750, 150, 'x-team-logo');
       xTeamLogo.setOrigin(0.5, 0);
       xTeamLogo.setDepth(0);
       xTeamLogo.setScale(0.7);

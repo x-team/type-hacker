@@ -8,6 +8,7 @@ import { keyboardSettings } from '../../mobileGame/virtualKeyboard';
 import { gamesHqUrl } from '../../api/utils';
 import { StartMenu } from '../../game/entities/StartMenu';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
+import Word from '../../game/entities/Word';
 
 export default class GameStartDialogScene extends TFBaseScene {
   private fadeInMenuTransition: number = 1500;
@@ -21,7 +22,7 @@ export default class GameStartDialogScene extends TFBaseScene {
   create() {
     const rectangle = this.add.rectangle(0, 0, 3840, 2160, 0x000000);
     rectangle.setDepth(0);
-    const xTeamLogo = this.add.image(1750, 80, 'x-team-logo');
+    const xTeamLogo = this.add.image(1750, 150, 'x-team-logo');
     xTeamLogo.setOrigin(0.5, 0);
     xTeamLogo.setDepth(0);
     xTeamLogo.setScale(0.7);
@@ -47,6 +48,29 @@ export default class GameStartDialogScene extends TFBaseScene {
     }
 
     this.fadeInStartMenu();
+  }
+
+  createLabel(text: string, name: string, color?: string) {
+    const bgRect = this.rexUI.add.roundRectangle(0, 0, 0, 0, 20);
+    const wordtext = new Word(this, 0, 0, text, color ? color : 'white', true, '60px');
+    wordtext.setOrigin(0.5, 0.5);
+    const label = this.rexUI.add
+      .label({
+        x: 400,
+        y: 200,
+        background: bgRect,
+        text: wordtext,
+        name,
+        space: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10,
+        },
+      })
+      .fadeIn(1000, 1)
+      .layout();
+    return label;
   }
 
   createParticles() {
