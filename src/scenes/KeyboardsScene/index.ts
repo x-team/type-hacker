@@ -6,9 +6,12 @@ import {
 } from '../../game/utils/consts';
 import SceneKeys from '../../game/utils/SceneKeys';
 import { TMonitorsNames } from '../../game/utils/types';
+import { checkIfMobile } from '../../mobileGame';
 import TFBaseScene from '../TFBaseScene';
 import onComboFn from './onCombo';
 import onKeydownFn, { getNextWord } from './onKeyDown';
+
+const isMobile = checkIfMobile();
 
 export default class KeyboardsScene extends TFBaseScene {
   constructor() {
@@ -21,26 +24,41 @@ export default class KeyboardsScene extends TFBaseScene {
     this.addAllKeyboardGameMonitors();
 
     this.events.on('level-end', () => {
+      this.getPlayerData().data.currentWordsDisplayed = [];
       this.events.emit('destroy-words');
       this.input.keyboard.removeListener('keydown');
     });
 
     this.events.on('new-level-start', () => {
       this.addAllKeyboardGameMonitors();
-      this.addKeyboardListener();
+      !isMobile && this.addKeyboardListener();
     });
   }
 
   private addKeyboardListener() {
-    this.input.keyboard.on('keydown', (event: { keyCode: number; key: string }) => {
-      onKeydownFn({
-        scene: this,
-        event,
+    if (isMobile) {
+      const selectElement = document.querySelector('#virtual-keyboard');
+      selectElement?.addEventListener('change', (event) => {
+        const inputFieldValue = (event.target as HTMLInputElement).value || '';
+        if (inputFieldValue) {
+          const typedLetter = inputFieldValue.charAt(inputFieldValue.length - 1);
+          onKeydownFn({
+            scene: this,
+            event: { keyCode: 48, key: typedLetter }, // TODO: update keycodes
+          });
+        }
       });
-    });
+    } else {
+      this.input.keyboard.on('keydown', (event: { keyCode: number; key: string }) => {
+        onKeydownFn({
+          scene: this,
+          event,
+        });
+      });
+    }
   }
 
-  private addSingleKeyboardGameMonitor(
+  private addMonitorText(
     guessWordX: number,
     guessWordY: number,
     userWordY: number,
@@ -61,6 +79,7 @@ export default class KeyboardsScene extends TFBaseScene {
     guessWord.setDepth(2);
     guessWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     guessWord.setOrigin(0, 0.5);
+    isMobile && guessWord.setFontSize(90);
     this.tweens.add({
       targets: guessWord,
       alpha: {
@@ -72,13 +91,12 @@ export default class KeyboardsScene extends TFBaseScene {
         tween.resetTweenData(true);
       },
     });
-    this.getPlayerData().data.currentWordsDisplayed.push(guessWord.text);
     this.getPlayerData().data.monitors[currentMonitor].guessText = guessWord;
 
     const userWord = new Word(
       this,
       guessWordX,
-      userWordY + guessWord.height,
+      isMobile ? guessWordY : userWordY + guessWord.height,
       '',
       '#fe9c9d',
       defaultVisible
@@ -86,6 +104,7 @@ export default class KeyboardsScene extends TFBaseScene {
     userWord.setDepth(2);
     userWord.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     userWord.setOrigin(0, 0.5);
+    isMobile && userWord.setFontSize(90);
 
     this.getPlayerData().data.monitors[currentMonitor].userText = userWord;
     const currentTime = 10;
@@ -119,7 +138,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.center.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.center.coordinates.guessWordX,
         monitorsData.center.coordinates.guessWordY,
         monitorsData.center.coordinates.userWordY,
@@ -139,7 +158,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.left.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.left.coordinates.guessWordX,
         monitorsData.left.coordinates.guessWordY,
         monitorsData.left.coordinates.userWordY,
@@ -159,7 +178,7 @@ export default class KeyboardsScene extends TFBaseScene {
       this.getPlayerData().data.monitors.right.screenOverlay!.setAlpha(
         MONITORS_DEFAULT_OVERLAY_ALPHA
       );
-      this.addSingleKeyboardGameMonitor(
+      this.addMonitorText(
         monitorsData.right.coordinates.guessWordX,
         monitorsData.right.coordinates.guessWordY,
         monitorsData.right.coordinates.userWordY,

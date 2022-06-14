@@ -1,14 +1,14 @@
-export const submitScore = (score: number) => {
-  return new Promise((resolve, reject) => {
+export const submitScore = () => {
+  return new Promise(({}, reject) => {
     try {
-      PlayFabClientSDK.UpdatePlayerStatistics(
-        {
-          Statistics: [{ StatisticName: 'Highscore', Value: score }],
-        },
-        (result: any) => {
-          return resolve(result.code);
-        }
-      );
+      // PlayFabClientSDK.UpdatePlayerStatistics(
+      //   {
+      //     Statistics: [{ StatisticName: 'Highscore', Value: score }],
+      //   },
+      //   (result: any) => {
+      //     return resolve(result.code);
+      //   }
+      // );
     } catch (e) {
       return reject(new Error(`Submit Score failed ${e}`));
     }
@@ -16,18 +16,18 @@ export const submitScore = (score: number) => {
 };
 
 export const getLeaderboardScores = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise(({}, reject) => {
     try {
-      PlayFabClientSDK.GetLeaderboard(
-        {
-          StartPosition: 0,
-          StatisticName: 'Highscore',
-          MaxResultsCount: 10,
-        },
-        (result: any) => {
-          return resolve(result.data);
-        }
-      );
+      // PlayFabClientSDK.GetLeaderboard(
+      //   {
+      //     StartPosition: 0,
+      //     StatisticName: 'Highscore',
+      //     MaxResultsCount: 10,
+      //   },
+      //   (result: any) => {
+      //     return resolve(result.data);
+      //   }
+      // );
     } catch (e) {
       return reject(new Error('Get Leaderboard failed'));
     }
