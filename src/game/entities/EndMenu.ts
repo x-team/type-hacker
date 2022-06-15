@@ -3,7 +3,7 @@ import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
-import { submitScore } from '../../api/leaderboard';
+import { getHighestScores, submitScore } from '../../api/leaderboard';
 
 interface LabelSettings {
   xPos?: number;
@@ -121,23 +121,19 @@ export class EndMenu extends Phaser.GameObjects.Container {
     const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
     const topScoresText = 'TOP SCORES';
     try {
-      // const scoreSubmitted = await submitScore();
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      // if (scoreSubmitted === 200) {
-      //   const scoreBoard = (await getLeaderboardScores()) as any;
-      //   const scoreboardText = scoreBoard.Leaderboard.map(
-      //     (player: { Position: number; StatValue: number; DisplayName: number }) =>
-      //       `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
-      //   );
+      const scoreBoard = await getHighestScores();
+      const scoreboardText = scoreBoard.map(
+        ({ displayName, email, score }, index) =>
+          `${index + 1}. | ${score} ➡ ${displayName ?? email}`
+      );
       return [
         yourScoreText,
         yourStreakText,
         ' ',
         topScoresText,
         '-----------------------------',
-        // ...scoreboardText,
+        ...scoreboardText,
       ];
-      // }
     } catch (e) {
       return [
         yourScoreText,
