@@ -199,7 +199,6 @@ export class EndMenu extends Sizer {
         ({ displayName, email, score }, index) =>
           `${index + 1}. | ${score} ➡ ${displayName ?? email}`
       );
-      scoreboardText.push(...Array(10).fill(scoreboardText.shift()));
 
       const topScoresEntity = new TopScoreContainer(this.parentScene, 0, 0, scoreboardText);
       this.topScoreContainer.add(topScoresEntity, {

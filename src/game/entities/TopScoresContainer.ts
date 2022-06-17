@@ -69,8 +69,8 @@ export class TopScoreContainer extends ScrollablePanel {
     const yPos = 0;
 
     const trackerWidth = 5;
-    const trackerHeight = 10;
-    const trackerRadius = 10;
+    const trackerHeight = 5;
+    const trackerRadius = 5;
     const tracker = scene.rexUI.add.roundRectangle(
       xPos,
       yPos,
