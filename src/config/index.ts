@@ -5,6 +5,7 @@ interface NameToType {
   // API
   VITE_API_CLIENT_SECRET: string;
   VITE_API_HOST: string;
+  VITE_GAMES_API_HIGHEST_LEADERBOARD_ID: string;
 }
 
 export function getConfig<T extends keyof NameToType>(name: T): NameToType[T];

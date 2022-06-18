@@ -3,7 +3,10 @@ import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
-import { submitScore } from '../../api/leaderboard';
+import { getHighestScores, submitScore } from '../../api/leaderboard';
+import GridSizer from 'phaser3-rex-plugins/templates/ui/gridsizer/GridSizer';
+import { TopScoreContainer } from './TopScoresContainer';
+import Sizer from 'phaser3-rex-plugins/templates/ui/sizer/Sizer';
 
 interface LabelSettings {
   xPos?: number;
@@ -11,7 +14,25 @@ interface LabelSettings {
   color?: string;
 }
 
-export class EndMenu extends Phaser.GameObjects.Container {
+interface GridItemConfig {
+  column?: number | undefined;
+  row?: number | undefined | true;
+  align?: GridSizer.AlignTypes;
+  padding?: GridSizer.PaddingTypes;
+  expand?: boolean;
+  key?: string;
+}
+
+interface PaddingConfig {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+}
+
+export class EndMenu extends Sizer {
+  private static basePadding: PaddingConfig = { top: 0, bottom: 0, left: 0, right: 0 };
+
   private parentScene: TFBaseScene;
 
   // MAIN MENU
@@ -23,53 +44,52 @@ export class EndMenu extends Phaser.GameObjects.Container {
   private buttonsContainer: Buttons;
 
   // TOP SCORES
-  private topScoreLabel: Label;
+  private topScoreContainer: GridSizer;
 
   constructor(scene: TFBaseScene, x: number, y: number, handleClickFunc: Function) {
-    super(scene, x, y);
+    super(scene, x, y, { orientation: 'y' });
+    this.setOrigin(0.5, 0);
 
     this.parentScene = scene;
 
     // MAIN TEXT
     const mainTextText = scene.add.sprite(0, 0, 'game-over-logo');
-    mainTextText.setOrigin(0.5, 0);
     mainTextText.setScale(1.5);
-    this.add(mainTextText);
     this.mainTextLabel = scene.rexUI.add
       .label({
-        y: -y + 170 + mainTextText.height / 2,
+        y: 0,
+        height: mainTextText.height * mainTextText.scale,
         text: mainTextText,
+        space: EndMenu.basePadding,
       })
-      .fadeIn(1000, 1)
-      .layout();
+      .fadeIn(1000, 1);
 
-    this.add(this.mainTextLabel);
+    this.add(this.mainTextLabel, {
+      align: 'center',
+      padding: EndMenu.basePadding,
+    });
 
     // BUTTONS
     this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-    this.add(this.loginWithButton);
 
     this.retryGameButton = this.createLabel('< Retry />', 'game-start');
-    this.add(this.retryGameButton);
 
-    this.buttonsContainer = scene.rexUI.add
-      .buttons({
-        x: 0,
-        y: mainTextText.y + mainTextText.height + 100,
-        // width: 400,
-        orientation: 'x',
-        align: 'center',
-        buttons: [this.loginWithButton, this.retryGameButton],
-        space: {
-          left: 10,
-          right: 10,
-          top: 15,
-          bottom: 25,
-          // item: 10,
-        },
-        expand: true,
-      })
-      .layout();
+    this.buttonsContainer = scene.rexUI.add.buttons({
+      x: 0,
+      y: 0,
+      // width: 400,
+      orientation: 'x',
+      align: 'center',
+      buttons: [this.loginWithButton, this.retryGameButton],
+      space: {
+        left: 10,
+        right: 10,
+        top: 5,
+        bottom: 5,
+        // item: 10,
+      },
+      expand: true,
+    });
 
     // EVENTS
     this.buttonsContainer.on('button.over', this.handleOverButton);
@@ -81,28 +101,27 @@ export class EndMenu extends Phaser.GameObjects.Container {
     this.toggleLoginbutton(!isUserloggedIn);
 
     // TOP SCORES
-    const yPos = this.buttonsContainer.y + this.buttonsContainer.height;
-    const wordText = new Word(scene, 0, 0, '*', 'white', true);
-    wordText.setOrigin(0.5, 0);
-    wordText.setAlign('Left');
-    this.add(wordText);
-    this.topScoreLabel = scene.rexUI.add
-      .label({
-        y: yPos,
-        text: wordText,
-      })
-      .fadeIn(1000, 1)
-      .layout();
-    this.topScoreLabel.setOrigin(0.5, 0.5);
-    this.add(this.topScoreLabel);
+    this.topScoreContainer = scene.rexUI.add.gridSizer({
+      x: 0,
+      y: 0,
+      height: 800,
+      width: 800,
+      row: 5,
+      column: 1,
+      rowProportions: 0,
+      columnProportions: 1,
+      space: {
+        top: 0,
+        bottom: 0,
+        row: 2,
+      },
+    });
 
+    this.add(this.topScoreContainer);
+    this.layout();
     // To draw the box container
-    // this.buttonsContainer.drawBounds(scene.add.graphics(), 0xff0000);
+    // this.drawBounds(scene.add.graphics(), 0xff0000);
     scene.add.existing(this);
-  }
-
-  setTopScoreText(textGO: Word) {
-    this.topScoreLabel.setText(textGO.text);
   }
 
   async getScoreboard() {
@@ -116,36 +135,94 @@ export class EndMenu extends Phaser.GameObjects.Container {
         level: currentLevel,
       });
     }
-    // const userName = getPlayerName();
-    const yourScoreText = `YOUR SCORE: ${yourScore}`;
-    const yourStreakText = `YOUR LONGEST STREAK: ${yourLongestStreak}`;
-    const topScoresText = 'TOP SCORES';
+
+    const yourScoreText = new Word(
+      this.parentScene,
+      0,
+      0,
+      `YOUR SCORE: ${yourScore}`,
+      'white',
+      true,
+      '60px'
+    );
+    const yourStreakText = new Word(
+      this.parentScene,
+      0,
+      0,
+      `YOUR LONGEST STREAK: ${yourLongestStreak}`,
+      'white',
+      true,
+      '60px'
+    );
+    const topScoresText = new Word(this.parentScene, 0, 0, 'TOP SCORES', 'white', true, '60px');
+    const dividerText = new Word(
+      this.parentScene,
+      0,
+      0,
+      '------------------------------------',
+      'white',
+      true,
+      '60px'
+    );
+
+    // Basic Item Config
+    const gridItemConfig: GridItemConfig = {
+      row: 0,
+      align: 'left',
+      padding: EndMenu.basePadding,
+    };
+
+    this.topScoreContainer.add(yourScoreText, {
+      ...gridItemConfig,
+      row: 0,
+    });
+    this.topScoreContainer.add(yourStreakText, {
+      ...gridItemConfig,
+      row: 1,
+    });
+    this.topScoreContainer.add(topScoresText, {
+      padding: {
+        ...EndMenu.basePadding,
+        top: 30,
+      },
+      row: 2,
+      align: 'center',
+    });
+    this.topScoreContainer.add(dividerText, {
+      ...gridItemConfig,
+      row: 3,
+      align: 'center',
+    });
     try {
-      // const scoreSubmitted = await submitScore();
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      // if (scoreSubmitted === 200) {
-      //   const scoreBoard = (await getLeaderboardScores()) as any;
-      //   const scoreboardText = scoreBoard.Leaderboard.map(
-      //     (player: { Position: number; StatValue: number; DisplayName: number }) =>
-      //       `${player.Position + 1}. |${player.StatValue} ➡ ${player.DisplayName}`
-      //   );
-      return [
-        yourScoreText,
-        yourStreakText,
-        ' ',
-        topScoresText,
-        '-----------------------------',
-        // ...scoreboardText,
-      ];
-      // }
+      const scoreBoard = await getHighestScores();
+      const scoreboardText = scoreBoard.map(
+        ({ displayName, email, score }, index) =>
+          `${index + 1}. | ${score} ➡ ${displayName ?? email}`
+      );
+
+      const topScoresEntity = new TopScoreContainer(this.parentScene, 0, 0, scoreboardText);
+      this.topScoreContainer.add(topScoresEntity, {
+        ...gridItemConfig,
+        row: 4,
+        align: 'center',
+      });
+      this.layout();
     } catch (e) {
-      return [
-        yourScoreText,
-        yourStreakText,
-        ' ',
-        topScoresText,
+      const fallbackText = new Word(
+        this.parentScene,
+        0,
+        0,
         'Something went wrong with scoreboard provider',
-      ];
+        'white',
+        true,
+        '60px'
+      );
+      console.error(e);
+      this.topScoreContainer.add(fallbackText, {
+        ...gridItemConfig,
+        row: 3,
+        align: 'center',
+      });
     }
   }
 
@@ -167,8 +244,6 @@ export class EndMenu extends Phaser.GameObjects.Container {
       '50px'
     );
     wordtext.setOrigin(0.5, 0.5);
-    this.add(wordtext);
-    this.add(bgRect);
     const label = this.parentScene.rexUI.add
       .label({
         x: xPos,
@@ -180,8 +255,8 @@ export class EndMenu extends Phaser.GameObjects.Container {
         space: {
           left: 50,
           right: 50,
-          top: 10,
-          bottom: 10,
+          top: 5,
+          bottom: 5,
         },
       })
       .fadeIn(1000, 1);

@@ -1,4 +1,11 @@
+import { getConfig } from '../config';
 import { gamesHqUrl, getAxiosInstance } from './utils';
+
+interface LeaderboardResult {
+  displayName?: string;
+  email: string;
+  score: number;
+}
 
 interface ScoreToSave {
   score: number;
@@ -6,10 +13,10 @@ interface ScoreToSave {
   level?: number;
 }
 
+const highestScoreLeaderBoarsId = getConfig('VITE_GAMES_API_HIGHEST_LEADERBOARD_ID');
 export async function submitScore(scoreToSave: ScoreToSave) {
   const { score, longestStreak, level } = scoreToSave;
   const requestBody = {
-    _leaderboardEntryId: 1, // For now this can be hard-coded
     score,
     _leaderboardResultsMeta: [
       {
@@ -26,14 +33,15 @@ export async function submitScore(scoreToSave: ScoreToSave) {
     requestBody._leaderboardResultsMeta.push(levelMeta);
   }
   const axios = await getAxiosInstance({ hasSignature: true, body: requestBody });
-  const endpoint = gamesHqUrl + `/webhooks/game-dev/leaderboards/score`;
+  const endpoint =
+    gamesHqUrl + `/webhooks/game-dev/leaderboards/${highestScoreLeaderBoarsId}/score`;
   const response = await axios.post(endpoint, requestBody);
   return response.data;
 }
 
 export async function getHighestScores() {
   const axios = await getAxiosInstance({ hasSignature: true });
-  const endpoint = gamesHqUrl + `/webhooks/game-dev/leaderboards/${1}`; // For now this can be hard-coded
+  const endpoint = gamesHqUrl + `/webhooks/game-dev/leaderboards/${highestScoreLeaderBoarsId}/rank`;
   const response = await axios.get(endpoint);
-  return response.data;
+  return response.data as Array<LeaderboardResult>;
 }
