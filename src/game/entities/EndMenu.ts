@@ -4,6 +4,7 @@ import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
 import { submitScore } from '../../api/leaderboard';
+import { isProd } from '../../config';
 
 interface LabelSettings {
   xPos?: number;
@@ -17,7 +18,7 @@ export class EndMenu extends Phaser.GameObjects.Container {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton: Label;
+  private loginWithButton?: Label;
   private retryGameButton: Label;
 
   private buttonsContainer: Buttons;
@@ -46,11 +47,16 @@ export class EndMenu extends Phaser.GameObjects.Container {
     this.add(this.mainTextLabel);
 
     // BUTTONS
-    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-    this.add(this.loginWithButton);
-
     this.retryGameButton = this.createLabel('< Retry />', 'game-start');
     this.add(this.retryGameButton);
+
+    const buttons = [this.retryGameButton];
+
+    if (!isProd()) {
+      this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+      this.add(this.loginWithButton);
+      buttons.push(this.loginWithButton);
+    }
 
     this.buttonsContainer = scene.rexUI.add
       .buttons({
@@ -59,7 +65,7 @@ export class EndMenu extends Phaser.GameObjects.Container {
         // width: 400,
         orientation: 'x',
         align: 'center',
-        buttons: [this.loginWithButton, this.retryGameButton],
+        buttons,
         space: {
           left: 10,
           right: 10,
@@ -199,6 +205,10 @@ export class EndMenu extends Phaser.GameObjects.Container {
   }
 
   toggleLoginbutton(isVisibile: boolean) {
+    if (!this.loginWithButton) {
+      return;
+    }
+
     if (isVisibile) {
       this.buttonsContainer.showButton(this.loginWithButton);
     } else {
