@@ -4,6 +4,7 @@ import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
 import { getHighestScores, submitScore } from '../../api/leaderboard';
+import { isProd } from '../../config';
 import GridSizer from 'phaser3-rex-plugins/templates/ui/gridsizer/GridSizer';
 import { TopScoreContainer } from './TopScoresContainer';
 import Sizer from 'phaser3-rex-plugins/templates/ui/sizer/Sizer';
@@ -38,7 +39,7 @@ export class EndMenu extends Sizer {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton: Label;
+  private loginWithButton?: Label;
   private retryGameButton: Label;
 
   private buttonsContainer: Buttons;
@@ -70,9 +71,15 @@ export class EndMenu extends Sizer {
     });
 
     // BUTTONS
-    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-
     this.retryGameButton = this.createLabel('< Retry />', 'game-start');
+
+    const buttons = [this.retryGameButton];
+
+    if (!isProd()) {
+      this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+      this.add(this.loginWithButton);
+      buttons.push(this.loginWithButton);
+    }
 
     this.buttonsContainer = scene.rexUI.add.buttons({
       x: 0,
@@ -80,7 +87,7 @@ export class EndMenu extends Sizer {
       // width: 400,
       orientation: 'x',
       align: 'center',
-      buttons: [this.loginWithButton, this.retryGameButton],
+      buttons,
       space: {
         left: 10,
         right: 10,
@@ -274,6 +281,10 @@ export class EndMenu extends Sizer {
   }
 
   toggleLoginbutton(isVisibile: boolean) {
+    if (!this.loginWithButton) {
+      return;
+    }
+
     if (isVisibile) {
       this.buttonsContainer.showButton(this.loginWithButton);
     } else {

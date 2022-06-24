@@ -1,5 +1,6 @@
 import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
+import { isProd } from '../../config';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
 
@@ -12,7 +13,7 @@ export class StartMenu extends Phaser.GameObjects.Container {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton: Label;
+  private loginWithButton?: Label;
   private startGameButton: Label;
   private howToPlayButton: Label;
 
@@ -71,9 +72,6 @@ export class StartMenu extends Phaser.GameObjects.Container {
     // BUTTONS
     this.buttonsContainer = new Phaser.GameObjects.Container(scene, 0, 0);
 
-    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-    this.loginWithButton.setInteractive({ useHandCursor: true });
-    this.loginWithButton.setVisible(false);
     this.startGameButton = this.createLabel('< New Game />', 'game-start');
     this.startGameButton.setInteractive({ useHandCursor: true });
     this.startGameButton.setVisible(false);
@@ -81,12 +79,24 @@ export class StartMenu extends Phaser.GameObjects.Container {
     this.howToPlayButton.setInteractive({ useHandCursor: true });
     this.howToPlayButton.setVisible(false);
     this.goBackToMainMenuButton = this.createLabel('< Go Back />', 'game-main-menu');
-    this.goBackToMainMenuButton.setPosition(this.goBackToMainMenuButton.x, this.loginWithButton.y);
     this.goBackToMainMenuButton.setInteractive({ useHandCursor: true });
     this.goBackToMainMenuButton.setVisible(false);
 
+    if (!isProd()) {
+      this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+      this.loginWithButton.setInteractive({ useHandCursor: true });
+      this.loginWithButton.setVisible(false);
+      this.buttonsContainer.add(this.loginWithButton);
+      this.goBackToMainMenuButton.setPosition(
+        this.goBackToMainMenuButton.x,
+        this.loginWithButton.y
+      );
+      this.loginWithButton.on('pointerover', this.handleOverButton.bind(this.loginWithButton));
+      this.loginWithButton.on('pointerout', this.handleOutButton.bind(this.loginWithButton));
+      this.loginWithButton.onClick(handleClickFunc.bind({ scene, button: this.loginWithButton }));
+    }
+
     // ADD BUTTONS TO BUTTON CONTAINER
-    this.buttonsContainer.add(this.loginWithButton);
     this.buttonsContainer.add(this.startGameButton);
     this.buttonsContainer.add(this.howToPlayButton);
     this.buttonsContainer.add(this.goBackToMainMenuButton);
@@ -99,9 +109,6 @@ export class StartMenu extends Phaser.GameObjects.Container {
     // this.toggleHowToPlay(true);
 
     // EVENTS
-    this.loginWithButton.on('pointerover', this.handleOverButton.bind(this.loginWithButton));
-    this.loginWithButton.on('pointerout', this.handleOutButton.bind(this.loginWithButton));
-    this.loginWithButton.onClick(handleClickFunc.bind({ scene, button: this.loginWithButton }));
 
     this.startGameButton.on('pointerover', this.handleOverButton.bind(this.startGameButton));
     this.startGameButton.on('pointerout', this.handleOutButton.bind(this.startGameButton));
@@ -164,7 +171,9 @@ export class StartMenu extends Phaser.GameObjects.Container {
 
   toggleMainMenu(isVisible: boolean, isLoggedIn: boolean) {
     this.mainTextLabel.setVisible(isVisible);
-    this.loginWithButton.setVisible(!isLoggedIn);
+    if (this.loginWithButton) {
+      this.loginWithButton.setVisible(!isLoggedIn);
+    }
     this.startGameButton.setVisible(true);
     this.howToPlayButton.setVisible(isVisible);
   }
@@ -176,6 +185,8 @@ export class StartMenu extends Phaser.GameObjects.Container {
   }
 
   toggleLoginbutton(isVisibile: boolean) {
-    this.loginWithButton.setVisible(isVisibile);
+    if (this.loginWithButton) {
+      this.loginWithButton.setVisible(isVisibile);
+    }
   }
 }
