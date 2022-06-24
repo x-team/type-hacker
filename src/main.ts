@@ -86,4 +86,6 @@ typeHackerGame.scene.add(SceneKeys.GameOverDialog, GameOverDialogScene);
 typeHackerGame.scene.add(SceneKeys.DamageMonitor, DamageMonitorScene);
 typeHackerGame.scene.add(SceneKeys.HUD, HUDScene);
 
+console.log(import.meta.env);
+
 export default typeHackerGame;

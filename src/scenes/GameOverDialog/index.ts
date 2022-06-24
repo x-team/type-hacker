@@ -79,7 +79,8 @@ export default class GameOverDialogScene extends TFBaseScene {
         console.log(event.data);
         const session = event.data;
         localStorage.setItem('session', JSON.stringify(session));
-        this.startMenuContainer.toggleLoginbutton(false);
+        const isUserLoggedIn = true;
+        this.startMenuContainer.toggleLoginbutton(isUserLoggedIn);
       } else {
         // The data was NOT sent from your site!
         // Be careful! Do not use it. This else branch is

@@ -39,7 +39,7 @@ export class EndMenu extends Sizer {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton?: Label;
+  private loginWithButton: Label;
   private retryGameButton: Label;
 
   private buttonsContainer: Buttons;
@@ -71,15 +71,11 @@ export class EndMenu extends Sizer {
     });
 
     // BUTTONS
+    const buttons: Label[] = [];
     this.retryGameButton = this.createLabel('< Retry />', 'game-start');
-
-    const buttons = [this.retryGameButton];
-
-    if (!isProd()) {
-      this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-      this.add(this.loginWithButton);
-      buttons.push(this.loginWithButton);
-    }
+    buttons.push(this.retryGameButton);
+    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+    buttons.push(this.loginWithButton);
 
     this.buttonsContainer = scene.rexUI.add.buttons({
       x: 0,
@@ -92,7 +88,7 @@ export class EndMenu extends Sizer {
         left: 10,
         right: 10,
         top: 5,
-        bottom: 5,
+        bottom: 20,
         // item: 10,
       },
       expand: true,
@@ -104,8 +100,10 @@ export class EndMenu extends Sizer {
     this.buttonsContainer.on('button.click', handleClickFunc, scene);
     this.add(this.buttonsContainer);
 
+    this.buttonsContainer.hideButton(this.loginWithButton);
+    this.buttonsContainer.layout();
     const isUserloggedIn = scene.getPlayerData().data.session.isLoggedIn;
-    this.toggleLoginbutton(!isUserloggedIn);
+    this.toggleLoginbutton(isUserloggedIn);
 
     // TOP SCORES
     this.topScoreContainer = scene.rexUI.add.gridSizer({
@@ -213,7 +211,7 @@ export class EndMenu extends Sizer {
         row: 4,
         align: 'center',
       });
-      this.layout();
+      // this.layout();
     } catch (e) {
       const fallbackText = new Word(
         this.parentScene,
@@ -227,10 +225,11 @@ export class EndMenu extends Sizer {
       console.error(e);
       this.topScoreContainer.add(fallbackText, {
         ...gridItemConfig,
-        row: 3,
+        row: 4,
         align: 'center',
       });
     }
+    this.layout();
   }
 
   createLabel(text: string, name: string, settings?: LabelSettings) {
@@ -280,15 +279,15 @@ export class EndMenu extends Sizer {
     roundRect.setStrokeStyle();
   }
 
-  toggleLoginbutton(isVisibile: boolean) {
-    if (!this.loginWithButton) {
+  toggleLoginbutton(isLoggedIn: boolean) {
+    this.buttonsContainer.hideButton(this.loginWithButton);
+    if (isProd()) {
       return;
     }
-
-    if (isVisibile) {
-      this.buttonsContainer.showButton(this.loginWithButton);
-    } else {
+    if (isLoggedIn) {
       this.buttonsContainer.hideButton(this.loginWithButton);
+    } else {
+      this.buttonsContainer.showButton(this.loginWithButton);
     }
     this.buttonsContainer.layout();
   }
