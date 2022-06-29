@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "enabled.png": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 64,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 32
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "disabled.png": {
+      "frame": {
+        "x": 70,
+        "y": 2,
+        "w": 64,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 32
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "main-buttons-atlas.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 136,
+      "h": 36
+    },
+    "scale": 1
+  }
+}

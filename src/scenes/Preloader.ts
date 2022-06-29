@@ -38,6 +38,13 @@ export default class PreloaderScene extends TFBaseScene {
     // HUD
     this.load.atlas('player-hud', 'assets/icons/hud-atlas.png', 'assets/icons/hud-atlas.json');
 
+    // MAIN BUTTONS
+    this.load.atlas(
+      'main-buttons',
+      'assets/icons/main-buttons-atlas.png',
+      'assets/icons/main-buttons-atlas.json'
+    );
+
     // PROPS AND EFFECTS
     this.load.image('panel', 'assets/main/damageMonitor/monitor.png');
 
