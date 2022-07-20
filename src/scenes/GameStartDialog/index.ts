@@ -29,22 +29,21 @@ export default class GameStartDialogScene extends TFBaseScene {
 
     this.createParticles();
 
-    const { width, height } = this.game.canvas;
+    const { width } = this.game.canvas;
     const containerXPos = width / 2;
-    const containerYPos = height / 2;
+    const containerYPos = 150 + (xTeamLogo.height * xTeamLogo.scale) / 2;
     this.startMenuContainer = new StartMenu(
       this,
       containerXPos,
-      containerYPos - 100,
+      containerYPos,
+      // containerYPos - 100,
       this.handleClickButton
     );
     const userSession = this.getPlayerData().data.session;
 
     if (userSession.isLoggedIn) {
-      this.startMenuContainer.toggleLoginbutton(false);
       this.scene.launch(SceneKeys.HUD);
     } else {
-      this.startMenuContainer.toggleLoginbutton(true);
     }
 
     this.fadeInStartMenu();
@@ -148,40 +147,25 @@ export default class GameStartDialogScene extends TFBaseScene {
     this.scene.start(SceneKeys.DamageMonitor);
   }
 
-  handleClickButton(this: { scene: GameStartDialogScene; button: Label }) {
-    const { scene, button } = this;
+  handleClickButton(button: Label) {
     switch (button.name) {
       case 'game-xtu-login':
-        scene.loginToXTU();
+        this.loginToXTU();
         break;
       case 'game-start':
-        scene.startGame();
+        this.startGame();
         break;
       case 'how-to-play':
-        scene.fadeOutStartMenu();
-        scene.startMenuContainer.setPosition(
-          scene.startMenuContainer.x,
-          scene.startMenuContainer.y + StartMenu.moveHowToPlayYPos
-        );
-        scene.startMenuContainer.toggleMainMenu(
-          false,
-          scene.getPlayerData().data.session.isLoggedIn
-        );
-        scene.startMenuContainer.toggleHowToPlay(true);
-        scene.fadeInStartMenu();
+        this.fadeOutStartMenu();
+        this.startMenuContainer.toggleMainMenu(false, this.getPlayerData().data.session.isLoggedIn);
+        this.startMenuContainer.toggleHowToPlay(true);
+        this.fadeInStartMenu();
         break;
       case 'game-main-menu':
-        scene.fadeOutStartMenu();
-        scene.startMenuContainer.setPosition(
-          scene.startMenuContainer.x,
-          scene.startMenuContainer.y - StartMenu.moveHowToPlayYPos
-        );
-        scene.startMenuContainer.toggleMainMenu(
-          true,
-          scene.getPlayerData().data.session.isLoggedIn
-        );
-        scene.startMenuContainer.toggleHowToPlay(false);
-        scene.fadeInStartMenu();
+        this.fadeOutStartMenu();
+        this.startMenuContainer.toggleMainMenu(true, this.getPlayerData().data.session.isLoggedIn);
+        this.startMenuContainer.toggleHowToPlay(false);
+        this.fadeInStartMenu();
         break;
     }
   }

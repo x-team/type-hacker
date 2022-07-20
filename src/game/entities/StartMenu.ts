@@ -1,23 +1,37 @@
 import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
+import Buttons from 'phaser3-rex-plugins/templates/ui/buttons/Buttons';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
+import Sizer from 'phaser3-rex-plugins/templates/ui/sizer/Sizer';
 import { isProd } from '../../config';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
 
-export class StartMenu extends Phaser.GameObjects.Container {
-  private separationFactor: number = 100;
-  private separationFactorStep: number = 100;
+interface LabelSettings {
+  xPos?: number;
+  yPos?: number;
+  color?: string;
+}
+
+interface PaddingConfig {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+}
+
+export class StartMenu extends Sizer {
+  private static basePadding: PaddingConfig = { top: 0, bottom: 0, left: 0, right: 0 };
 
   private parentScene: TFBaseScene;
 
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton?: Label;
+  private loginWithButton: Label;
   private startGameButton: Label;
   private howToPlayButton: Label;
 
-  private buttonsContainer: Phaser.GameObjects.Container;
+  private buttonsContainer: Buttons;
 
   // HOW TO PLAY
   public static moveHowToPlayYPos: number = 150;
@@ -26,19 +40,23 @@ export class StartMenu extends Phaser.GameObjects.Container {
   private goBackToMainMenuButton: Label;
 
   constructor(scene: TFBaseScene, x: number, y: number, handleClickFunc: Function) {
-    super(scene, x, y);
-
+    super(scene, x, y, { orientation: 'y' });
+    this.setOrigin(0.5, 0);
     this.parentScene = scene;
     // MAIN TEXT
-    const mainTextText = scene.add.sprite(0, -30, 'type-hacker-logo');
+    const mainTextText = scene.add.sprite(0, 0, 'type-hacker-logo');
     mainTextText.setScale(1.5);
-    this.add(mainTextText);
     this.mainTextLabel = scene.rexUI.add.label({
+      y: 0,
+      // height: mainTextText.height * mainTextText.scale,
       text: mainTextText,
+      space: StartMenu.basePadding,
     });
-    this.mainTextLabel.setVisible(false);
 
-    this.add(this.mainTextLabel);
+    this.add(this.mainTextLabel, {
+      align: 'center',
+      padding: StartMenu.basePadding,
+    });
 
     // HOW TO PLAY TEXT
     const howToPlay = new Word(
@@ -58,90 +76,81 @@ export class StartMenu extends Phaser.GameObjects.Container {
       '50px'
     );
     howToPlay.setAlign('left');
-    this.add(howToPlay);
-    this.howToPlayLabel = scene.rexUI.add
-      .label({
-        y: -StartMenu.moveHowToPlayYPos,
-        text: howToPlay,
-      })
-      .layout();
-    this.howToPlayLabel.setVisible(false);
-
+    this.howToPlayLabel = scene.rexUI.add.label({
+      y: 0,
+      text: howToPlay,
+    });
     this.add(this.howToPlayLabel);
+    this.hide(this.howToPlayLabel);
 
     // BUTTONS
-    this.buttonsContainer = new Phaser.GameObjects.Container(scene, 0, 0);
-
+    const buttons: Label[] = [];
     this.startGameButton = this.createLabel('< New Game />', 'game-start');
-    this.startGameButton.setInteractive({ useHandCursor: true });
-    this.startGameButton.setVisible(false);
-    this.howToPlayButton = this.createLabel('<? How to play ?>', 'how-to-play', '#FC973F');
-    this.howToPlayButton.setInteractive({ useHandCursor: true });
-    this.howToPlayButton.setVisible(false);
+    this.howToPlayButton = this.createLabel('<? How to play ?>', 'how-to-play', {
+      color: '#FC973F',
+    });
     this.goBackToMainMenuButton = this.createLabel('< Go Back />', 'game-main-menu');
-    this.goBackToMainMenuButton.setInteractive({ useHandCursor: true });
-    this.goBackToMainMenuButton.setVisible(false);
+    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+    buttons.push(this.loginWithButton);
+    buttons.push(this.startGameButton);
+    buttons.push(this.howToPlayButton);
+    buttons.push(this.goBackToMainMenuButton);
 
-    if (!isProd()) {
-      this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-      this.loginWithButton.setInteractive({ useHandCursor: true });
-      this.loginWithButton.setVisible(false);
-      this.buttonsContainer.add(this.loginWithButton);
-      this.goBackToMainMenuButton.setPosition(
-        this.goBackToMainMenuButton.x,
-        this.loginWithButton.y
-      );
-      this.loginWithButton.on('pointerover', this.handleOverButton.bind(this.loginWithButton));
-      this.loginWithButton.on('pointerout', this.handleOutButton.bind(this.loginWithButton));
-      this.loginWithButton.onClick(handleClickFunc.bind({ scene, button: this.loginWithButton }));
-    }
+    this.buttonsContainer = scene.rexUI.add.buttons({
+      x: 0,
+      y: 0,
+      // width: 400,
+      orientation: 'y',
+      align: 'center',
+      buttons,
+      space: {
+        left: 10,
+        right: 10,
+        top: 5,
+        bottom: 5,
+        // item: 10,
+      },
+      expand: true,
+    });
 
-    // ADD BUTTONS TO BUTTON CONTAINER
-    this.buttonsContainer.add(this.startGameButton);
-    this.buttonsContainer.add(this.howToPlayButton);
-    this.buttonsContainer.add(this.goBackToMainMenuButton);
-
+    // EVENTS
+    this.buttonsContainer.on('button.over', this.handleOverButton);
+    this.buttonsContainer.on('button.out', this.handleOutButton);
+    this.buttonsContainer.on('button.click', handleClickFunc, scene);
     this.add(this.buttonsContainer);
+
+    this.layout();
     scene.add.existing(this);
 
     // DEFAULT MENU
     this.toggleMainMenu(true, scene.getPlayerData().data.session.isLoggedIn);
-    // this.toggleHowToPlay(true);
-
-    // EVENTS
-
-    this.startGameButton.on('pointerover', this.handleOverButton.bind(this.startGameButton));
-    this.startGameButton.on('pointerout', this.handleOutButton.bind(this.startGameButton));
-    this.startGameButton.onClick(handleClickFunc.bind({ scene, button: this.startGameButton }));
-
-    this.howToPlayButton.on('pointerover', this.handleOverButton.bind(this.howToPlayButton));
-    this.howToPlayButton.on('pointerout', this.handleOutButton.bind(this.howToPlayButton));
-    this.howToPlayButton.onClick(handleClickFunc.bind({ scene, button: this.howToPlayButton }));
-
-    this.goBackToMainMenuButton.on(
-      'pointerover',
-      this.handleOverButton.bind(this.goBackToMainMenuButton)
-    );
-    this.goBackToMainMenuButton.on(
-      'pointerout',
-      this.handleOutButton.bind(this.goBackToMainMenuButton)
-    );
-    this.goBackToMainMenuButton.onClick(
-      handleClickFunc.bind({ scene, button: this.goBackToMainMenuButton })
-    );
+    this.toggleHowToPlay(false);
   }
 
-  createLabel(text: string, name: string, color?: string) {
+  createLabel(text: string, name: string, settings?: LabelSettings) {
+    let xPos = 0;
+    let yPos = 0;
+    if (settings) {
+      xPos = settings.xPos ?? xPos;
+      yPos = settings.yPos ?? yPos;
+    }
     const bgRect = this.parentScene.rexUI.add.roundRectangle(0, 0, 0, 0, 20);
-    const wordtext = new Word(this.parentScene, 0, 0, text, color ? color : 'white', true, '60px');
+    const wordtext = new Word(
+      this.parentScene,
+      0,
+      0,
+      text,
+      settings?.color ?? 'white',
+      true,
+      '60px'
+    );
     wordtext.setOrigin(0.5, 0.5);
-    this.add(wordtext);
-    this.add(bgRect);
     const label = this.parentScene.rexUI.add
       .label({
         x: 0,
-        y: this.separationFactor,
+        y: 0,
         background: bgRect,
+        align: 'center',
         text: wordtext,
         name,
         space: {
@@ -151,42 +160,59 @@ export class StartMenu extends Phaser.GameObjects.Container {
           bottom: 10,
         },
       })
-      .fadeIn(1000, 1)
-      .layout();
-    this.separationFactor += this.separationFactorStep;
+      .fadeIn(1000, 1);
     return label;
   }
 
-  handleOverButton(this: Label) {
-    const button = this;
+  handleOverButton(button: Label) {
     const roundRect = button.getElement('background') as RoundRectangle;
     roundRect.setStrokeStyle(1, 0xfc973f);
   }
 
-  handleOutButton(this: Label) {
-    const button = this;
+  handleOutButton(button: Label) {
     const roundRect = button.getElement('background') as RoundRectangle;
     roundRect.setStrokeStyle();
   }
 
   toggleMainMenu(isVisible: boolean, isLoggedIn: boolean) {
-    this.mainTextLabel.setVisible(isVisible);
-    if (this.loginWithButton) {
-      this.loginWithButton.setVisible(!isLoggedIn);
+    this.buttonsContainer.hideButton(this.loginWithButton);
+    if (isVisible) {
+      this.show(this.mainTextLabel);
+      this.buttonsContainer.showButton(this.howToPlayButton);
+      this.buttonsContainer.hideButton(this.goBackToMainMenuButton);
+      this.buttonsContainer.showButton(this.howToPlayButton);
+    } else {
+      this.buttonsContainer.hideButton(this.goBackToMainMenuButton);
+      this.buttonsContainer.showButton(this.howToPlayButton);
+      this.hide(this.mainTextLabel);
+      this.buttonsContainer.hideButton(this.howToPlayButton);
     }
-    this.startGameButton.setVisible(true);
-    this.howToPlayButton.setVisible(isVisible);
+    this.show(this.startGameButton);
+    this.toggleLoginbutton(isLoggedIn);
+    this.layout();
   }
 
   toggleHowToPlay(isVisible: boolean) {
-    this.howToPlayLabel.setVisible(isVisible);
-    this.goBackToMainMenuButton.setVisible(isVisible);
-    this.startGameButton.setVisible(true);
+    if (isVisible) {
+      this.show(this.howToPlayLabel);
+      this.buttonsContainer.showButton(this.goBackToMainMenuButton);
+      this.buttonsContainer.hideButton(this.howToPlayButton);
+    } else {
+      this.buttonsContainer.hideButton(this.goBackToMainMenuButton);
+      this.hide(this.howToPlayLabel);
+      this.buttonsContainer.showButton(this.howToPlayButton);
+    }
+    this.layout();
   }
 
-  toggleLoginbutton(isVisibile: boolean) {
-    if (this.loginWithButton) {
-      this.loginWithButton.setVisible(isVisibile);
+  toggleLoginbutton(isLoggedIn: boolean) {
+    if (isProd()) {
+      return;
+    }
+    if (isLoggedIn) {
+      this.buttonsContainer.hideButton(this.loginWithButton);
+    } else {
+      this.buttonsContainer.showButton(this.loginWithButton);
     }
   }
 }

@@ -1,13 +1,10 @@
 import Phaser from 'phaser';
 import SceneKeys from '../../game/utils/SceneKeys';
 import TFBaseScene from '../TFBaseScene';
-// import { getLeaderboardScores, submitScore } from '../../game/playfab/leaderboard';
 import { matrixRain } from '../GameStartDialog/matrixRain';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import { gamesHqUrl } from '../../api/utils';
 import { EndMenu } from '../../game/entities/EndMenu';
-import Word from '../../game/entities/Word';
-// import { getPlayerName } from '../../game/playfab';
 
 export default class GameOverDialogScene extends TFBaseScene {
   private startMenuContainer!: EndMenu;
@@ -32,21 +29,10 @@ export default class GameOverDialogScene extends TFBaseScene {
       xTeamLogo.setScale(0.7);
 
       this.createParticles();
-      const { width, height } = this.game.canvas;
+      const { width } = this.game.canvas;
       const containerXPos = width / 2;
-      const containerYPos = height / 2;
-      this.startMenuContainer = new EndMenu(
-        this,
-        containerXPos,
-        containerYPos - 100,
-        this.handleClickButton
-      );
-      const topScores = await this.startMenuContainer.getScoreboard();
-      const topScoresText = new Word(this, 0, 0, topScores, 'white', true, '60px');
-      topScoresText.setOrigin(0.5, 0.5);
-      topScoresText.setAlign('left');
-      this.startMenuContainer.setTopScoreText(topScoresText);
-      topScoresText.destroy();
+      this.startMenuContainer = new EndMenu(this, containerXPos, 150, this.handleClickButton);
+      await this.startMenuContainer.getScoreboard();
     });
   }
 
@@ -93,7 +79,8 @@ export default class GameOverDialogScene extends TFBaseScene {
         console.log(event.data);
         const session = event.data;
         localStorage.setItem('session', JSON.stringify(session));
-        this.startMenuContainer.toggleLoginbutton(false);
+        const isUserLoggedIn = true;
+        this.startMenuContainer.toggleLoginbutton(isUserLoggedIn);
       } else {
         // The data was NOT sent from your site!
         // Be careful! Do not use it. This else branch is
