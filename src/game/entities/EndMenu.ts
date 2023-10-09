@@ -3,10 +3,10 @@ import RoundRectangle from 'phaser3-rex-plugins/plugins/roundrectangle';
 import Label from 'phaser3-rex-plugins/templates/ui/label/Label';
 import TFBaseScene from '../../scenes/TFBaseScene';
 import Word from './Word';
-import { getHighestScores, submitScore } from '../../api/leaderboard';
+import { /*getHighestScores,*/ submitScore } from '../../api/leaderboard';
 import { isProd } from '../../config';
 import GridSizer from 'phaser3-rex-plugins/templates/ui/gridsizer/GridSizer';
-import { TopScoreContainer } from './TopScoresContainer';
+// import { TopScoreContainer } from './TopScoresContainer';
 import Sizer from 'phaser3-rex-plugins/templates/ui/sizer/Sizer';
 
 interface LabelSettings {
@@ -39,7 +39,7 @@ export class EndMenu extends Sizer {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton: Label;
+  // private loginWithButton: Label;
   private retryGameButton: Label;
 
   private buttonsContainer: Buttons;
@@ -74,8 +74,8 @@ export class EndMenu extends Sizer {
     const buttons: Label[] = [];
     this.retryGameButton = this.createLabel('< Retry />', 'game-start');
     buttons.push(this.retryGameButton);
-    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-    buttons.push(this.loginWithButton);
+    // this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+    // buttons.push(this.loginWithButton);
 
     this.buttonsContainer = scene.rexUI.add.buttons({
       x: 0,
@@ -100,7 +100,7 @@ export class EndMenu extends Sizer {
     this.buttonsContainer.on('button.click', handleClickFunc, scene);
     this.add(this.buttonsContainer);
 
-    this.buttonsContainer.hideButton(this.loginWithButton);
+    // this.buttonsContainer.hideButton(this.loginWithButton);
     this.buttonsContainer.layout();
     const isUserloggedIn = scene.getPlayerData().data.session.isLoggedIn;
     this.toggleLoginbutton(isUserloggedIn);
@@ -159,16 +159,16 @@ export class EndMenu extends Sizer {
       true,
       '60px'
     );
-    const topScoresText = new Word(this.parentScene, 0, 0, 'TOP SCORES', 'white', true, '60px');
-    const dividerText = new Word(
-      this.parentScene,
-      0,
-      0,
-      '------------------------------------',
-      'white',
-      true,
-      '60px'
-    );
+    // const topScoresText = new Word(this.parentScene, 0, 0, 'TOP SCORES', 'white', true, '60px');
+    // const dividerText = new Word(
+    //   this.parentScene,
+    //   0,
+    //   0,
+    //   '------------------------------------',
+    //   'white',
+    //   true,
+    //   '60px'
+    // );
 
     // Basic Item Config
     const gridItemConfig: GridItemConfig = {
@@ -185,32 +185,31 @@ export class EndMenu extends Sizer {
       ...gridItemConfig,
       row: 1,
     });
-    this.topScoreContainer.add(topScoresText, {
-      padding: {
-        ...EndMenu.basePadding,
-        top: 30,
-      },
-      row: 2,
-      align: 'center',
-    });
-    this.topScoreContainer.add(dividerText, {
-      ...gridItemConfig,
-      row: 3,
-      align: 'center',
-    });
+    // this.topScoreContainer.add(topScoresText, {
+    //   padding: {
+    //     ...EndMenu.basePadding,
+    //     top: 30,
+    //   },
+    //   row: 2,
+    //   align: 'center',
+    // });
+    // this.topScoreContainer.add(dividerText, {
+    //   ...gridItemConfig,
+    //   row: 3,
+    //   align: 'center',
+    // });
     try {
-      const scoreBoard = await getHighestScores();
-      const scoreboardText = scoreBoard.map(
-        ({ displayName, email, score }, index) =>
-          `${index + 1}. | ${score} ➡ ${displayName ?? email}`
-      );
-
-      const topScoresEntity = new TopScoreContainer(this.parentScene, 0, 0, scoreboardText);
-      this.topScoreContainer.add(topScoresEntity, {
-        ...gridItemConfig,
-        row: 4,
-        align: 'center',
-      });
+      // const scoreBoard = await getHighestScores();
+      // const scoreboardText = scoreBoard.map(
+      //   ({ displayName, email, score }, index) =>
+      //     `${index + 1}. | ${score} ➡ ${displayName ?? email}`
+      // );
+      // const topScoresEntity = new TopScoreContainer(this.parentScene, 0, 0, scoreboardText);
+      // this.topScoreContainer.add(topScoresEntity, {
+      //   ...gridItemConfig,
+      //   row: 4,
+      //   align: 'center',
+      // });
       // this.layout();
     } catch (e) {
       const fallbackText = new Word(
@@ -279,16 +278,16 @@ export class EndMenu extends Sizer {
     roundRect.setStrokeStyle();
   }
 
-  toggleLoginbutton(isLoggedIn: boolean) {
-    this.buttonsContainer.hideButton(this.loginWithButton);
+  toggleLoginbutton(_isLoggedIn: boolean) {
+    // this.buttonsContainer.hideButton(this.loginWithButton);
     if (isProd()) {
       return;
     }
-    if (isLoggedIn) {
-      this.buttonsContainer.hideButton(this.loginWithButton);
-    } else {
-      this.buttonsContainer.showButton(this.loginWithButton);
-    }
+    // if (isLoggedIn) {
+    // this.buttonsContainer.hideButton(this.loginWithButton);
+    // } else {
+    // this.buttonsContainer.showButton(this.loginWithButton);
+    // }
     this.buttonsContainer.layout();
   }
 }

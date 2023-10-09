@@ -27,7 +27,7 @@ export class StartMenu extends Sizer {
   // MAIN MENU
   private mainTextLabel: Label;
 
-  private loginWithButton: Label;
+  // private loginWithButton: Label;
   private startGameButton: Label;
   private howToPlayButton: Label;
 
@@ -90,8 +90,8 @@ export class StartMenu extends Sizer {
       color: '#FC973F',
     });
     this.goBackToMainMenuButton = this.createLabel('< Go Back />', 'game-main-menu');
-    this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
-    buttons.push(this.loginWithButton);
+    // this.loginWithButton = this.createLabel('< Login with XTU />', 'game-xtu-login');
+    // buttons.push(this.loginWithButton);
     buttons.push(this.startGameButton);
     buttons.push(this.howToPlayButton);
     buttons.push(this.goBackToMainMenuButton);
@@ -175,7 +175,7 @@ export class StartMenu extends Sizer {
   }
 
   toggleMainMenu(isVisible: boolean, isLoggedIn: boolean) {
-    this.buttonsContainer.hideButton(this.loginWithButton);
+    // this.buttonsContainer.hideButton(this.loginWithButton);
     if (isVisible) {
       this.show(this.mainTextLabel);
       this.buttonsContainer.showButton(this.howToPlayButton);
@@ -210,9 +210,9 @@ export class StartMenu extends Sizer {
       return;
     }
     if (isLoggedIn) {
-      this.buttonsContainer.hideButton(this.loginWithButton);
+      // this.buttonsContainer.hideButton(this.loginWithButton);
     } else {
-      this.buttonsContainer.showButton(this.loginWithButton);
+      // this.buttonsContainer.showButton(this.loginWithButton);
     }
   }
 }
