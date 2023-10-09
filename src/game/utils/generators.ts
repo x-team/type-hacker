@@ -7,9 +7,12 @@ import {
   TMonitorsNames,
 } from './types';
 
+// const DEFAULT_TIMEOUT = 10; // Secs // Original
+const DEFAULT_TIMEOUT = 20;
+
 function getStartingLevelTimeout() {
   // This only runs on the initial load
-  return 10;
+  return DEFAULT_TIMEOUT;
 }
 
 export function generatePlayerDataSeed(): PlayerData {
@@ -93,8 +96,6 @@ export const calculateCurrentTimeout = (playerData: PlayerData) => {
   const A = playerData.configuration.levelSettings.levelProgressionParams.speedOfGrowth;
   const { currentLevel, currentMonitor } = playerData.data;
   const actualCurrentTimeout = playerData.data.monitors[currentMonitor].totalCurrentTimeout;
-
-  const DEFAULT_TIMEOUT = 10; // Secs
 
   if (currentLevel <= 1) {
     return DEFAULT_TIMEOUT;
@@ -197,9 +198,12 @@ export function generateLevelProgressionFunctionParams(): LevelProgressionFuncti
     C: Stabilizer for the natural logarithm function
     ln: Natural Logarithm to start growing fast and stabilize in higher levels to slow down.
   */
-  const A = 9.5;
-  const B = -69.2;
+  const A = 10;
+  const B = -80;
   const C = Math.exp((1 - B) / A);
+  // const A = 9.5;
+  // const B = -69.2;
+  // const C = Math.exp((1 - B) / A);
 
   return {
     speedOfGrowth: A,
