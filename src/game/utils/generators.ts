@@ -8,7 +8,7 @@ import {
 } from './types';
 
 // const DEFAULT_TIMEOUT = 10; // Secs // Original
-const DEFAULT_TIMEOUT = 20;
+const DEFAULT_TIMEOUT = 12;
 
 function getStartingLevelTimeout() {
   // This only runs on the initial load
@@ -198,8 +198,8 @@ export function generateLevelProgressionFunctionParams(): LevelProgressionFuncti
     C: Stabilizer for the natural logarithm function
     ln: Natural Logarithm to start growing fast and stabilize in higher levels to slow down.
   */
-  const A = 10;
-  const B = -80;
+  const A = 9.2;
+  const B = -75;
   const C = Math.exp((1 - B) / A);
   // const A = 9.5;
   // const B = -69.2;
