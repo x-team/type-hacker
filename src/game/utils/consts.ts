@@ -26,7 +26,7 @@ export const monitorConfiguration: TMonitorConfiguration = {
   guessWord: 'guessWord',
   timeoutLostPoints: 10,
   timeoutLostPointsForDamagedMonitor: 20,
-  rightKeyStrokeWinPoints: 50, // This is the base score for some reason
+  rightKeyStrokeWinPoints: 100, // This is the base score for some reason
   rightKeyStrokeWinPointsForDamagedMonitor: 20,
   comboWinPoints: 10,
   comboWinPointsForDamagedMonitor: 10,
